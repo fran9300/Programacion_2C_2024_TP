@@ -1,6 +1,3 @@
-print("Hello world")
-
-
 def  login():
     # TODO: login
     return None
@@ -76,8 +73,27 @@ def imprimirSala():
 
 def  elegirButacas():
     #TODO: retorna la posicion de la butaca elegida formato letra-numero(fila-columna)
+    return None
 def reservarButaca():
     #recibe nro de butaca y la reserva en array de la sala (lo marca con 1  o con los datos del cliente)
+    return None
+
+
+def calcularTotal():
+    #TODO: calcula el total de las entradas
+    return None
+
+def aplicarDescuento():
+    # Aplica descuento segin tipo de pago.
+    return None
+
+def ingresarCuponDescuento():
+    # TODO: if si el codigo es igual a 'DESCUENTO' aplica descuento
+    return None
+
+def imprimirFactura():
+    #TODO: Imprime los detalles de la compra, datos del cliente, y que butacas se reservaron
+    return None
 
 def comprarEntrada():
     consultarPeliculas()
@@ -107,7 +123,7 @@ def clientConfig():
 
 
 def adminConfig():
-    # TODO: permite configurar al administrador
+    # TODO: permite configurar al administrador por ejemplo : precio de entrada, descuentos
     return None
 
 def configuracionDelUsuario():
