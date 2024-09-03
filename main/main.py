@@ -5,8 +5,58 @@
     #     [id,nombre,duracion],
     # ]
 
-# TODO: armar arrays con datos hardcode
+
+# [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
+peliculas = [
+    [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
+    [2,"Alien",112,"Pelicula de alien","Suspenso","16","20/09/2024"],
+    [3,"Longlegs",100,"pelicula de terror","Terror","13","20/08/2024"]
+]
+# [id,nombre,filas,columnas]
+salas = [
+    [1,"1",25,30],
+    [2,"2",20,25],
+    [3,"3",30,25]
+]
+# [id,idSala,horario,fecha]
+horarios = [
+    [1,1,"1400","0903"],
+    [1,2,"1200","0904"],
+    [1,2,"1500","0904"],
+    [1,3,"1800","0905"]
+]
+
+MetodosDePago = [[
+    [1,"Cash"],
+    [2,"Transfer"],
+    [3,"Debt"],
+    [4,"Credit"],
+    [5,"Points"]
+]]
+# [id,user,nombre,apellido,password,role,fechaNacimiento,email,saldoTotal]
+users= [
+    [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
+    [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar",50000],
+    [3,"admin","","","admin",1,"20000101","admin@uade.edu.ar",100000]
+]
+roles = [
+    [1,"admin"],
+    [2,"client"]
+]
+
+# [id,userId,metodoDePagoId]
+userPayment = [
+    [1,1,1],
+    [2,1,3],
+    [3,2,2]
+]
+
 # TODO: hacer busqueda por id en array (onlyRead)
+
+def getById(id,arr):
+    filtered = list(filter(lambda value : value[0]==id,arr))
+    return filtered[0] if (filtered != None and len(filtered)>0 )else -1 
+
 
 
 def  login():
@@ -171,11 +221,11 @@ def clientManage():
 
 
 
-metodoDePago = ['efectivo','transferencia','debito','credito','puntos']
+# register()
+# if ():
+#     adminManage()
+# else:
+#     clientManage()
 
-
-register()
-if ():
-    adminManage()
-else:
-    clientManage()
+print("ejemplo getById")
+print(getById(2,peliculas))
