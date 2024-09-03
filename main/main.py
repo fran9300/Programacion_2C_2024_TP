@@ -33,11 +33,11 @@ MetodosDePago = [[
     [4,"Credit"],
     [5,"Points"]
 ]]
-# [id,user,nombre,apellido,password,role,fechaNacimiento,email]
+# [id,user,nombre,apellido,password,role,fechaNacimiento,email,saldoTotal]
 users= [
-    [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar"],
-    [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar"],
-    [3,"admin","","","admin",1,"20000101","admin@uade.edu.ar"]
+    [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
+    [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar",50000],
+    [3,"admin","","","admin",1,"20000101","admin@uade.edu.ar",100000]
 ]
 roles = [
     [1,"admin"],
