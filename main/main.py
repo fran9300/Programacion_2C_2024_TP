@@ -113,10 +113,21 @@ def register():
     #@fpelliStudent
     return None
 
-def configDescuentoPorTipoDePago():
-    # TODO: 
-    # @AgustinaMieres
-    return None
+def configDescuentoPorTipoDePago(metodosID):
+    
+    descuentos = {
+        1: 0.30,  # Cash: 30% descuento
+        2: 0.20,  # Transfer: 20% descuento
+        3: 0.10,  # Debt: 15% descuento
+        4: 0.02,  # Credit: 10% descuento
+        #Points lo hago en funcion aparte
+    }
+    
+    if metodosID in descuentos:
+        return descuentos[metodosID] #Devuelve el descuento que hay que aplicar
+                                    #Por ej: el metodoID es 1, entonces devuelve 0.30
+    else: 
+        return 0.0
 
 def adminManage():
     login()
@@ -159,10 +170,26 @@ def calcularTotal(cantidadEntradas):
     #@fpelliStudent
     return None
 
-def aplicarDescuento(total,tipoDePago):
-    # Aplica descuento segin tipo de pago. Retorna el valor final
-    # @AgustinaMieres
-    return None
+def aplicarPuntos(total):
+    while True:
+        puntos = input("Ingrese la cantidad de puntos a utilizar (1 punto = 1 peso, o ingrese 0 para no utilizar puntos): ")
+        if puntos.isdigit():
+            puntos = int(puntos)
+            if puntos <= total:
+                totalPoints=total-puntos
+                return totalPoints
+            else:
+                print(f"No puede utilizar más puntos de los que corresponden al total ({total} puntos). Intente de nuevo.")
+        else:
+            print("Debe ingresar un número válido de puntos. Por favor, intente de nuevo.")
+
+def aplicarDescuento (total,metodoID):
+    if metodoID==5:
+        return total
+    else:
+        descuento=configDescuentoPorTipoDePago(metodoID)
+        valorFinal=total-(total*descuento)
+        return valorFinal
 
 def ingresarCuponDescuento(total, codigoDescuento):
     # TODO: if si el codigo es igual a 'DESCUENTO' aplica descuento
@@ -194,9 +221,32 @@ def comprarEntrada():
     return None
 
 def pedirMetodoDePago():
-    # TODO: Ingresar metodo de pago
-    # @AgustinaMieres
-    return None
+    MetodosDePago = [
+        [1, "Cash"],
+        [2, "Transfer"],
+        [3, "Debt"],
+        [4, "Credit"],
+        [5, "Points"]
+    ]
+    
+    while True:
+        print("Opciones de método de pago:")
+        for metodo in MetodosDePago:
+            print(metodo[0], metodo[1])
+        
+        opcion = input("Ingrese el número del método de pago: ")
+        
+        if opcion.isdigit():  # Verifica si opcion es un número
+            opcion = int(opcion) #Transpforma opcion en entero por si el usuaario lo ingreso mal 
+           
+            for metodo in MetodosDePago:
+                if metodo[0] == opcion:
+                    return metodo[0]
+                
+            print ("El numero ingresado no es valido. Ingrese otro numero")
+            
+        else:
+            print("Debe ingresar un número válido. Por favor, intente de nuevo.")
 
 def clientConfig():
     #TODO: permite modificar los datos del cliente, y su metodo de pago
@@ -229,3 +279,20 @@ def clientManage():
 
 print("ejemplo getById")
 print(getById(2,peliculas))
+
+
+#Programa principal
+metodoDePago=pedirMetodoDePago()
+print ("Metodo de pago seleccionado:", metodoDePago)
+
+cantEntradas=int(input("Ingrese la cantidad de entradas que desea comprar: "))
+
+MONTOTOTAL=1500*cantEntradas 
+
+
+if metodoDePago==5:
+    MONTOTOTAL=aplicarPuntos(MONTOTOTAL)
+
+
+totalFinal=aplicarDescuento(MONTOTOTAL,metodoDePago)
+print ("El precio final es: ", totalFinal)
