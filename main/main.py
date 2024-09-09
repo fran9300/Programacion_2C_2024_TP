@@ -247,10 +247,10 @@ def getSubMenu(subMenu):
     menuValue = ''
     while(menuValue != 'exit'):
         menuValue = input()
-        if(menuValue in mainMenu.keys()):
+        if(menuValue in subMenu.keys()):
             subMenu[menuValue]()
             imprimirMenu(subMenu)
-        else:
+        elif menuValue != 'exit':
             print("El valor ingresado no existe en el menu, vuela a ingresar" )
 
 def getParentMenu():
