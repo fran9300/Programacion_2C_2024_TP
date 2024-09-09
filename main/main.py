@@ -242,6 +242,7 @@ def GestionPeliculas():
     getSubMenu(gestionPeliculas)
 
 
+
 def getSubMenu(subMenu):
     imprimirMenu(subMenu)
     menuValue = ''
@@ -265,12 +266,12 @@ gestionPeliculas = {
     "3":getParentMenu
 }
 mainMenuAdmin = {
-    "0":GestionPeliculas,
-    "3":cargarSala,
-    "4":asignarPeliculaASala,
-    "5":configDescuentoPorTipoDePago,
-    "6":liberarSala,
-    "7":register
+    "1":GestionPeliculas,
+    "2":cargarSala,
+    "3":asignarPeliculaASala,
+    "4":configDescuentoPorTipoDePago,
+    "5":liberarSala,
+    "6":register
 }
 
 
