@@ -2,6 +2,8 @@
 from entities.movies import getMovies,addMovie
 from numeration import getSecuences 
 from entities.user import getUsers,addUser
+import re
+
 
 lastMenu = {}
 currentMenu = {}
@@ -90,15 +92,15 @@ def crearMatrizSala():
     columnas = int(input("introduzca el número de columnas desdeadas para la sala: "))
 
     matrizSala = []
-    bandera = True
+    continuar = True
     
-    while bandera:
+    while continuar:
         if filas <= 0 or columnas <= 0:
             print("Las filas y columnas deben ser mayores que 0.")
             filas = int(input("Introduce el número de filas: "))
             columnas = int(input("Introduce el número de columnas: "))
         else:
-            bandera = False
+            continuar = False
 
     for i in range(filas):
         fila_matriz = []  
@@ -120,9 +122,21 @@ def eliminarPelicula():
 
 
 def cargarHorarios():
-    # TODO: cargar horarios a una sala
-    # @AgustinaMieres
-    return None
+    arrayHorarios = []
+    patron = r'^([01]\d|2[0-3]):([0-5]\d)$'
+    continuar = True
+
+    while continuar:
+        horario = input("Agregue un horario en la forma de HH:MM, escriba '-1' para salir: ")
+        
+        if horario == '-1':
+            continuar = False
+        elif re.match(patron, horario):
+            arrayHorarios.append(horario)
+        else:
+            print("Formato de horario inválido. Por favor, use HH:MM (ejemplo: 09:30, 14:45).")
+
+    return arrayHorarios
 
 def liberarSala():
     #TODO: una vez se cargo una pelicula: se requiere restablecer la sala
@@ -131,9 +145,13 @@ def liberarSala():
 
 def cargarSala():
     # TODO: sala: cantidad de filas, cantidad de columnas, horario, pelicula
-    crearMatrizSala()
-    cargarHorarios()
-    return None
+    matrizSala = crearMatrizSala()
+    horariosSala = cargarHorarios()
+
+    sala = [matrizSala, horariosSala, "pelicula"]
+
+    return sala
+
 def register():
     # TODO:registrar client y guardarlo en la ""BD"": TODO: definir campos de cliente
     addUser()
