@@ -94,12 +94,11 @@ def removeMovie(movies, movieId):
     
     return movies
 
+def imprimirPeliculas(peliculas):
+    print("ID | Nombre | Duración | Género | Clasificación")
+    for pelicula in peliculas:
+        print(f"{pelicula[0]} | {pelicula[1]} | {pelicula[2]} minutos | {pelicula[4]} | +{pelicula[5]}")
+    return ""
 
-def imprimirPeliculas():
-    # TODO: imprime los datos de archivo de peliculas
-    # @AgustinaMieres
-    # sale por pantalla:
-    # id | nombre | duracion | edad | ..
-    # 1| deadpool | 120 | +18
-    # 2 | alien | 130 | +16
-    return None
+print (imprimirPeliculas(movies))
+
