@@ -1,5 +1,5 @@
 
-from entities.movies import getMovies,addMovie
+from entities.movies import getMovies,addMovie,imprimirPeliculas
 from numeration import getSecuences 
 from entities.user import getUsers,addUser
 
@@ -28,13 +28,13 @@ horarios = [
     [1,3,"1800","0905"]
 ]
 
-MetodosDePago = [[
-    [1,"Cash"],
-    [2,"Transfer"],
-    [3,"Debt"],
-    [4,"Credit"],
-    [5,"Points"]
-]]
+# MetodosDePago = [[
+#     [1,"Cash"],
+#     [2,"Transfer"],
+#     [3,"Debt"],
+#     [4,"Credit"],
+#     [5,"Points"]
+# ]]
 
 roles = [
     [1,"admin"],
@@ -59,7 +59,7 @@ def setValorEntrada(number):
 
 
 
-DESCUENTOS = {
+descuentos = {
     "Cash": 0.30,     # 30% descuento
     "Transfer": 0.20, # 20% descuento
     "Debt": 0.10,     # 10% descuento
@@ -67,7 +67,7 @@ DESCUENTOS = {
     # Para "Points" se manejará en una función aparte
 }
 
-METODOSDEPAGO = {
+METODOS_DE_PAGO = {
     1: "Cash",
     2: "Transfer",
     3: "Debt",
@@ -76,24 +76,12 @@ METODOSDEPAGO = {
 }
 
 
-def getById(id,arr):
-    filtered = list(filter(lambda value : value[0]==id,arr))
-    return filtered[0] if (filtered != None and len(filtered)>0 )else -1 
-
-
 
 def  login():
     # TODO: login
     return None
 
-def imprimirPeliculas():
-    # TODO: imprime los datos de archivo de peliculas
-    # @AgustinaMieres
-    # sale por pantalla:
-    # id | nombre | duracion | edad | ..
-    # 1| deadpool | 120 | +18
-    # 2 | alien | 130 | +16
-    return None
+
 
 def asignarPeliculaASala():
     imprimirPeliculas()
@@ -138,21 +126,21 @@ def register():
 
 def configDescuentoPorTipoDePago(metodo):
 
-    if metodo in DESCUENTOS:
-        return DESCUENTOS[metodo]
+    if metodo in descuentos:
+        return descuentos[metodo]
     else:
         return 0.0
-
-def adminManage():
-    login()
-    consultarPeliculas()
-    cargarPelicula()
-    eliminarPelicula()
-    cargarSala()
-    asignarPeliculaASala()
-    configDescuentoPorTipoDePago()
-    liberarSala()
-    return None
+# FLujo
+# def adminManage():
+#     login()
+#     consultarPeliculas()
+#     cargarPelicula()
+#     eliminarPelicula()
+#     cargarSala()
+#     asignarPeliculaASala()
+#     configDescuentoPorTipoDePago()
+#     liberarSala()
+#     return None
 
 def consultarPeliculas():
     imprimirPeliculas()
@@ -191,67 +179,10 @@ def calcularTotal(cantidadEntradas):
 
 #Funcion para eliminar pelis
 
-def removeMovie(movies, movieId):
-    movieToRemove = [movie for movie in movies if movie[0] == movieId] #Uso listas por comprension 
 
-    if movieToRemove:
-        movies = [movie for movie in movies if movie[0] != movieId]
-        print ("Pelicula con ID ", movieId, "eliminada")
-    else:
-        print("No se encontró ninguna película con ID ", movieId)
-    
-    return movies
 
-#Funcion para editar las pelis
 
-def editMovie(movies, movieId):
-   
-    movieToEdit = None
-    for movie in movies:
-        if movie[0] == movieId:
-            movieToEdit = movie
 
-    if not movieToEdit:
-        print ("No se encontró ninguna pelicula con ID: ", movieId)
-       
-        return movies
-
-    print("Editando la película: ", movieToEdit)
-
-    print("Seleccione el campo que desea editar:")
-    print("1. Nombre de la película")
-    print("2. Duración")
-    print("3. Descripción")
-    print("4. Género")
-    print("5. Edad recomendada")
-    print("6. Fecha de estreno")
-
-    choice = int(input())
-
-    if choice == 1:
-        print("Ingrese el nuevo nombre de la película:")
-        movieToEdit[1] = input()
-    elif choice == 2:
-        print("Ingrese la nueva duración:")
-        movieToEdit[2] = int(input())
-    elif choice == 3:
-        print("Ingrese la nueva descripción:")
-        movieToEdit[3] = input()
-    elif choice == 4:
-        print("Ingrese el nuevo género:")
-        movieToEdit[4] = input()
-    elif choice == 5:
-        print("Ingrese la nueva edad recomendada:")
-        movieToEdit[5] = input()
-    elif choice == 6:
-        print("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
-        movieToEdit[6] = input()
-    else:
-        print("Opción no válida.")
-        return movies
-
-    print("Película con ID", movieId, " ha sido actualizada.")
-    return movies
 
 
 def aplicarPuntos(total):
@@ -285,8 +216,9 @@ def imprimirFactura():
     # TODO: generacionFactura()
     #TODO: Imprime los detalles de la compra, datos del cliente, y que butacas se reservaron
     return None
-
+#FLUHO DE COMPRAR PELICULA
 def comprarEntrada():
+    #Esto es el flujo pero no esta implementado
     consultarPeliculas()
     #elegir pelicula
     #elegir horario que tengan butacas disponibles: muestro todos los horarios  o solo los horarios con butacas disponibles
@@ -315,8 +247,8 @@ def pedirMetodoDePago():
         print("Opciones de método de pago:")
         
         
-        for numero in METODOSDEPAGO:
-            metodo = METODOSDEPAGO[numero]
+        for numero in METODOS_DE_PAGO:
+            metodo = METODOS_DE_PAGO[numero]
             print(numero, metodo)
         
         opcion = input("Ingrese el número del método de pago: ")
@@ -324,7 +256,7 @@ def pedirMetodoDePago():
         if opcion.isdigit():  
             opcion = int(opcion)  
             
-            if opcion in METODOSDEPAGO:  
+            if opcion in METODOS_DE_PAGO:  
                 return opcion
             else:
                 print("El número ingresado no es válido. Ingrese otro número.")
@@ -347,57 +279,7 @@ def configuracionDelUsuario():
     clientConfig()
     adminConfig()
 
-def editUser(users):
-  
-    print("Ingrese el ID del usuario que desea editar:")
-    user_id = int(input())
 
-    user = None
-    for u in users:
-        if u[0] == user_id:
-            user = u
-    
-    if not user:
-        print("Usuario no encontrado.")
-        return
-
-    print("Seleccione el campo que desea editar:")
-    print("1. Nombre de usuario")
-    print("2. Nombre")
-    print("3. Apellido")
-    print("4. Contraseña")
-    print("5. Fecha de nacimiento")
-    print("6. Correo electrónico")
-    print("7. Saldo")
-
-    choice = int(input())
-
-    if choice == 1:
-        print("Ingrese el nuevo nombre de usuario:")
-        user[1] = input()
-    elif choice == 2:
-        print("Ingrese el nuevo nombre:")
-        user[2] = input()
-    elif choice == 3:
-        print("Ingrese el nuevo apellido:")
-        user[3] = input()
-    elif choice == 4:
-        print("Ingrese la nueva contraseña:")
-        user[4] = input()
-    elif choice == 5:
-        print("Ingrese la nueva fecha de nacimiento (formato YYYYMMDD):")
-        user[6] = input()
-    elif choice == 6:
-        print("Ingrese el nuevo correo electrónico:")
-        user[7] = input()
-    elif choice == 7:
-        print("Ingrese el nuevo saldo:")
-        user[8] = int(input())
-    else:
-        print("Opción no válida.")
-        return
-
-    print("Datos del usuario actualizados:", user)
 
 
 
