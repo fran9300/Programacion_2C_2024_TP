@@ -1,3 +1,10 @@
+
+from entities.movies import getMovies,addMovie
+from numeration import getSecuences 
+from entities.user import getUsers,addUser
+
+lastMenu = {}
+currentMenu = {}
 # TODAS LAS "ENTIDADES" EN SU PRIMER CAMPO TIENE EL ID
     # [
     #     [id,nombre,duracion],
@@ -6,12 +13,7 @@
     # ]
 
 
-# [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
-peliculas = [
-    [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
-    [2,"Alien",112,"Pelicula de alien","Suspenso","16","20/09/2024"],
-    [3,"Longlegs",100,"pelicula de terror","Terror","13","20/08/2024"]
-]
+
 # [id,nombre,filas,columnas]
 salas = [
     [1,"1",25,30],
@@ -33,12 +35,7 @@ MetodosDePago = [[
     [4,"Credit"],
     [5,"Points"]
 ]]
-# [id,user,nombre,apellido,password,role,fechaNacimiento,email,saldoTotal]
-users= [
-    [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
-    [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar",50000],
-    [3,"admin","","","admin",1,"20000101","admin@uade.edu.ar",100000]
-]
+
 roles = [
     [1,"admin"],
     [2,"client"]
@@ -51,7 +48,17 @@ userPayment = [
     [3,2,2]
 ]
 
-# TODO: hacer busqueda por id en array (onlyRead)
+
+valorEntrada = 2000
+
+def getValorEntrada():
+    return valorEntrada
+
+def setValorEntrada(number):
+    global valorEntrada
+    valorEntrada = number
+
+
 
 def getById(id,arr):
     filtered = list(filter(lambda value : value[0]==id,arr))
@@ -84,7 +91,7 @@ def crearMatrizSala():
 
 def cargarPelicula():
     # TODO: cargar pelicula tiene nombre, duración, edad, descripcion, genero, fecha de estreno y se guarda en un array de peliculas(matriz)
-    #@fpelliStudent
+    addMovie()
     return None
 
 def eliminarPelicula():
@@ -110,7 +117,7 @@ def cargarSala():
     return None
 def register():
     # TODO:registrar client y guardarlo en la ""BD"": TODO: definir campos de cliente
-    #@fpelliStudent
+    addUser()
     return None
 
 def configDescuentoPorTipoDePago(metodosID):
@@ -166,9 +173,8 @@ def reservarButaca():
 
 
 def calcularTotal(cantidadEntradas):
-    #TODO: calcula el total de las entradas
-    #@fpelliStudent
-    return None
+    total = getValorEntrada() * cantidadEntradas
+    return total
 
 def aplicarPuntos(total):
     while True:
@@ -269,30 +275,78 @@ def clientManage():
     configuracionDelUsuario()
     return ''
 
+def imprimirMenu(menu):
+    print("Ingrese el punto de menu")
+    for key in menu.keys():
+        print(f"{key}-{menu[key].__name__}")
+def initAdminMenu():
+    return mainMenuAdmin
+def initClientMenu():
+    return None #tiene que devolver el menu de usuario
+
+def GestionPeliculas():
+    global lastMenu
+    global currentMenu
+    lastMenu = currentMenu
+    currentMenu  = gestionPeliculas
+    getSubMenu(gestionPeliculas)
 
 
-# register()
-# if ():
-#     adminManage()
-# else:
-#     clientManage()
-
-print("ejemplo getById")
-print(getById(2,peliculas))
 
 
 #Programa principal
-metodoDePago=pedirMetodoDePago()
-print ("Metodo de pago seleccionado:", metodoDePago)
+# metodoDePago=pedirMetodoDePago()
+# print ("Metodo de pago seleccionado:", metodoDePago)
 
-cantEntradas=int(input("Ingrese la cantidad de entradas que desea comprar: "))
+# cantEntradas=int(input("Ingrese la cantidad de entradas que desea comprar: "))
 
-MONTOTOTAL=1500*cantEntradas 
-
-
-if metodoDePago==5:
-    MONTOTOTAL=aplicarPuntos(MONTOTOTAL)
+# montoTotal=calcularTotal(5)
 
 
-totalFinal=aplicarDescuento(MONTOTOTAL,metodoDePago)
-print ("El precio final es: ", totalFinal)
+# if MetodosDePago==5:
+#     montoTotal=aplicarPuntos(montoTotal)
+
+
+# totalFinal=aplicarDescuento(montoTotal,MetodosDePago)
+# print ("El precio final es: ", totalFinal)
+
+def getSubMenu(subMenu):
+    imprimirMenu(subMenu)
+    menuValue = ''
+    while(menuValue != 'exit'):
+        menuValue = input()
+        if(menuValue in subMenu.keys()):
+            subMenu[menuValue]()
+            imprimirMenu(subMenu)
+        elif menuValue != 'exit':
+            print("El valor ingresado no existe en el menu, vuela a ingresar" )
+
+def getParentMenu():
+    global currentMenu
+    getSubMenu(lastMenu)
+    currentMenu = lastMenu
+#Esto deberia ir en un archivo que sea menu. Y cada funcion por tipo deberia ir en su propio archivo asi no ahcemos import circular
+gestionPeliculas = {
+    "0":consultarPeliculas,
+    "1":cargarPelicula,
+    "2":eliminarPelicula,
+    "3":getParentMenu
+}
+mainMenuAdmin = {
+    "1":GestionPeliculas,
+    "2":cargarSala,
+    "3":asignarPeliculaASala,
+    "4":configDescuentoPorTipoDePago,
+    "5":liberarSala,
+    "6":register
+}
+# print("ejemplo getById")
+# print(getById(2,getMovies()))      
+
+
+login = int(input("0 es admin, 1 es usuario"))
+if(login == 0):
+    currentMenu
+    mainMenu = initAdminMenu()
+    currentMenu = mainMenu
+    getSubMenu(mainMenu)
