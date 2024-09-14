@@ -151,6 +151,12 @@ def consultarPeliculas():
     imprimirPeliculas()
     # TODO: Lee el archivo de peliculas y muestra la informacion quiza podemos distinguir entre usuario y admin
 
+
+
+
+
+
+
 def chequeoPago(usuario):
     #TODO: recibe el usuario([]) y
     #TODO: chequea que el cliente tenga saldo disponible para pagar la cantidad de entradas que desea comprar(aplica a todos los tipo de pago)
@@ -176,6 +182,59 @@ def calcularTotal(cantidadEntradas):
     #TODO: calcula el total de las entradas
     #@fpelliStudent
     return None
+
+#Funcion para eliminar pelis
+
+def removeMovie(movies, movieId):
+    movieToRemove = [movie for movie in movies if movie[0] == movieId] #Uso listas por comprension 
+
+    if movieToRemove:
+        movies = [movie for movie in movies if movie[0] != movieId]
+        print ("Pelicula con ID ", movieId, "eliminada")
+    else:
+        print("No se encontró ninguna película con ID ", movieId)
+    
+    return movies
+
+#Funcion para editar las pelis
+
+def editMovie(movies, movieId):
+    movieToEdit = [movie for movie in movies if movie[0] == movieId]
+
+    if movieToEdit:
+        movieToEdit = movieToEdit[0]  
+        print("Editando la película: ", movieToEdit)
+        
+        newName = input("Ingrese nuevo nombre de película (deje en blanco para mantener actual):")
+        if newName:
+            movieToEdit[1] = newName
+
+        newDuration = input("Ingrese nueva duración (deje en blanco para mantener actual):")
+        if newDuration:
+            movieToEdit[2] = int(newDuration)
+
+        newDescription = input("Ingrese nueva descripción (deje en blanco para mantener actual):")
+        if newDescription:
+            movieToEdit[3] = newDescription
+
+        newGenre = input("Ingrese nuevo género (deje en blanco para mantener actual):")
+        if newGenre:
+            movieToEdit[4] = newGenre
+
+        newAge = input("Ingrese nueva edad (deje en blanco para mantener actual):")
+        if newAge:
+            movieToEdit[5] = newAge
+
+        newReleaseDate = input("Ingrese nueva fecha de estreno (deje en blanco para mantener actual):")
+        if newReleaseDate:
+            movieToEdit[6] = newReleaseDate
+
+        print("Película con ID ", movieId,  "ha sido actualizada.")
+    else:
+        print("No se encontró ninguna película con ID ", movieId)
+
+    return movies
+
 
 def aplicarPuntos(total):
     while True:
