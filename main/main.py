@@ -48,7 +48,6 @@ userPayment = [
     [3,2,2]
 ]
 
-
 valorEntrada = 2000
 
 def getValorEntrada():
@@ -58,6 +57,23 @@ def setValorEntrada(number):
     global valorEntrada
     valorEntrada = number
 
+
+
+DESCUENTOS = {
+    "Cash": 0.30,     # 30% descuento
+    "Transfer": 0.20, # 20% descuento
+    "Debt": 0.10,     # 10% descuento
+    "Credit": 0.02,   # 2% descuento
+    # Para "Points" se manejará en una función aparte
+}
+
+METODOSDEPAGO = {
+    1: "Cash",
+    2: "Transfer",
+    3: "Debt",
+    4: "Credit",
+    5: "Points"
+}
 
 
 def getById(id,arr):
@@ -120,20 +136,11 @@ def register():
     addUser()
     return None
 
-def configDescuentoPorTipoDePago(metodosID):
-    
-    descuentos = {
-        1: 0.30,  # Cash: 30% descuento
-        2: 0.20,  # Transfer: 20% descuento
-        3: 0.10,  # Debt: 15% descuento
-        4: 0.02,  # Credit: 10% descuento
-        #Points lo hago en funcion aparte
-    }
-    
-    if metodosID in descuentos:
-        return descuentos[metodosID] #Devuelve el descuento que hay que aplicar
-                                    #Por ej: el metodoID es 1, entonces devuelve 0.30
-    else: 
+def configDescuentoPorTipoDePago(metodo):
+
+    if metodo in DESCUENTOS:
+        return DESCUENTOS[metodo]
+    else:
         return 0.0
 
 def adminManage():
@@ -150,6 +157,12 @@ def adminManage():
 def consultarPeliculas():
     imprimirPeliculas()
     # TODO: Lee el archivo de peliculas y muestra la informacion quiza podemos distinguir entre usuario y admin
+
+
+
+
+
+
 
 def chequeoPago(usuario):
     #TODO: recibe el usuario([]) y
@@ -176,6 +189,71 @@ def calcularTotal(cantidadEntradas):
     total = getValorEntrada() * cantidadEntradas
     return total
 
+#Funcion para eliminar pelis
+
+def removeMovie(movies, movieId):
+    movieToRemove = [movie for movie in movies if movie[0] == movieId] #Uso listas por comprension 
+
+    if movieToRemove:
+        movies = [movie for movie in movies if movie[0] != movieId]
+        print ("Pelicula con ID ", movieId, "eliminada")
+    else:
+        print("No se encontró ninguna película con ID ", movieId)
+    
+    return movies
+
+#Funcion para editar las pelis
+
+def editMovie(movies, movieId):
+   
+    movieToEdit = None
+    for movie in movies:
+        if movie[0] == movieId:
+            movieToEdit = movie
+
+    if not movieToEdit:
+        print ("No se encontró ninguna pelicula con ID: ", movieId)
+       
+        return movies
+
+    print("Editando la película: ", movieToEdit)
+
+    print("Seleccione el campo que desea editar:")
+    print("1. Nombre de la película")
+    print("2. Duración")
+    print("3. Descripción")
+    print("4. Género")
+    print("5. Edad recomendada")
+    print("6. Fecha de estreno")
+
+    choice = int(input())
+
+    if choice == 1:
+        print("Ingrese el nuevo nombre de la película:")
+        movieToEdit[1] = input()
+    elif choice == 2:
+        print("Ingrese la nueva duración:")
+        movieToEdit[2] = int(input())
+    elif choice == 3:
+        print("Ingrese la nueva descripción:")
+        movieToEdit[3] = input()
+    elif choice == 4:
+        print("Ingrese el nuevo género:")
+        movieToEdit[4] = input()
+    elif choice == 5:
+        print("Ingrese la nueva edad recomendada:")
+        movieToEdit[5] = input()
+    elif choice == 6:
+        print("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
+        movieToEdit[6] = input()
+    else:
+        print("Opción no válida.")
+        return movies
+
+    print("Película con ID", movieId, " ha sido actualizada.")
+    return movies
+
+
 def aplicarPuntos(total):
     while True:
         puntos = input("Ingrese la cantidad de puntos a utilizar (1 punto = 1 peso, o ingrese 0 para no utilizar puntos): ")
@@ -194,8 +272,8 @@ def aplicarDescuento (total,metodoID):
         return total
     else:
         descuento=configDescuentoPorTipoDePago(metodoID)
-        valorFinal=total-(total*descuento)
-        return valorFinal
+        valorTotal = total * (1-descuento)
+        return valorTotal
 
 def ingresarCuponDescuento(total, codigoDescuento):
     # TODO: if si el codigo es igual a 'DESCUENTO' aplica descuento
@@ -227,30 +305,30 @@ def comprarEntrada():
     return None
 
 def pedirMetodoDePago():
-    MetodosDePago = [
-        [1, "Cash"],
-        [2, "Transfer"],
-        [3, "Debt"],
-        [4, "Credit"],
-        [5, "Points"]
-    ]
+    """
+    Solicita al usuario que seleccione un método de pago y retorna la opción seleccionada.
     
+    Returns:
+        int: El número correspondiente al método de pago seleccionado.
+    """
     while True:
         print("Opciones de método de pago:")
-        for metodo in MetodosDePago:
-            print(metodo[0], metodo[1])
+        
+        
+        for numero in METODOSDEPAGO:
+            metodo = METODOSDEPAGO[numero]
+            print(numero, metodo)
         
         opcion = input("Ingrese el número del método de pago: ")
         
-        if opcion.isdigit():  # Verifica si opcion es un número
-            opcion = int(opcion) #Transpforma opcion en entero por si el usuaario lo ingreso mal 
-           
-            for metodo in MetodosDePago:
-                if metodo[0] == opcion:
-                    return metodo[0]
-                
-            print ("El numero ingresado no es valido. Ingrese otro numero")
+        if opcion.isdigit():  
+            opcion = int(opcion)  
             
+            if opcion in METODOSDEPAGO:  
+                return opcion
+            else:
+                print("El número ingresado no es válido. Ingrese otro número.")
+                
         else:
             print("Debe ingresar un número válido. Por favor, intente de nuevo.")
 
@@ -268,6 +346,60 @@ def configuracionDelUsuario():
     # if (tipoUsuario)
     clientConfig()
     adminConfig()
+
+def editUser(users):
+  
+    print("Ingrese el ID del usuario que desea editar:")
+    user_id = int(input())
+
+    user = None
+    for u in users:
+        if u[0] == user_id:
+            user = u
+    
+    if not user:
+        print("Usuario no encontrado.")
+        return
+
+    print("Seleccione el campo que desea editar:")
+    print("1. Nombre de usuario")
+    print("2. Nombre")
+    print("3. Apellido")
+    print("4. Contraseña")
+    print("5. Fecha de nacimiento")
+    print("6. Correo electrónico")
+    print("7. Saldo")
+
+    choice = int(input())
+
+    if choice == 1:
+        print("Ingrese el nuevo nombre de usuario:")
+        user[1] = input()
+    elif choice == 2:
+        print("Ingrese el nuevo nombre:")
+        user[2] = input()
+    elif choice == 3:
+        print("Ingrese el nuevo apellido:")
+        user[3] = input()
+    elif choice == 4:
+        print("Ingrese la nueva contraseña:")
+        user[4] = input()
+    elif choice == 5:
+        print("Ingrese la nueva fecha de nacimiento (formato YYYYMMDD):")
+        user[6] = input()
+    elif choice == 6:
+        print("Ingrese el nuevo correo electrónico:")
+        user[7] = input()
+    elif choice == 7:
+        print("Ingrese el nuevo saldo:")
+        user[8] = int(input())
+    else:
+        print("Opción no válida.")
+        return
+
+    print("Datos del usuario actualizados:", user)
+
+
 
 def clientManage():
     consultarPeliculas()
