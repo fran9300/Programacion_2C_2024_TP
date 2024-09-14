@@ -39,3 +39,55 @@ def checkUserAndPass(user,password):
         return user
     else:
         print("Usuario o contraseña incorrecta")
+
+def editUser(users):
+  
+    print("Ingrese el ID del usuario que desea editar:")
+    user_id = int(input())
+
+    user = None
+    for u in users:
+        if u[0] == user_id:
+            user = u
+    #TODO: hacer dentro un while
+    if not user:
+        print("Usuario no encontrado.")
+        return
+
+    print("Seleccione el campo que desea editar:")
+    print("1. Nombre de usuario")
+    print("2. Nombre")
+    print("3. Apellido")
+    print("4. Contraseña")
+    print("5. Fecha de nacimiento")
+    print("6. Correo electrónico")
+    print("7. Saldo")
+
+    choice = int(input())
+
+    if choice == 1:
+        print("Ingrese el nuevo nombre de usuario:")
+        user[1] = input()
+    elif choice == 2:
+        print("Ingrese el nuevo nombre:")
+        user[2] = input()
+    elif choice == 3:
+        print("Ingrese el nuevo apellido:")
+        user[3] = input()
+    elif choice == 4:
+        print("Ingrese la nueva contraseña:")
+        user[4] = input()
+    elif choice == 5:
+        print("Ingrese la nueva fecha de nacimiento (formato YYYYMMDD):")
+        user[6] = input()
+    elif choice == 6:
+        print("Ingrese el nuevo correo electrónico:")
+        user[7] = input()
+    elif choice == 7:
+        print("Ingrese el nuevo saldo:")
+        user[8] = int(input())
+    else:
+        print("Opción no válida.")
+        return
+
+    print("Datos del usuario actualizados:", user)
