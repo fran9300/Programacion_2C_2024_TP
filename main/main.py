@@ -199,40 +199,52 @@ def removeMovie(movies, movieId):
 #Funcion para editar las pelis
 
 def editMovie(movies, movieId):
-    movieToEdit = [movie for movie in movies if movie[0] == movieId]
+   
+    movieToEdit = None
+    for movie in movies:
+        if movie[0] == movieId:
+            movieToEdit = movie
 
-    if movieToEdit:
-        movieToEdit = movieToEdit[0]  
-        print("Editando la película: ", movieToEdit)
-        
-        newName = input("Ingrese nuevo nombre de película (deje en blanco para mantener actual):")
-        if newName:
-            movieToEdit[1] = newName
+    if not movieToEdit:
+        print ("No se encontró ninguna pelicula con ID: ", movieId)
+       
+        return movies
 
-        newDuration = input("Ingrese nueva duración (deje en blanco para mantener actual):")
-        if newDuration:
-            movieToEdit[2] = int(newDuration)
+    print("Editando la película: ", movieToEdit)
 
-        newDescription = input("Ingrese nueva descripción (deje en blanco para mantener actual):")
-        if newDescription:
-            movieToEdit[3] = newDescription
+    print("Seleccione el campo que desea editar:")
+    print("1. Nombre de la película")
+    print("2. Duración")
+    print("3. Descripción")
+    print("4. Género")
+    print("5. Edad recomendada")
+    print("6. Fecha de estreno")
 
-        newGenre = input("Ingrese nuevo género (deje en blanco para mantener actual):")
-        if newGenre:
-            movieToEdit[4] = newGenre
+    choice = int(input())
 
-        newAge = input("Ingrese nueva edad (deje en blanco para mantener actual):")
-        if newAge:
-            movieToEdit[5] = newAge
-
-        newReleaseDate = input("Ingrese nueva fecha de estreno (deje en blanco para mantener actual):")
-        if newReleaseDate:
-            movieToEdit[6] = newReleaseDate
-
-        print("Película con ID ", movieId,  "ha sido actualizada.")
+    if choice == 1:
+        print("Ingrese el nuevo nombre de la película:")
+        movieToEdit[1] = input()
+    elif choice == 2:
+        print("Ingrese la nueva duración:")
+        movieToEdit[2] = int(input())
+    elif choice == 3:
+        print("Ingrese la nueva descripción:")
+        movieToEdit[3] = input()
+    elif choice == 4:
+        print("Ingrese el nuevo género:")
+        movieToEdit[4] = input()
+    elif choice == 5:
+        print("Ingrese la nueva edad recomendada:")
+        movieToEdit[5] = input()
+    elif choice == 6:
+        print("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
+        movieToEdit[6] = input()
     else:
-        print("No se encontró ninguna película con ID ", movieId)
+        print("Opción no válida.")
+        return movies
 
+    print("Película con ID", movieId, " ha sido actualizada.")
     return movies
 
 
