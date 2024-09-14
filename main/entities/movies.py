@@ -1,4 +1,4 @@
-from numeration import getNumberFromSecuence
+#from numeration import getNumberFromSecuence
 from utils import getById
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
 movies = [
@@ -42,45 +42,50 @@ def editMovie(movieId):
             movieToEdit = movie
 
     if not movieToEdit:
-        print ("No se encontró ninguna pelicula con ID: ", movieId)
+        print("No se encontró ninguna película con ID:", movieId)
     else:
-        #TODO: meter dentro d un while
-        print("Editando la película: ", movieToEdit)
+        bandera = True
+        while bandera:
+            print("Editando la película:", movieToEdit)
+            print("Seleccione el campo que desea editar:")
+            print("1. Nombre de la película")
+            print("2. Duración")
+            print("3. Descripción")
+            print("4. Género")
+            print("5. Edad recomendada")
+            print("6. Fecha de estreno")
+            print("7. Terminar de editar")
 
-        print("Seleccione el campo que desea editar:")
-        print("1. Nombre de la película")
-        print("2. Duración")
-        print("3. Descripción")
-        print("4. Género")
-        print("5. Edad recomendada")
-        print("6. Fecha de estreno")
+            choice = int(input())  # Esta línea debe estar dentro del bucle
 
-        choice = int(input())
+            if choice == 1:
+                print("Ingrese el nuevo nombre de la película:")
+                movieToEdit[1] = input()
+            elif choice == 2:
+                print("Ingrese la nueva duración:")
+                movieToEdit[2] = int(input())
+            elif choice == 3:
+                print("Ingrese la nueva descripción:")
+                movieToEdit[3] = input()
+            elif choice == 4:
+                print("Ingrese el nuevo género:")
+                movieToEdit[4] = input()
+            elif choice == 5:
+                print("Ingrese la nueva edad recomendada:")
+                movieToEdit[5] = input()
+            elif choice == 6:
+                print("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
+                movieToEdit[6] = input()
+            elif choice == 7:
+                bandera = False
+                print("Edición finalizada")
+            else:
+                print("Opción no válida.")
 
-        if choice == 1:
-            print("Ingrese el nuevo nombre de la película:")
-            movieToEdit[1] = input()
-        elif choice == 2:
-            print("Ingrese la nueva duración:")
-            movieToEdit[2] = int(input())
-        elif choice == 3:
-            print("Ingrese la nueva descripción:")
-            movieToEdit[3] = input()
-        elif choice == 4:
-            print("Ingrese el nuevo género:")
-            movieToEdit[4] = input()
-        elif choice == 5:
-            print("Ingrese la nueva edad recomendada:")
-            movieToEdit[5] = input()
-        elif choice == 6:
-            print("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
-            movieToEdit[6] = input()
-        else:
-            print("Opción no válida.")
-            return movies
+            print("Película con ID", movieId, "ha sido actualizada.")
+            print("Resultado:", movieToEdit)
 
-        print("Película con ID", movieId, " ha sido actualizada.")
-        print("Resultado: ", movieToEdit)
+    return movies
 
 
 
@@ -94,12 +99,12 @@ def removeMovie(movies, movieId):
     
     return movies
 
+def imprimirPeliculas(peliculas):
+    print("ID | Nombre | Duración | Género | Clasificación")
+    for pelicula in peliculas:
+        print(f"{pelicula[0]} | {pelicula[1]} | {pelicula[2]} minutos | {pelicula[4]} | +{pelicula[5]}")
+    return ""
 
-def imprimirPeliculas():
-    # TODO: imprime los datos de archivo de peliculas
-    # @AgustinaMieres
-    # sale por pantalla:
-    # id | nombre | duracion | edad | ..
-    # 1| deadpool | 120 | +18
-    # 2 | alien | 130 | +16
-    return None
+
+print (editMovie(1))
+
