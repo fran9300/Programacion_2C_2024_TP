@@ -31,3 +31,11 @@ def addUser():
     print(newUser)
     users.append(newUser)
     print("Nuevo usuario agregado")
+
+def checkUserAndPass(user,password):
+    filtered = list(filter(lambda value : value[1]==user,getUsers()))
+    user = filtered[0]
+    if(user[4] == password):
+        return user
+    else:
+        print("Usuario o contraseña incorrecta")

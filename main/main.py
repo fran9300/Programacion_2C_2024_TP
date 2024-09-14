@@ -1,7 +1,12 @@
 
 from entities.movies import getMovies,addMovie
 from numeration import getSecuences 
-from entities.user import getUsers,addUser
+from entities.user import getUsers,addUser,checkUserAndPass
+import os
+
+
+
+clear = lambda: os.system('cls')
 
 lastMenu = {}
 currentMenu = {}
@@ -242,7 +247,7 @@ def GestionPeliculas():
     getSubMenu(gestionPeliculas)
 
 
-
+# bug : al estar dentro de un while el exit entre menu y submenu funciona raro
 def getSubMenu(subMenu):
     imprimirMenu(subMenu)
     menuValue = ''
@@ -274,8 +279,16 @@ mainMenuAdmin = {
     "6":register
 }
 
-
-
+def login():
+    user = None
+    while user == None:
+        print("Ingrese usuario")
+        user = str(input())
+        print("Ingrese contraseña")
+        password = str(input())
+        user = checkUserAndPass(user,password)
+    clear()
+    return user
 
 
 # print("ejemplo getById")
@@ -285,8 +298,9 @@ mainMenuAdmin = {
         
 
 
-login = int(input("0 es admin, 1 es usuario"))
-if(login == 0):
+user = login()
+
+if(user[5] == 1):
     currentMenu
     mainMenu = initAdminMenu()
     currentMenu = mainMenu
