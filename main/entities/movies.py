@@ -1,4 +1,5 @@
 from numeration import getNumberFromSecuence
+
 from entities.utils import getById
 
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
@@ -90,15 +91,16 @@ def editMovie(movieId):
 
 
 
-def removeMovie(movies, movieId):
-    movieToRemove = [movie for movie in movies if movie[0] == movieId] #Uso listas por comprension 
-    if movieToRemove:
-        movies = [movie for movie in movies if movie[0] != movieId]
-        print ("Pelicula con ID ", movieId, "eliminada")
-    else:
-        print("No se encontró ninguna película con ID ", movieId)
+def deleteMovie(peliculaId, peliculas):
+    movieToDelete = getById(peliculaId, peliculas)
     
-    return movies
+    if movieToDelete == -1:
+        print("No se encontró ninguna película con ID: ", peliculaId)
+    else:
+        peliculas.remove(movieToDelete)
+        print("Película con ID ",peliculaId, " ha sido eliminada.")
+
+    return peliculas
 
 def imprimirPeliculas(peliculas):
     print("ID | Nombre | Duración | Género | Clasificación")
@@ -108,3 +110,5 @@ def imprimirPeliculas(peliculas):
 
 
 
+movieId= print ("Ingrese el numero de la pelicula que quiere eliminar: ")
+print (deleteMovie(movieId,movies))
