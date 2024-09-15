@@ -1,4 +1,4 @@
-#from numeration import getNumberFromSecuence
+from numeration import getNumberFromSecuence
 from utils import getById
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
 movies = [
