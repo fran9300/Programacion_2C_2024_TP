@@ -3,10 +3,12 @@ from entities.movies import getMovies,addMovie,imprimirPeliculas
 from numeration import getSecuences 
 from entities.user import getUsers,addUser,checkUserAndPass,editUser
 import os
+import re
 
 
 
 clear = lambda: os.system('cls')
+
 
 
 currentMenu = {}
@@ -89,9 +91,28 @@ def asignarPeliculaASala():
     return None
 
 def crearMatrizSala():
-    # TODO: pregunta por filas  y columnas y crea la matriz
-    # @fran9300
-    return None
+    #pregunta por filas  y columnas y crea la matriz
+    filas = int(input("introduzca el número de filas desdeadas para la sala: "))
+    columnas = int(input("introduzca el número de columnas desdeadas para la sala: "))
+
+    matrizSala = []
+    continuar = True
+    
+    while continuar:
+        if filas <= 0 or columnas <= 0:
+            print("Las filas y columnas deben ser mayores que 0.")
+            filas = int(input("Introduce el número de filas: "))
+            columnas = int(input("Introduce el número de columnas: "))
+        else:
+            continuar = False
+
+    for i in range(filas):
+        fila_matriz = []  
+        for j in range(columnas):
+            fila_matriz.append("O")
+        matrizSala.append(fila_matriz)
+
+    return matrizSala
 
 def cargarPelicula():
     # TODO: cargar pelicula tiene nombre, duración, edad, descripcion, genero, fecha de estreno y se guarda en un array de peliculas(matriz)
@@ -104,9 +125,21 @@ def eliminarPelicula():
 
 
 def cargarHorarios():
-    # TODO: cargar horarios a una sala
-    # @AgustinaMieres
-    return None
+    arrayHorarios = []
+    patron = r'^([01]\d|2[0-3]):([0-5]\d)$'
+    continuar = True
+
+    while continuar:
+        horario = input("Agregue un horario en la forma de HH:MM, escriba '-1' para salir: ")
+        
+        if horario == '-1':
+            continuar = False
+        elif re.match(patron, horario):
+            arrayHorarios.append(horario)
+        else:
+            print("Formato de horario inválido. Por favor, use HH:MM (ejemplo: 09:30, 14:45).")
+
+    return arrayHorarios
 
 def liberarSala():
     #TODO: una vez se cargo una pelicula: se requiere restablecer la sala
@@ -115,9 +148,13 @@ def liberarSala():
 
 def cargarSala():
     # TODO: sala: cantidad de filas, cantidad de columnas, horario, pelicula
-    crearMatrizSala()
-    cargarHorarios()
-    return None
+    matrizSala = crearMatrizSala()
+    horariosSala = cargarHorarios()
+
+    sala = [matrizSala, horariosSala, "pelicula"]
+
+    return sala
+
 def register():
     # TODO:registrar client y guardarlo en la ""BD"": TODO: definir campos de cliente
     addUser()
@@ -142,8 +179,8 @@ def configDescuentoPorTipoDePago(metodo):
 #     return None
 
 def consultarPeliculas():
-    imprimirPeliculas()
     # TODO: Lee el archivo de peliculas y muestra la informacion quiza podemos distinguir entre usuario y admin
+    imprimirPeliculas()
 
 
 
@@ -273,13 +310,14 @@ def adminConfig():
     # @fpelliStudent
     return None
 
-def configuracionDelUsuario():
-    # if (tipoUsuario)
-    clientConfig()
-    adminConfig()
 
 
 
+def crearSala():
+    crearMatrizSala()
+
+def consultarSalas():
+    print("Se debe desarrollar una funcion que imprima los datos de todas las salas")
 
 #Flujo de cliente
 # def clientManage():
@@ -300,6 +338,11 @@ def GestionPeliculas():
 
 def GestionUsuarios():
     global currentMenu
+    currentMenu = gestionUsuarios
+
+def GestionSalas():
+    global currentMenu
+    currentMenu = gestionSalas
 
 def Registro():
     addUser()
@@ -347,6 +390,11 @@ def volverMenuPrincipal():
     global currentMenu
     currentMenu = mainMenu
 
+gestionSalas = {
+    "1":consultarSalas,
+    "2":crearSala,
+    "3":volverMenuPrincipal
+}
 
 
 gestionPeliculas = {
@@ -364,8 +412,8 @@ gestionUsuarios = {
 }
 mainMenuAdmin = {
     "1":GestionPeliculas,
-    "2":cargarSala,
-    "3":asignarPeliculaASala,
+    "2":GestionSalas,
+    "3":GestionUsuarios,
     "4":configDescuentoPorTipoDePago,
     "5":liberarSala,
     "6":register
