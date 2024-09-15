@@ -1,5 +1,7 @@
 from numeration import getNumberFromSecuence
-from utils import getById
+
+from entities.utils import getById
+
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
 movies = [
     [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
@@ -107,7 +109,6 @@ def imprimirPeliculas(peliculas):
     return ""
 
 
-print (editMovie(1))
 
 movieId= print ("Ingrese el numero de la pelicula que quiere eliminar: ")
 print (deleteMovie(movieId,movies))
