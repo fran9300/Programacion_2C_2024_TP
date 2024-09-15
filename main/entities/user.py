@@ -11,6 +11,8 @@ users= [
 def getUsers():
     return users
 
+
+#Función para agregar usuario
 def addUser():
     global users
     newUser = []
@@ -38,6 +40,8 @@ def addUser():
     print("Nuevo usuario agregado")
     print(users)
 
+
+#Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
 def checkIfUserExist(userName):
     filtered = list(filter(lambda value : value[1]==userName,getUsers()))
     if(filtered):
@@ -45,6 +49,7 @@ def checkIfUserExist(userName):
     else:
         return False
 
+#Función para chequear si el usuario o la clave son correctas
 def checkUserAndPass(user,password):
     filtered = list(filter(lambda value : value[1]==user,getUsers()))
     user = filtered[0]
@@ -53,6 +58,9 @@ def checkUserAndPass(user,password):
     else:
         print("Usuario o contraseña incorrecta")
 
+
+#Función para editar usuarios. Le pasamos la matriz users. Puede editar mas de un campo a la vez y
+#finalizar la edicion cuando el usuario lo desee
 def editUser(users):
   
     print("Ingrese el ID del usuario que desea editar:")
@@ -111,6 +119,7 @@ def editUser(users):
     print("Datos del usuario actualizados:", user)
 
 
+#Función para eliminar usuario. Reutilizamos la función getById
 def deleteUser(usuarioId, usuarios):
     userToDelete = getById(usuarioId, usuarios)
     
