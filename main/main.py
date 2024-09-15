@@ -1,7 +1,7 @@
 
-from entities.movies import getMovies,addMovie,imprimirPeliculas
+from entities.movies import getMovies,addMovie,imprimirPeliculas,deleteMovie
 from numeration import getSecuences 
-from entities.user import getUsers,addUser
+from entities.user import getUsers,addUser, deleteUser
 import re
 
 
@@ -119,10 +119,18 @@ def cargarPelicula():
     addMovie()
     return None
 
-def eliminarPelicula():
-    imprimirPeliculas()
-    #TODO: eliminar pelicula cargada por id. Llega un array y tiene que eliminar por id . mirar inicio del archivo
-    #@fran9300
+def eliminarPelicula(movies):
+    movies = [
+    [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
+    [2,"Alien",112,"Pelicula de alien","Suspenso","16","20/09/2024"],
+    [3,"Longlegs",100,"pelicula de terror","Terror","13","20/08/2024"]
+]
+    imprimirPeliculas(movies)
+    movieId=int(input("Ingrese el ID de la película que desea eliminar:"))
+
+    deleteMovie(movieId,movies)
+    imprimirPeliculas(movies)
+    
 
 
 def cargarHorarios():

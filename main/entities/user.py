@@ -1,4 +1,6 @@
 from numeration import getNumberFromSecuence
+from utils import getById
+
 users= [
     [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
     [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar",50000],
@@ -90,4 +92,18 @@ def editUser(users):
 
     print("Datos del usuario actualizados:", user)
 
-print (editUser(users))
+def deleteUser(usuarioId, usuarios):
+    userToDelete = getById(usuarioId, usuarios)
+    
+    if userToDelete == -1:
+        print("No se encontró ningún usuario con ID: ", usuarioId)
+    else:
+        users.remove(userToDelete)
+        print("Usuario con ID ",usuarioId, "ha sido eliminado.")
+
+    return users
+
+
+
+#Programa principal:
+#print (editUser(users))
