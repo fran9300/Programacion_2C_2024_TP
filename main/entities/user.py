@@ -14,23 +14,34 @@ def addUser():
     newUser = []
     newUser.append(getNumberFromSecuence("userNumeration"))
     print("Ingrese nombre de usuario")
-    newUser.append(input())
+    userName = input()
+    while checkIfUserExist(userName):
+        print("Nombre de usuario no disponible, ingrese otro")
+        userName = input()
+    newUser.append(userName)
     print("Ingrese nombre")
     newUser.append(input())
     print("Ingrese apellido")
     newUser.append(input())
-    newUser.append(2) ## le agrega el rol
     print("Ingrese contraseña")
     newUser.append(input())    
+    newUser.append(2) ## le agrega el rol
     print("Ingrese fecha de nacimiento(formato YYYYMMDD)")
     newUser.append(input())
     print("Ingrese correo electronico")
     newUser.append(input())
     print("Ingrese saldo")
-    newUser.append(int(input()))
-    print(newUser)
+    newUser.append(int(input()))    
     users.append(newUser)
     print("Nuevo usuario agregado")
+    print(users)
+
+def checkIfUserExist(userName):
+    filtered = list(filter(lambda value : value[1]==userName,getUsers()))
+    if(filtered):
+        return True
+    else:
+        return False
 
 def checkUserAndPass(user,password):
     filtered = list(filter(lambda value : value[1]==user,getUsers()))

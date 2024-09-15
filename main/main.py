@@ -1,15 +1,16 @@
 
 from entities.movies import getMovies,addMovie,imprimirPeliculas
 from numeration import getSecuences 
-from entities.user import getUsers,addUser,checkUserAndPass
+from entities.user import getUsers,addUser,checkUserAndPass,editUser
 import os
 
 
 
 clear = lambda: os.system('cls')
 
-lastMenu = {}
+
 currentMenu = {}
+mainMenu = {}
 # TODAS LAS "ENTIDADES" EN SU PRIMER CAMPO TIENE EL ID
     # [
     #     [id,nombre,duracion],
@@ -33,13 +34,7 @@ horarios = [
     [1,3,"1800","0905"]
 ]
 
-# MetodosDePago = [[
-#     [1,"Cash"],
-#     [2,"Transfer"],
-#     [3,"Debt"],
-#     [4,"Credit"],
-#     [5,"Points"]
-# ]]
+
 
 roles = [
     [1,"admin"],
@@ -105,8 +100,7 @@ def cargarPelicula():
 
 def eliminarPelicula():
     imprimirPeliculas()
-    #TODO: eliminar pelicula cargada por id. Llega un array y tiene que eliminar por id . mirar inicio del archivo
-    #@fran9300
+
 
 
 def cargarHorarios():
@@ -287,31 +281,52 @@ def configuracionDelUsuario():
 
 
 
-
-def clientManage():
-    consultarPeliculas()
-    comprarEntrada()
-    configuracionDelUsuario()
-    return ''
+#Flujo de cliente
+# def clientManage():
+#     consultarPeliculas()
+#     comprarEntrada()
+#     configuracionDelUsuario()
+#     return ''
 
 def imprimirMenu(menu):
     print("Ingrese el punto de menu")
     for key in menu.keys():
         print(f"{key}-{menu[key].__name__}")
-def initAdminMenu():
-    return mainMenuAdmin
-def initClientMenu():
-    return None #tiene que devolver el menu de usuario
+
 
 def GestionPeliculas():
-    global lastMenu
-    global currentMenu
-    lastMenu = currentMenu
+    global currentMenu    
     currentMenu  = gestionPeliculas
-    getSubMenu(gestionPeliculas)
 
+def GestionUsuarios():
+    global currentMenu
 
+def Registro():
+    addUser()
 
+def edicionDeUsuario():
+    editUser()
+
+def eliminarUsuario():
+    # removeUser
+    print("agrgear funcion")
+    return None
+
+def IniciarSesion():
+    global currentMenu,mainMenu
+    user = None
+    while user == None:
+        print("Ingrese usuario")
+        user = str(input())
+        print("Ingrese contraseña")
+        password = str(input())
+        user = checkUserAndPass(user,password)
+    clear()
+    if user[5] == 1:
+        mainMenu = mainMenuAdmin        
+    elif user[5] == 2:
+        mainMenu = mainMenuUser
+    currentMenu = mainMenu
 
 #Programa principal
 # metodoDePago=pedirMetodoDePago()
@@ -328,28 +343,24 @@ def GestionPeliculas():
 
 # totalFinal=aplicarDescuento(montoTotal,MetodosDePago)
 # print ("El precio final es: ", totalFinal)
-
-def getSubMenu(subMenu):
-    imprimirMenu(subMenu)
-    menuValue = ''
-    while(menuValue != 'exit'):
-        menuValue = input()
-        if(menuValue in subMenu.keys()):
-            subMenu[menuValue]()
-            imprimirMenu(subMenu)
-        elif menuValue != 'exit':
-            print("El valor ingresado no existe en el menu, vuela a ingresar" )
-
-def getParentMenu():
+def volverMenuPrincipal():
     global currentMenu
-    getSubMenu(lastMenu)
-    currentMenu = lastMenu
-#Esto deberia ir en un archivo que sea menu. Y cada funcion por tipo deberia ir en su propio archivo asi no ahcemos import circular
+    currentMenu = mainMenu
+
+
+
 gestionPeliculas = {
     "0":consultarPeliculas,
     "1":cargarPelicula,
     "2":eliminarPelicula,
-    "3":getParentMenu
+    "3":volverMenuPrincipal
+}
+
+gestionUsuarios = {
+    "1": Registro,
+    "2": edicionDeUsuario,
+    "3": eliminarUsuario,
+    "4": volverMenuPrincipal
 }
 mainMenuAdmin = {
     "1":GestionPeliculas,
@@ -360,26 +371,32 @@ mainMenuAdmin = {
     "6":register
 }
 
-def login():
-    user = None
-    while user == None:
-        print("Ingrese usuario")
-        user = str(input())
-        print("Ingrese contraseña")
-        password = str(input())
-        user = checkUserAndPass(user,password)
-    clear()
-    return user
+mainMenuUser = {
+    
+}
+loginMenu = {
+    "1":Registro,
+    "2":IniciarSesion
+}
+
 
 
 # print("ejemplo getById")
 # print(getById(2,getMovies()))      
 
 
-user = login()
+currentMenu = loginMenu
+option = ''
+while option != 'exit':
+    imprimirMenu(currentMenu)
+    option = input()
+    if option != 'exit':
+        while not  option in currentMenu.keys() or option == 'exit':
+                print("El valor ingresado no existe en el menu, vuelva a ingresar" )
+                option = input()
+        if option != 'exit':
+            currentMenu[option]()
+            
+    
 
-if(user[5] == 1):
-    currentMenu
-    mainMenu = initAdminMenu()
-    currentMenu = mainMenu
-    getSubMenu(mainMenu)
+    
