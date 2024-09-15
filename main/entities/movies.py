@@ -1,5 +1,6 @@
-#from numeration import getNumberFromSecuence
-from utils import getById
+from numeration import getNumberFromSecuence
+from entities.utils import getById
+
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
 movies = [
     [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
@@ -106,5 +107,4 @@ def imprimirPeliculas(peliculas):
     return ""
 
 
-print (editMovie(1))
 
