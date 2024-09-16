@@ -215,6 +215,12 @@ def configDescuentoPorTipoDePago(metodo):
     else:
         return 0.0
 
+def imprimirDescuentos():
+    #Función que muestra los descuentos
+    global descuentos
+    for key in descuentos:
+        print(f"{key}: {descuentos[key]*100}% descuento")
+
 def clientConfig():
     #TODO: permite modificar los datos del cliente, y su metodo de pago
     return None
@@ -420,8 +426,9 @@ mainMenuAdmin = {
     "2":GestionSalas,
     "3":GestionUsuarios,
     "4":configDescuentoPorTipoDePago,
-    "5":liberarSala,
-    "6":LoginMenu
+    "5":imprimirDescuentos,
+    "6":liberarSala,
+    "7":LoginMenu
 }
 
 #Flujo de cliente
