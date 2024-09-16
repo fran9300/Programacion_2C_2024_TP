@@ -441,6 +441,7 @@ mainMenuAdmin = {
 mainMenuUser = {
     #TODO agregar opciones para el usuario
     "1":consultarPeliculas,
+    "2":LoginMenu
 }
 
 loginMenu = {
