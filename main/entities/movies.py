@@ -13,6 +13,8 @@ movies = [
 def getMovies():
     return movies
 
+
+#Función para agregar películas al sistema
 def addMovie():
     global movies
     newMovie = []
@@ -35,7 +37,8 @@ def addMovie():
     print(movies)
 
 
-
+#Función para editar películas. Como parametro el pasamos el id de la película Puede editar mas de un campo a la vez y
+#finalizar la edicion cuando el usuario lo desee
 def editMovie(movieId):
     global movies
     movieToEdit = None
@@ -90,7 +93,7 @@ def editMovie(movieId):
     return movies
 
 
-
+#Función para eliminar película. Reutilizamos la función getById
 def deleteMovie(peliculaId, peliculas):
     movieToDelete = getById(peliculaId, peliculas)
     
@@ -102,6 +105,8 @@ def deleteMovie(peliculaId, peliculas):
 
     return peliculas
 
+
+#Función que muestra la cartelera
 def imprimirPeliculas(peliculas):
     print("ID | Nombre | Duración | Género | Clasificación")
     for pelicula in peliculas:

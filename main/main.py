@@ -90,6 +90,8 @@ def asignarPeliculaASala():
     # TODO: tiene que mostrar los horarios disponibles en una fecha para sala y poder reservarla
     return None
 
+
+#Función para crear una matriz que representa la dispocion de asientos en una sala de cine
 def crearMatrizSala():
     #pregunta por filas  y columnas y crea la matriz
     filas = int(input("introduzca el número de filas desdeadas para la sala: "))
@@ -114,11 +116,16 @@ def crearMatrizSala():
 
     return matrizSala
 
+
+#Función para cargar una nueva película en el sistema
 def cargarPelicula():
     # TODO: cargar pelicula tiene nombre, duración, edad, descripcion, genero, fecha de estreno y se guarda en un array de peliculas(matriz)
     addMovie()
     return None
 
+
+#Funcion para eliminar una película del sistema. Muestra las películas disponibles y
+#permite que el usuario seleccione una para eliminar
 def eliminarPelicula(movies):
     movies = [
     [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
@@ -132,7 +139,7 @@ def eliminarPelicula(movies):
     imprimirPeliculas(movies)
     
 
-
+#Funcion que le permite al usuario agregar horiarios disponibles para una sala de cine
 def cargarHorarios():
     arrayHorarios = []
     patron = r'^([01]\d|2[0-3]):([0-5]\d)$'
@@ -150,11 +157,13 @@ def cargarHorarios():
 
     return arrayHorarios
 
+
 def liberarSala():
     #TODO: una vez se cargo una pelicula: se requiere restablecer la sala
     #@fran9300
     return None
 
+#Función para cargar una nueva sala en el sistema con su matriz de asientos y horarios
 def cargarSala():
     # TODO: sala: cantidad de filas, cantidad de columnas, horario, pelicula
     matrizSala = crearMatrizSala()
@@ -164,11 +173,14 @@ def cargarSala():
 
     return sala
 
+#Funcion para registrar a un nuevo usuario en el sistema
 def register():
     # TODO:registrar client y guardarlo en la ""BD"": TODO: definir campos de cliente
     addUser()
     return None
 
+
+#Función para configurar el descuento aplicado según el tipo de pago seleccionado
 def configDescuentoPorTipoDePago(metodo):
 
     if metodo in descuentos:
@@ -187,14 +199,11 @@ def configDescuentoPorTipoDePago(metodo):
 #     liberarSala()
 #     return None
 
+
+#Función para consultar y mostrar la lista de películas disponibles en el sistema
 def consultarPeliculas():
     # TODO: Lee el archivo de peliculas y muestra la informacion quiza podemos distinguir entre usuario y admin
     imprimirPeliculas()
-
-
-
-
-
 
 
 def chequeoPago(usuario):
@@ -217,19 +226,14 @@ def reservarButaca():
     #@fran9300
     return None
 
-
+#Función para calcular el costo total de las entradas seleccionadas
 def calcularTotal(cantidadEntradas):
     total = getValorEntrada() * cantidadEntradas
     return total
 
-#Funcion para eliminar pelis
 
 
-
-
-
-
-
+#Funcion para aplicar los puntos al total de la compra. Resta los puntos al total
 def aplicarPuntos(total):
     while True:
         puntos = input("Ingrese la cantidad de puntos a utilizar (1 punto = 1 peso, o ingrese 0 para no utilizar puntos): ")
@@ -243,6 +247,8 @@ def aplicarPuntos(total):
         else:
             print("Debe ingresar un número válido de puntos. Por favor, intente de nuevo.")
 
+
+#Función para aplicar desucento al total según el metodo de pago seleccionado
 def aplicarDescuento (total,metodoID):
     if metodoID==5:
         return total
@@ -261,6 +267,8 @@ def imprimirFactura():
     # TODO: generacionFactura()
     #TODO: Imprime los detalles de la compra, datos del cliente, y que butacas se reservaron
     return None
+
+
 #FLUHO DE COMPRAR PELICULA
 def comprarEntrada():
     #Esto es el flujo pero no esta implementado
@@ -281,13 +289,10 @@ def comprarEntrada():
     imprimirFactura()
     return None
 
+
+#Función que le solicita al usuario el metodo de pago que quiere utilizar
 def pedirMetodoDePago():
-    """
-    Solicita al usuario que seleccione un método de pago y retorna la opción seleccionada.
     
-    Returns:
-        int: El número correspondiente al método de pago seleccionado.
-    """
     while True:
         print("Opciones de método de pago:")
         
