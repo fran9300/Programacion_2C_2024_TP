@@ -1,6 +1,6 @@
 from numeration import getNumberFromSecuence
-
 from entities.utils import getById
+
 
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
 movies = [
@@ -19,22 +19,15 @@ def addMovie():
     global movies
     newMovie = []
     newMovie.append(getNumberFromSecuence("movieNumeration"))
-    print("Ingrese nombre de pelicula")
-    newMovie.append(input())
-    print("Ingrese duracion")
-    newMovie.append(int(input)())
-    print("Ingrese descripcion")
-    newMovie.append(input())    
-    print("Ingrese género")
-    newMovie.append(input())
-    print("Ingrese edad")
-    newMovie.append(input())
-    print("Ingrese fecha de estreno (formato DD/MM/YYYY)")
-    newMovie.append(input())
+    newMovie.append(input("Ingrese nombre de pelicula: "))
+    newMovie.append(int(input("Ingrese duracion: ")))
+    newMovie.append(input("Ingrese descripcion: "))    
+    newMovie.append(input("Ingrese género: "))
+    newMovie.append(input("Ingrese edad: "))
+    newMovie.append(input("Ingrese fecha de estreno (formato DD/MM/YYYY): "))
     print(newMovie)
     movies.append(newMovie)
-    print("Nueva pelicula agregada")
-    print(movies)
+    print("Nueva pelicula agregada\t")
 
 
 #Función para editar películas. Como parametro el pasamos el id de la película Puede editar mas de un campo a la vez y
@@ -93,27 +86,25 @@ def editMovie(movieId):
     return movies
 
 
-#Función para eliminar película. Reutilizamos la función getById
 def deleteMovie(peliculaId, peliculas):
+    #Función para eliminar película. Reutilizamos la función getById
+
     movieToDelete = getById(peliculaId, peliculas)
     
     if movieToDelete == -1:
         print("No se encontró ninguna película con ID: ", peliculaId)
     else:
         peliculas.remove(movieToDelete)
-        print("Película con ID ",peliculaId, " ha sido eliminada.")
+        print("\nPelícula con ID ",peliculaId, " ha sido eliminada.\n")
 
     return peliculas
 
 
-#Función que muestra la cartelera
 def imprimirPeliculas(peliculas):
+    #Función que muestra la cartelera
     print("ID | Nombre | Duración | Género | Clasificación")
     for pelicula in peliculas:
         print(f"{pelicula[0]} | {pelicula[1]} | {pelicula[2]} minutos | {pelicula[4]} | +{pelicula[5]}")
-    return ""
+    print()
+    return None
 
-
-
-movieId= print ("Ingrese el numero de la pelicula que quiere eliminar: ")
-print (deleteMovie(movieId,movies))

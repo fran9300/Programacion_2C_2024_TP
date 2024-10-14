@@ -1,5 +1,5 @@
 from numeration import getNumberFromSecuence
-from utils import getById
+from entities.utils import getById
 
 users= [
     [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
@@ -12,46 +12,46 @@ def getUsers():
     return users
 
 
-#Función para agregar usuario
+
 def addUser():
+    #Función para agregar usuario
     global users
     newUser = []
     newUser.append(getNumberFromSecuence("userNumeration"))
-    print("Ingrese nombre de usuario")
-    userName = input()
+    userName = input("Ingrese nombre de usuario: ")
     while checkIfUserExist(userName):
         print("Nombre de usuario no disponible, ingrese otro")
-        userName = input()
+        userName = input("Ingrese nombre de usuario: ")
     newUser.append(userName)
-    print("Ingrese nombre")
-    newUser.append(input())
-    print("Ingrese apellido")
-    newUser.append(input())
-    print("Ingrese contraseña")
-    newUser.append(input())    
+    newUser.append(input("Ingrese nombre: "))
+    newUser.append(input("Ingrese apellido: "))
+    newUser.append(input("Ingrese contraseña: "))    
     newUser.append(2) ## le agrega el rol
-    print("Ingrese fecha de nacimiento(formato YYYYMMDD)")
-    newUser.append(input())
-    print("Ingrese correo electronico")
-    newUser.append(input())
-    print("Ingrese saldo")
-    newUser.append(int(input()))    
+    newUser.append(input("Ingrese fecha de nacimiento(formato YYYYMMDD): "))
+    newUser.append(input("Ingrese correo electronico: "))
+    newUser.append(int(input("Ingrese saldo: ")))    
     users.append(newUser)
-    print("Nuevo usuario agregado")
-    print(users)
+    print("\nNuevo usuario agregado\n")
 
 
-#Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
 def checkIfUserExist(userName):
+    #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
+
     filtered = list(filter(lambda value : value[1]==userName,getUsers()))
     if(filtered):
         return True
     else:
         return False
 
-#Función para chequear si el usuario o la clave son correctas
 def checkUserAndPass(user,password):
+    #Función para chequear si el usuario o la clave son correctas
+
     filtered = list(filter(lambda value : value[1]==user,getUsers()))
+
+    if len(filtered) == 0:
+        print("Usuario no encontrado, intente nuevamente: ")
+        return None 
+
     user = filtered[0]
     if(user[4] == password):
         return user
@@ -59,10 +59,9 @@ def checkUserAndPass(user,password):
         print("Usuario o contraseña incorrecta")
 
 
-#Función para editar usuarios. Le pasamos la matriz users. Puede editar mas de un campo a la vez y
-#finalizar la edicion cuando el usuario lo desee
+
 def editUser(users):
-  
+    #Función para editar usuarios. Le pasamos la matriz users. Puede editar mas de un campo a la vez y finalizar la edicion cuando el usuario lo desee
     print("Ingrese el ID del usuario que desea editar:")
     user_id = int(input())
 
@@ -119,8 +118,9 @@ def editUser(users):
     print("Datos del usuario actualizados:", user)
 
 
-#Función para eliminar usuario. Reutilizamos la función getById
 def deleteUser(usuarioId, usuarios):
+    #Función para eliminar usuario. Reutilizamos la función getById
+
     userToDelete = getById(usuarioId, usuarios)
     
     if userToDelete == -1:
@@ -131,7 +131,13 @@ def deleteUser(usuarioId, usuarios):
 
     return users
 
-
+def imprimirUsuarios(usuarios):
+    #imprime los usuarios registrados, esta funcion solo existe para facilitar la eliminacion o modificacion de usuarios.
+    print("ID | Usuario | Nombre | Apellido | Mail")
+    for usuario in usuarios:
+        print(f"{usuario[0]} | {usuario[1]} | {usuario[2]}  | {usuario[3]} | {usuario[6]}")
+    print()
+    return None
 
 #Programa principal:
 #print (editUser(users))
