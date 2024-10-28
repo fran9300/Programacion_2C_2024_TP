@@ -1,4 +1,6 @@
 from numeration import getNumberFromSecuence
+from entities.utils import getById, clear
+
 users= [
     [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
     [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar",50000],
@@ -9,34 +11,33 @@ users= [
 def getUsers():
     return users
 
+
+
 def addUser():
+    #Función para agregar usuario
     global users
     newUser = []
     newUser.append(getNumberFromSecuence("userNumeration"))
-    print("Ingrese nombre de usuario")
-    userName = input()
+    userName = input("Ingrese nombre de usuario: ")
     while checkIfUserExist(userName):
         print("Nombre de usuario no disponible, ingrese otro")
-        userName = input()
+        userName = input("Ingrese nombre de usuario: ")
     newUser.append(userName)
-    print("Ingrese nombre")
-    newUser.append(input())
-    print("Ingrese apellido")
-    newUser.append(input())
-    print("Ingrese contraseña")
-    newUser.append(input())    
+    newUser.append(input("Ingrese nombre: "))
+    newUser.append(input("Ingrese apellido: "))
+    newUser.append(input("Ingrese contraseña: "))    
     newUser.append(2) ## le agrega el rol
-    print("Ingrese fecha de nacimiento(formato YYYYMMDD)")
-    newUser.append(input())
-    print("Ingrese correo electronico")
-    newUser.append(input())
-    print("Ingrese saldo")
-    newUser.append(int(input()))    
+    newUser.append(input("Ingrese fecha de nacimiento(formato YYYYMMDD): "))
+    newUser.append(input("Ingrese correo electronico: "))
+    newUser.append(int(input("Ingrese saldo: ")))    
     users.append(newUser)
-    print("Nuevo usuario agregado")
-    print(users)
+    clear()
+    print("\nNuevo usuario agregado\n")
+
 
 def checkIfUserExist(userName):
+    #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
+
     filtered = list(filter(lambda value : value[1]==userName,getUsers()))
     if(filtered):
         return True
@@ -44,15 +45,26 @@ def checkIfUserExist(userName):
         return False
 
 def checkUserAndPass(user,password):
+    #Función para chequear si el usuario o la clave son correctas
+
     filtered = list(filter(lambda value : value[1]==user,getUsers()))
+
+    if len(filtered) == 0:
+        clear()
+        print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
+        return None 
+
     user = filtered[0]
     if(user[4] == password):
         return user
     else:
-        print("Usuario o contraseña incorrecta")
+        clear()
+        print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
+
+
 
 def editUser(users):
-  
+    #Función para editar usuarios. Le pasamos la matriz users. Puede editar mas de un campo a la vez y finalizar la edicion cuando el usuario lo desee
     print("Ingrese el ID del usuario que desea editar:")
     user_id = int(input())
 
@@ -65,7 +77,10 @@ def editUser(users):
         print("Usuario no encontrado.")
     else:
         bandera=True
-        while bandera: 
+        while bandera:
+            clear()
+            print("usuario a editar: ", user)
+            print() 
             print("Seleccione el campo que desea editar:")
             print("1. Nombre de usuario")
             print("2. Nombre")
@@ -75,37 +90,55 @@ def editUser(users):
             print("6. Correo electrónico")
             print("7. Saldo")
             print ("8. Finalizar la edición")
-
+            print()
             choice = int(input())
 
             if choice == 1:
-                print("Ingrese el nuevo nombre de usuario:")
-                user[1] = input()
+                user[1] = input("Ingrese el nuevo nombre de usuario:")
             elif choice == 2:
-                print("Ingrese el nuevo nombre:")
-                user[2] = input()
+                user[2] = input("Ingrese el nuevo nombre:")
             elif choice == 3:
-                print("Ingrese el nuevo apellido:")
-                user[3] = input()
+                user[3] = input("Ingrese el nuevo apellido:")
             elif choice == 4:
-                print("Ingrese la nueva contraseña:")
-                user[4] = input()
+                user[4] = input("Ingrese la nueva contraseña:")
             elif choice == 5:
-                print("Ingrese la nueva fecha de nacimiento (formato YYYYMMDD):")
-                user[6] = input()
+                user[6] = input("Ingrese la nueva fecha de nacimiento (formato YYYYMMDD):")
             elif choice == 6:
-                print("Ingrese el nuevo correo electrónico:")
-                user[7] = input()
+                user[7] = input("Ingrese el nuevo correo electrónico:")
             elif choice == 7:
-                print("Ingrese el nuevo saldo:")
-                user[8] = int(input())
+                user[8] = int(input("Ingrese el nuevo saldo:"))
             elif choice==8:
                 bandera=False
-                print ("Ha finalizado la edición")
+                clear()
+                print ("\nHa finalizado la edición")
             else:
                 print("Opción no válida.")
                 return
 
-    print("Datos del usuario actualizados:", user)
+    print("\nDatos del usuario actualizados:", user, "\n")
 
+
+def deleteUser(usuarioId, usuarios):
+    #Función para eliminar usuario. Reutilizamos la función getById
+
+    userToDelete = getById(usuarioId, usuarios)
+    
+    if userToDelete == -1:
+        print("No se encontró ningún usuario con ID: ", usuarioId)
+    else:
+        users.remove(userToDelete)
+        print("Usuario con ID ",usuarioId, "ha sido eliminado.")
+
+    return users
+
+def imprimirUsuarios(usuarios):
+    #imprime los usuarios registrados, esta funcion solo existe para facilitar la eliminacion o modificacion de usuarios.
+    print("ID | Usuario | Nombre | Apellido | Mail")
+    for usuario in usuarios:
+        print(f"{usuario[0]} | {usuario[1]} | {usuario[2]}  | {usuario[3]} | {usuario[6]}")
+    print()
+    return None
+
+#Programa principal:
+#print (editUser(users))
 
