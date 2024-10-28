@@ -43,7 +43,8 @@ def updateEntity():
 def initDefaultFile(value):
     key = value.upper()
     try:
-        open(getPath(key),"r")
+        file = open(getPath(key),"r")
+        file.close()
     except FileNotFoundError:
         default = getDefaultValue(key)
         with open(getPath(key),"w") as file:
