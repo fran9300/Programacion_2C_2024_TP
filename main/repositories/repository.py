@@ -1,3 +1,7 @@
+import json
+from repositories.path import getPath
+
+
 def loadUsers():
     return None
 
@@ -33,3 +37,28 @@ def updateEntity():
 # agrgar a todas las entidades un campo deleted para hacer borrado logico.
 # EN las entidades agregar un campo que discrimine que tipo es. Luego se busca el path del archivo correspondiente por el tipo de entidad y se guarda ahi.
 #  Esto lo vamos a usar para hcer un metodo generico de creacion de entidad
+
+
+#Esta funcion es generica, se le pasa el key y se trae el path y los valores default. Ademas comprueba que no exista el archivo para no pisar los datos existentes
+def initDefaultFile(value):
+    key = value.upper()
+    try:
+        open(getPath(key),"r")
+    except FileNotFoundError:
+        default = getDefaultValue(key)
+        with open(getPath(key),"w") as file:
+            json.dump(default,file)
+
+
+
+defaultValues = {
+    "USER": [
+        {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000},
+        {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000}],
+    "MOVIE":[]#Agrega default movies y asi con todas las entidades
+}
+
+def getDefaultValue(value):
+    #TODO:AGREGAR TRYCATCH
+    key = value.upper()
+    return defaultValues[key]
