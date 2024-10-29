@@ -472,6 +472,8 @@ loginMenu = {
 
 repositories.repository.initDefaultFile("USER")
 
+print(repositories.repository.loadData("User"))
+
 
 currentMenu = loginMenu
 option = ''

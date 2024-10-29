@@ -63,3 +63,27 @@ def getDefaultValue(value):
     #TODO:AGREGAR TRYCATCH
     key = value.upper()
     return defaultValues[key]
+
+
+
+def loadData(value):
+    #TODO AGREGAR TRY
+    try:
+        key = value.upper()
+        file = open(getPath(key),"r")
+        values = json.load(file)        
+        return values
+    finally:
+        file.close()
+
+def addEntity(entity):
+    type = ""
+    if "type" in entity:
+        type = entity["type"].upper()
+        del entity["type"]
+    values = []
+    with open(getPath(type),"r") as file:
+        values = json.load(file)
+    with open(getPath(type),"wt") as file:    
+        values.append(entity)
+        json.dump(values,file)
