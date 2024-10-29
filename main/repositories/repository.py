@@ -4,7 +4,8 @@ from entities import entitiesEnum
 
 cachedEntities = {
     entitiesEnum.USER : [],
-    entitiesEnum.MOVIES: []
+    entitiesEnum.MOVIES: [],
+    entitiesEnum.SECUENCE: []
 }
 
 def loadUsers():

@@ -1,0 +1,6 @@
+USER = "USER"
+MOVIES = "MOVIE"
+SECUENCE = "SECUENCE"
+
+
+ID = "id"
