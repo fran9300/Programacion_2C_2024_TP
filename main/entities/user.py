@@ -1,5 +1,6 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
+from repositories.repository import addEntity
 
 users= [
     [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
@@ -15,31 +16,55 @@ def getUsers():
 
 
 
+# def addUser():
+#     #Función para agregar usuario
+#     global users
+#     newUser = []
+#     newUser.append(getNumberFromSecuence("userNumeration"))
+#     userName = input("Ingrese nombre de usuario: ")
+#     while checkIfUserExist(userName):
+#         print("Nombre de usuario no disponible, ingrese otro")
+#         userName = input("Ingrese nombre de usuario: ")
+#     newUser.append(userName)
+#     newUser.append(input("Ingrese nombre: "))
+#     newUser.append(input("Ingrese apellido: "))
+#     newUser.append(input("Ingrese contraseña: "))    
+#     newUser.append(2) ## le agrega el rol
+#     newUser.append(input("Ingrese fecha de nacimiento(formato YYYYMMDD): "))
+#     newUser.append(input("Ingrese correo electronico: "))
+#     newUser.append(int(input("Ingrese saldo: ")))    
+#     users.append(newUser)
+#     clear()
+#     print("\nNuevo usuario agregado\n")
+
+
 def addUser():
     #Función para agregar usuario
     global users
-    newUser = []
-    newUser.append(getNumberFromSecuence("userNumeration"))
+    newUser = {}
     userName = input("Ingrese nombre de usuario: ")
-    while checkIfUserExist(userName):
-        print("Nombre de usuario no disponible, ingrese otro")
-        userName = input("Ingrese nombre de usuario: ")
-    newUser.append(userName)
-    newUser.append(input("Ingrese nombre: "))
-    newUser.append(input("Ingrese apellido: "))
-    newUser.append(input("Ingrese contraseña: "))    
-    newUser.append(2) ## le agrega el rol
-    newUser.append(input("Ingrese fecha de nacimiento(formato YYYYMMDD): "))
-    newUser.append(input("Ingrese correo electronico: "))
-    newUser.append(int(input("Ingrese saldo: ")))    
-    users.append(newUser)
-    clear()
+    # while checkIfUserExist(userName):
+    #     print("Nombre de usuario no disponible, ingrese otro")
+    #     userName = input("Ingrese nombre de usuario: ")
+    newUser["username"] = userName
+    newUser["name"]=input("Ingrese nombre: ")
+    newUser["lastName"]=input("Ingrese apellido: ")
+    newUser["password"] = input("Ingrese contraseña: ")    
+    newUser["role"]=2
+    newUser["birthDate"]=input("Ingrese fecha de nacimiento(formato YYYYMMDD): ")
+    newUser["email"]=input("Ingrese correo electronico: ")
+    newUser["credit"]=int(input("Ingrese saldo: "))
+    newUser["type"]="USER"   
+    addEntity(newUser)
+    # clear()
     print("\nNuevo usuario agregado\n")
+
+
 
 
 def checkIfUserExist(userName):
     #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
-
+    #TODO:REFACTOR que se fije en la base d datos
     filtered = list(filter(lambda value : value[1]==userName,getUsers()))
     if(filtered):
         return True

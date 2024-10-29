@@ -6,6 +6,7 @@ paths = {
     "MOVIE":"main/repositories/nombre a remplazar",
     "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
+    "SECUENCE":"main/repositories/secuences.json"
 }
 
 

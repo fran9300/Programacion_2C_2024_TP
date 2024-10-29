@@ -6,6 +6,7 @@ from entities.utils import clear
 import os
 import re
 import repositories.repository
+from repositories.repository import getEntityByProperties
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -469,8 +470,14 @@ loginMenu = {
 
 # print("ejemplo getById")
 # print(getById(2,getMovies()))      
-
+#TODO: funcion que inicialice todos los valores default es decir que llame a todos estos minimetodos asi no tenemos que pasarle parametros
 repositories.repository.initDefaultFile("USER")
+repositories.repository.initDefaultFile("SECUENCE")
+
+# print(repositories.repository.getEntityByProperties("USER",["username","name"],"fpelli","Franco")) PROBAR :D
+# print(repositories.repository.getEntityById("USER",1))
+
+
 
 
 currentMenu = loginMenu
