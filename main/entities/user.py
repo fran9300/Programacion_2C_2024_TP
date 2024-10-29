@@ -42,7 +42,6 @@ def addUser():
     #Función para agregar usuario
     global users
     newUser = {}
-    newUser["id"] = getNumberFromSecuence("userNumeration")
     userName = input("Ingrese nombre de usuario: ")
     # while checkIfUserExist(userName):
     #     print("Nombre de usuario no disponible, ingrese otro")
