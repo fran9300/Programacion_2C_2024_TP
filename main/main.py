@@ -5,6 +5,7 @@ from entities.user import getUsers,addUser,checkUserAndPass,editUser, deleteUser
 from entities.utils import clear
 import os
 import re
+import repositories.repository
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -468,6 +469,8 @@ loginMenu = {
 
 # print("ejemplo getById")
 # print(getById(2,getMovies()))      
+
+repositories.repository.initDefaultFile("USER")
 
 
 currentMenu = loginMenu
