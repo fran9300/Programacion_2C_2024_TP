@@ -474,7 +474,8 @@ loginMenu = {
 repositories.repository.initDefaultFile("USER")
 repositories.repository.initDefaultFile("SECUENCE")
 
-# print(repositories.repository.getEntityByProperties("USER",["username","name"],"fpelli","Franco")) PROBAR :D
+# PROBAR :D
+# print(repositories.repository.getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
 # print(repositories.repository.getEntityById("USER",1))
 
 

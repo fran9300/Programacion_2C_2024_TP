@@ -1,6 +1,12 @@
 import json
 from repositories.path import getPath
+from entities import entitiesEnum
 
+cachedEntities = {
+    entitiesEnum.USER : [],
+    entitiesEnum.MOVIES: [],
+    entitiesEnum.SECUENCE: []
+}
 
 def loadUsers():
     return None
@@ -24,11 +30,11 @@ def createTransaction():
     return None
 
 def autoInsertId(entity,type):
-    secuences = loadData("SECUENCE")
+    secuences = loadData(entitiesEnum.SECUENCE)
     nextId = secuences[type]
-    entity["id"] = nextId
+    entity[entitiesEnum.ID] = nextId
     secuences[type] = secuences[type] +1
-    saveData(secuences,"SECUENCE")
+    saveData(secuences,entitiesEnum.SECUENCE)
     return entity
 
 
@@ -53,17 +59,14 @@ def initDefaultFile(value):
         with open(getPath(key),"w") as file:
             json.dump(default,file)
 
-secuence  = {
-    
-}
 
 defaultValues = {
 
-    "USER": [
+    entitiesEnum.USER: [
         {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000},
         {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000}],
-    "MOVIE":[],#Agrega default movies y asi con todas las entidades,
-    "SECUENCE":{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
+    entitiesEnum.MOVIES:[],#Agrega default movies y asi con todas las entidades,
+    entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
 }
 
 def getDefaultValue(value):
@@ -107,16 +110,25 @@ def getEntityById(entityType,id):
 def loadData(value):
     #TODO AGREGAR TRY
     try:
+        global cachedEntities
         key = value.upper()
-        file = open(getPath(key),"r")
-        values = json.load(file)        
-        return values
+        file = None
+        if cachedEntities[key] == []:
+            file = open(getPath(key),"r")            
+            values = json.load(file)     
+            cachedEntities[key] = values
+            return values
+        else:
+            return cachedEntities[key]
     finally:
-        file.close()
+        if(file != None):
+            file.close()
+            
 
 def saveData(values,type):
     with open(getPath(type),"wt") as file:
         json.dump(values,file)
+        cachedEntities[type] = []
 
 
 def addEntity(entity):
@@ -126,6 +138,5 @@ def addEntity(entity):
         del entity["type"]
     autoInsertId(entity,type)
     values = loadData(type)
-    with open(getPath(type),"wt") as file:    
-        values.append(entity)
-        json.dump(values,file)
+    values.append(entity)
+    saveData(values,type)
