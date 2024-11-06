@@ -39,7 +39,7 @@ def autoInsertId(entity,type):
 
     
 
-def updateEntity(updatedEntity): #Funcion para editar entidades
+def updateEntity(updatedEntity): #Funcion para editar
     type = ""
     if "type" in updatedEntity:
         type = updatedEntity["type"].upper()
@@ -69,7 +69,7 @@ def initDefaultFile(value):
         with open(getPath(key),"w") as file:
             json.dump(default,file)
 
-
+#Valores default
 defaultValues = {
 
     entitiesEnum.USER: [
@@ -83,6 +83,7 @@ defaultValues = {
     entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
 }
 
+#Try-Catch
 def getDefaultValue(value):
     try:
         key = value.upper()
