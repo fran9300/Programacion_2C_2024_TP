@@ -1,6 +1,7 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
 from repositories.repository import addEntity
+from entities import entitiesEnum
 
 users= [
     [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
@@ -38,7 +39,7 @@ def getUsers():
 #     print("\nNuevo usuario agregado\n")
 
 
-def addUser():
+def addUser(): #Hacer con peliculas y salas
     #Función para agregar usuario
     global users
     newUser = {}
@@ -54,10 +55,12 @@ def addUser():
     newUser["birthDate"]=input("Ingrese fecha de nacimiento(formato YYYYMMDD): ")
     newUser["email"]=input("Ingrese correo electronico: ")
     newUser["credit"]=int(input("Ingrese saldo: "))
-    newUser["type"]="USER"   
+    newUser["type"]=entitiesEnum.USER   
     addEntity(newUser)
     # clear()
     print("\nNuevo usuario agregado\n")
+
+
 
 
 

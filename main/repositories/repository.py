@@ -37,6 +37,24 @@ def autoInsertId(entity,type):
     saveData(secuences,entitiesEnum.SECUENCE)
     return entity
 
+    
+
+def updateEntity(updatedEntity): #Funcion para editar entidades
+    type = ""
+    if "type" in updatedEntity:
+        type = updatedEntity["type"].upper()
+        del updatedEntity["type"]
+    entities = loadData(type)
+    found = False
+    for i, entity in enumerate(entities):
+        if entity["id"] == updatedEntity["id"]:
+            
+            entity.update(updatedEntity)
+            found = True  
+    if not found:
+        raise Exception(f"Entidad con ID {updatedEntity['id']} no encontrada para el tipo '{type}'")
+    saveData(entities, type)
+
 
 def updateEntity():
     #debe permitir modificar una entidad y savear el archivo. Tiene que remplazar la entidad. por ejemplo si se cambia el campo duracion de 90 -> 120. 
@@ -65,14 +83,21 @@ defaultValues = {
     entitiesEnum.USER: [
         {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000},
         {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000}],
-    entitiesEnum.MOVIES:[],#Agrega default movies y asi con todas las entidades,
+        entitiesEnum.MOVIES: [
+    {"id": 1, "title": "DeadPool", "duration": 127, "genre": "Superheroes", "category": "Accion", "rating": "18", "release_date": "20/07/2024"},
+    {"id": 2, "title": "Alien", "duration": 112, "genre": "Pelicula de alien", "category": "Suspenso", "rating": "16", "release_date": "20/09/2024"},
+    {"id": 3, "title": "Longlegs", "duration": 100, "genre": "pelicula de terror", "category": "Terror", "rating": "13", "release_date": "20/08/2024"}],
+   
     entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
 }
 
 def getDefaultValue(value):
-    #TODO:AGREGAR TRYCATCH
-    key = value.upper()
-    return defaultValues[key]
+    try:
+        key = value.upper()
+        return defaultValues[key]
+    except KeyError:
+        print(f"Error: No hay valores por defecto para '{value}'")
+        return None
 
 def getEntityByProperties(entityType,properties,*values):
     entities = loadData(entityType)
@@ -131,7 +156,7 @@ def saveData(values,type):
         cachedEntities[type] = []
 
 
-def addEntity(entity):
+def addEntity(entity): #Hacer el edit parecido a esta funcion
     type = ""
     if "type" in entity:
         type = entity["type"].upper()
@@ -140,3 +165,5 @@ def addEntity(entity):
     values = loadData(type)
     values.append(entity)
     saveData(values,type)
+
+
