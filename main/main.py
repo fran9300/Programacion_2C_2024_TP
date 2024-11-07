@@ -1,5 +1,5 @@
 
-from entities.movies import getMovies,addMovie,imprimirPeliculas,deleteMovie,editMovie, movies
+from entities.movies import getMovies,addMovie,printMovies,deleteMovie,editMovie, movies
 from numeration import getSecuences, getNumberFromSecuence 
 from entities.user import getUsers,addUser,checkUserAndPass,editUser, deleteUser,imprimirUsuarios, users
 from entities.utils import clear
@@ -73,7 +73,7 @@ def  login():
     return None
 
 def asignarPeliculaASala():
-    imprimirPeliculas()
+    printMovies()
     # TODO: tiene que mostrar los horarios disponibles en una fecha para sala y poder reservarla
     return None
 
@@ -84,25 +84,23 @@ def asignarPeliculaASala():
 
 def cargarPelicula():
     #Función para cargar una nueva película en el sistema
-    # TODO: cargar pelicula tiene nombre, duración, edad, descripcion, genero, fecha de estreno y se guarda en un array de peliculas(matriz)
     addMovie()
     return None
 
 def consultarPeliculas():
     #Función para consultar y mostrar la lista de películas disponibles en el sistema
-    # TODO: Lee el archivo de peliculas y muestra la informacion quiza podemos distinguir entre usuario y admin
     clear()
-    imprimirPeliculas(movies)
+    printMovies(movies)
 
 def editarPeliculas():
     clear()
-    imprimirPeliculas(movies)
+    printMovies(movies)
     editMovie()
 
 def eliminarPelicula():
     #Funcion para eliminar una película del sistema. Muestra las películas disponibles y permite que el usuario seleccione una para eliminar
     clear()
-    imprimirPeliculas(movies)
+    printMovies(movies)
     movieId=int(input("Ingrese el ID de la película que desea eliminar:"))
 
     deleteMovie(movieId,movies)

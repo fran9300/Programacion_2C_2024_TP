@@ -87,7 +87,7 @@ def deleteMovie():
 
 
 
-def imprimirPeliculas():
+def printMovies():
     movies = loadData("MOVIES")  
     print("ID | Nombre | Duración | Género | Clasificación")
     for movie in movies:
