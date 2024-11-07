@@ -1,5 +1,6 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
+from repositories import addEntity, updateEntity, getEntityById, loadData
 
 
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
@@ -13,44 +14,34 @@ movies = [
 def getMovies():
     return movies
 
-
-#Función para agregar películas al sistema
 def addMovie():
-    clear()
-    global movies
-    newMovie = []
-    newMovie.append(getNumberFromSecuence("movieNumeration"))
-    newMovie.append(input("Ingrese nombre de pelicula: "))
-    newMovie.append(int(input("Ingrese duracion: ")))
-    newMovie.append(input("Ingrese descripcion: "))    
-    newMovie.append(input("Ingrese género: "))
-    newMovie.append(input("Ingrese edad: "))
-    newMovie.append(input("Ingrese fecha de estreno (formato DD/MM/YYYY): "))
-    clear()
-    print(newMovie)
-    movies.append(newMovie)
-    print("\nNueva pelicula agregada\n")
+    
+    newMovie = {
+        "type": "MOVIES",  
+        "title": input("Ingrese nombre de la película: "),
+        "duration": int(input("Ingrese duración en minutos: ")),
+        "description": input("Ingrese descripción de la película: "),
+        "genre": input("Ingrese género de la película: "),
+        "rating": input("Ingrese edad recomendada: "),
+        "release_date": input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
+    }
+    
+    addEntity(newMovie)
+    print("\nNueva película agregada al sistema.\n")
 
 
-#Función para editar películas. Como parametro el pasamos el id de la película Puede editar mas de un campo a la vez y
-#finalizar la edicion cuando el usuario lo desee
+
 def editMovie():
-    global movies
-    movieId = int(input("ingrese id de pelicula a editar\n"))
-    movieToEdit = None
-    for movie in movies:
-        if movie[0] == movieId:
-            movieToEdit = movie
+    movieId = int(input("Ingrese el ID de la película a editar: "))
+    movieToEdit = getEntityById("MOVIES", movieId)
 
     if not movieToEdit:
         print("No se encontró ninguna película con ID:", movieId)
-        clear()
     else:
-        clear()
         bandera = True
         while bandera:
-            print("Editando la película:", movieToEdit ,"\n")
-            print("Seleccione el campo que desea editar:\n")
+            print("\nEditando la película:", movieToEdit)
+            print("Seleccione el campo que desea editar:")
             print("1. Nombre de la película")
             print("2. Duración")
             print("3. Descripción")
@@ -59,54 +50,51 @@ def editMovie():
             print("6. Fecha de estreno")
             print("7. Terminar de editar\n")
 
-            choice = int(input())  # Esta línea debe estar dentro del bucle
-            print()
+            choice = int(input())
             if choice == 1:
-                movieToEdit[1] = input("Ingrese el nuevo nombre de la película:")
+                movieToEdit["title"] = input("Ingrese el nuevo nombre de la película: ")
             elif choice == 2:
-                movieToEdit[2] = int(input("Ingrese la nueva duración:"))
+                movieToEdit["duration"] = int(input("Ingrese la nueva duración: "))
             elif choice == 3:
-                movieToEdit[3] = input("Ingrese la nueva descripción:")
+                movieToEdit["description"] = input("Ingrese la nueva descripción: ")
             elif choice == 4:
-                movieToEdit[4] = input("Ingrese el nuevo género:")
+                movieToEdit["genre"] = input("Ingrese el nuevo género: ")
             elif choice == 5:
-                movieToEdit[5] = input("Ingrese la nueva edad recomendada:")
+                movieToEdit["rating"] = input("Ingrese la nueva edad recomendada: ")
             elif choice == 6:
-                movieToEdit[6] = input("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
+                movieToEdit["release_date"] = input("Ingrese la nueva fecha de estreno (formato DD/MM/YYYY): ")
             elif choice == 7:
                 bandera = False
-                print("Edición finalizada")
+                print("\nEdición finalizada.")
             else:
                 print("Opción no válida.")
 
-            clear()
-            print("\nPelícula con ID", movieId, "ha sido actualizada.\n")
-            print("Resultado:", movieToEdit)
-
-    return movies
+        # Guardar los cambios en el archivo
+        updateEntity(movieToEdit)
+        print("\nPelícula con ID", movieId, "ha sido actualizada en el sistema.\n")
 
 
-def deleteMovie(peliculaId, peliculas):
-    #Función para eliminar película. Reutilizamos la función getById
+def deleteMovie():
+    movieId = int(input("Ingrese el ID de la película a eliminar: "))
+    movieToDelete = getEntityById("MOVIES", movieId)
 
-    movieToDelete = getById(peliculaId, peliculas)
-    
-    if movieToDelete == -1:
-        clear()
-        print("No se encontró ninguna película con ID: ", peliculaId)
+    if not movieToDelete:
+        print("No se encontró ninguna película con ID:", movieId)
     else:
-        clear()
-        peliculas.remove(movieToDelete)
-        print("\nPelícula con ID ",peliculaId, " ha sido eliminada.\n")
-
-    return peliculas
+        movieToDelete["deleted"] = True
+        updateEntity(movieToDelete)
+        print("\nPelícula con ID", movieId, "ha sido eliminada lógicamente del sistema.\n")
 
 
-def imprimirPeliculas(peliculas):
-    #Función que muestra la cartelera
+
+def imprimirPeliculas():
+    movies = loadData("MOVIES")  
     print("ID | Nombre | Duración | Género | Clasificación")
-    for pelicula in peliculas:
-        print(f"{pelicula[0]} | {pelicula[1]} | {pelicula[2]} minutos | {pelicula[4]} | +{pelicula[5]}")
+    for movie in movies:
+        if not movie.get("deleted", False): 
+            print(f"{movie['id']} | {movie['title']} | {movie['duration']} minutos | {movie['genre']} | +{movie['rating']}")
     print()
-    return None
+
+
+
 
