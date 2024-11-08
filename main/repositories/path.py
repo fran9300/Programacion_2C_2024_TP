@@ -1,4 +1,4 @@
-
+from entities import entitiesEnum
 #A la hora de usar archivos se debe usar esto para que los paths esten encapsulados. En caso de mover los archivos solo habra que modificar el path aca.
 
 paths = {
@@ -6,7 +6,8 @@ paths = {
     "MOVIE":"main/repositories/nombre a remplazar",
     "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
-    "SECUENCE":"main/repositories/secuences.json"
+    "SECUENCE":"main/repositories/secuences.json",
+    entitiesEnum.RESERVATION:"main/repositories/reservation.json"
 }
 
 

@@ -7,6 +7,7 @@ import os
 import re
 import repositories.repository
 from repositories.repository import getEntityByProperties
+from entities.reservation import showRoom
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -477,6 +478,8 @@ repositories.repository.initDefaultFile("SECUENCE")
 # PROBAR :D
 # print(repositories.repository.getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
 # print(repositories.repository.getEntityById("USER",1))
+
+
 
 
 
