@@ -1,6 +1,7 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
 from repositories import addEntity, updateEntity, getEntityById, loadData
+from entitiesEnum import MOVIES_FIELDS
 
 
 # [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
@@ -30,7 +31,6 @@ def addMovie():
     print("\nNueva película agregada al sistema.\n")
 
 
-
 def editMovie():
     movieId = int(input("Ingrese el ID de la película a editar: "))
     movieToEdit = getEntityById("MOVIES", movieId)
@@ -38,34 +38,22 @@ def editMovie():
     if not movieToEdit:
         print("No se encontró ninguna película con ID:", movieId)
     else:
-        bandera = True
-        while bandera:
+        editing = True
+        while editing:
             print("\nEditando la película:", movieToEdit)
             print("Seleccione el campo que desea editar:")
-            print("1. Nombre de la película")
-            print("2. Duración")
-            print("3. Descripción")
-            print("4. Género")
-            print("5. Edad recomendada")
-            print("6. Fecha de estreno")
+            for key, value in MOVIES_FIELDS.items():
+                print(f"{key}. {value.capitalize()}")
             print("7. Terminar de editar\n")
 
-            choice = int(input())
-            if choice == 1:
-                movieToEdit["title"] = input("Ingrese el nuevo nombre de la película: ")
-            elif choice == 2:
-                movieToEdit["duration"] = int(input("Ingrese la nueva duración: "))
-            elif choice == 3:
-                movieToEdit["description"] = input("Ingrese la nueva descripción: ")
-            elif choice == 4:
-                movieToEdit["genre"] = input("Ingrese el nuevo género: ")
-            elif choice == 5:
-                movieToEdit["rating"] = input("Ingrese la nueva edad recomendada: ")
-            elif choice == 6:
-                movieToEdit["release_date"] = input("Ingrese la nueva fecha de estreno (formato DD/MM/YYYY): ")
-            elif choice == 7:
-                bandera = False
+            choice = int(input("Elige una opción: "))
+            if choice == 7:
+                editing = False
                 print("\nEdición finalizada.")
+            elif choice in MOVIES_FIELDS:
+                field = MOVIES_FIELDS[choice]
+                newValue = input(f"Ingrese el nuevo valor para {field}: ")
+                movieToEdit[field] = newValue
             else:
                 print("Opción no válida.")
 

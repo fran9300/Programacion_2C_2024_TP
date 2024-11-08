@@ -1,6 +1,8 @@
 import json
 from repositories.path import getPath
 from entities import entitiesEnum
+from entities.utils import getById
+
 
 cachedEntities = {
     entitiesEnum.USER : [],
@@ -39,21 +41,19 @@ def autoInsertId(entity,type):
 
     
 
-def updateEntity(updatedEntity): #Funcion para editar
+def updateEntity(updatedEntity):
     type = ""
     if "type" in updatedEntity:
         type = updatedEntity["type"].upper()
         del updatedEntity["type"]
     entities = loadData(type)
-    found = False
-    for i, entity in enumerate(entities):
-        if entity["id"] == updatedEntity["id"]:
-            
-            entity.update(updatedEntity)
-            found = True  
-    if not found:
+    originalEntity = getById(updatedEntity["id"], entities)
+    if originalEntity == -1:
         raise Exception(f"Entidad con ID {updatedEntity['id']} no encontrada para el tipo '{type}'")
+    index = entities.index(originalEntity)
+    entities[index].update(updatedEntity)
     saveData(entities, type)
+
 
 
 
@@ -149,7 +149,7 @@ def saveData(values,type):
         cachedEntities[type] = []
 
 
-def addEntity(entity): #Hacer el edit parecido a esta funcion
+def addEntity(entity): 
     type = ""
     if "type" in entity:
         type = entity["type"].upper()
