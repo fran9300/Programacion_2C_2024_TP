@@ -66,7 +66,10 @@ defaultValues = {
         {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000},
         {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000}],
     entitiesEnum.MOVIES:[],#Agrega default movies y asi con todas las entidades,
-    entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
+    entitiesEnum.ROOM:[{entitiesEnum.ID:1,entitiesEnum.ROOM_NAME:"test",entitiesEnum.ROOM_COLUMNS:20,entitiesEnum.ROOM_ROWS:10}],
+    entitiesEnum.ROOM_CONFIGURATION:[{entitiesEnum.ID:1,entitiesEnum.CONFIG_MOVIE_ID: 5,entitiesEnum.CONFIG_TIME:"16:00",entitiesEnum.CONFIG_ROOM_ID:1}],
+                                     
+    entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":4,"RESERVATION":4}
 }
 
 def getDefaultValue(value):
