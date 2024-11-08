@@ -5,7 +5,10 @@ from entities import entitiesEnum
 cachedEntities = {
     entitiesEnum.USER : [],
     entitiesEnum.MOVIES: [],
-    entitiesEnum.SECUENCE: []
+    entitiesEnum.SECUENCE: [],
+    entitiesEnum.ROOM: [],
+    entitiesEnum.ROOM_CONFIGURATION: [],
+    entitiesEnum.RESERVATION: []
 }
 
 def loadUsers():
@@ -68,7 +71,7 @@ defaultValues = {
     entitiesEnum.MOVIES:[],#Agrega default movies y asi con todas las entidades,
     entitiesEnum.ROOM:[{entitiesEnum.ID:1,entitiesEnum.ROOM_NAME:"test",entitiesEnum.ROOM_COLUMNS:20,entitiesEnum.ROOM_ROWS:10}],
     entitiesEnum.ROOM_CONFIGURATION:[{entitiesEnum.ID:1,entitiesEnum.CONFIG_MOVIE_ID: 5,entitiesEnum.CONFIG_TIME:"16:00",entitiesEnum.CONFIG_ROOM_ID:1}],
-                                     
+    entitiesEnum.RESERVATION:[{entitiesEnum.ID:1,entitiesEnum.RESERVATION_ROOM_ID:1,entitiesEnum.RESERVATION_USER_ID:1,entitiesEnum.RESERVATION_ROW:5,entitiesEnum.RESERVATION_COLUMN:8,entitiesEnum.DELETED:False}],                                 
     entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":4,"RESERVATION":4}
 }
 

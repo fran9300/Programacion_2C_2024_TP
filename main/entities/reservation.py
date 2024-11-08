@@ -17,11 +17,11 @@ def addReservation(entity):
         addEntity(entity)
 
 
-def showRoom(roomId):
-    values = listByProperties(entitiesEnum.RESERVATION,[entitiesEnum.RESERVATION_ROOM_ID,entitiesEnum.DELETED],roomId,False)
+def showRoom(roomConfiId):
+    values = listByProperties(entitiesEnum.RESERVATION,[entitiesEnum.RESERVATION_ROOM_ID,entitiesEnum.DELETED],roomConfiId,False)
     arr =[[0 for _ in range(24)] for _ in range(10)] ## esto deberia setearse segun lo onfigurado en la sala
     for value in values:
-        arr[value[entitiesEnum.RESERVATION_ROW]][value[entitiesEnum.RESERVATION_COLUMN]] = 1
+        arr[value[entitiesEnum.RESERVATION_ROW]-1][value[entitiesEnum.RESERVATION_COLUMN]-1] = 1
     for column in arr:
         row = ''
         for i in column:

@@ -3,11 +3,13 @@ from entities.movies import getMovies,addMovie,imprimirPeliculas,deleteMovie,edi
 from numeration import getSecuences, getNumberFromSecuence 
 from entities.user import getUsers,addUser,checkUserAndPass,editUser, deleteUser,imprimirUsuarios, users
 from entities.utils import clear
+from entities.room import addRoom
 import os
 import re
 import repositories.repository
 from repositories.repository import getEntityByProperties
 from entities.reservation import showRoom
+from entities import entitiesEnum
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -177,17 +179,18 @@ def imprimirSala():
     return None
 
 def crearSala():
-    global salas
-    clear()
-    newSala = []
-    newSala.append(getNumberFromSecuence("salaNumeration"))
-    newSala.append(input("Ingrese nombre de sala: "))
-    newSala.append(int(input("Ingrese la cantidad de filas: ")))
-    newSala.append(input("Ingrese la cantidad de columnas: "))
-    print()
-    print(newSala)
-    salas.append(newSala)
-    print("\nNueva sala agregada\n")
+    # global salas
+    # clear()
+    # newSala = []
+    # newSala.append(getNumberFromSecuence("salaNumeration"))
+    # newSala.append(input("Ingrese nombre de sala: "))
+    # newSala.append(int(input("Ingrese la cantidad de filas: ")))
+    # newSala.append(input("Ingrese la cantidad de columnas: "))
+    # print()
+    # print(newSala)
+    # salas.append(newSala)
+    # print("\nNueva sala agregada\n")
+    addRoom()
 
 def consultarSalas():
         global salas
@@ -474,6 +477,9 @@ loginMenu = {
 #TODO: funcion que inicialice todos los valores default es decir que llame a todos estos minimetodos asi no tenemos que pasarle parametros
 repositories.repository.initDefaultFile("USER")
 repositories.repository.initDefaultFile("SECUENCE")
+repositories.repository.initDefaultFile(entitiesEnum.ROOM)
+repositories.repository.initDefaultFile(entitiesEnum.ROOM_CONFIGURATION)
+repositories.repository.initDefaultFile(entitiesEnum.RESERVATION)
 
 # PROBAR :D
 # print(repositories.repository.getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
@@ -482,7 +488,7 @@ repositories.repository.initDefaultFile("SECUENCE")
 
 
 
-
+showRoom(1)
 
 currentMenu = loginMenu
 option = ''
