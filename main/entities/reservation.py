@@ -17,16 +17,18 @@ def addReservation(entity):
         addEntity(entity)
 
 
-def showRoom(roomConfiId):
-    values = listByProperties(entitiesEnum.RESERVATION,[entitiesEnum.RESERVATION_ROOM_ID,entitiesEnum.DELETED],roomConfiId,False)
-    arr =[[0 for _ in range(24)] for _ in range(10)] ## esto deberia setearse segun lo onfigurado en la sala
+def showRoom(roomConfigId):
+    roomConfig = getEntityByProperties(entitiesEnum.ROOM_CONFIGURATION,[entitiesEnum.ID],roomConfigId)
+    room = getEntityByProperties(entitiesEnum.ROOM,[entitiesEnum.ID],roomConfig[entitiesEnum.CONFIG_ROOM_ID])
+    values = listByProperties(entitiesEnum.RESERVATION,[entitiesEnum.RESERVATION_ROOM_ID,entitiesEnum.DELETED],roomConfigId,False)
+    arr =[[0 for _ in range(room[entitiesEnum.ROOM_COLUMNS])] for _ in range(room[entitiesEnum.ROOM_ROWS])] ## esto deberia setearse segun lo onfigurado en la sala
     for value in values:
         arr[value[entitiesEnum.RESERVATION_ROW]-1][value[entitiesEnum.RESERVATION_COLUMN]-1] = 1
     for column in arr:
         row = ''
         for i in column:
-            row += '|O|' if i == 0 else '|x|'
-        print("--------------------------------------------------------------------------")
+            row += '⬛' if i == 0 else '🟥'
+        print("--------------------------------")
         print(row)
 
 
