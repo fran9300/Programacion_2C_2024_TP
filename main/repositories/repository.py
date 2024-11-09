@@ -1,6 +1,8 @@
 import json
 from repositories.path import getPath
 from entities import entitiesEnum
+from entities.utils import getById
+
 
 cachedEntities = {
     entitiesEnum.USER : [],
@@ -37,15 +39,34 @@ def autoInsertId(entity,type):
     saveData(secuences,entitiesEnum.SECUENCE)
     return entity
 
+    
 
-def updateEntity():
-    #debe permitir modificar una entidad y savear el archivo. Tiene que remplazar la entidad. por ejemplo si se cambia el campo duracion de 90 -> 120. 
-    # Tiene que aparecer 120 en el archivo. pero no crear un nuevo movie sino que remplazar el existente
-    return None
+def updateEntity(updatedEntity):
+    type = ""
+    if "type" in updatedEntity:
+        type = updatedEntity["type"].upper()
+        del updatedEntity["type"]
+    entities = loadData(type)
+    originalEntity = getById(updatedEntity["id"], entities)
+    if originalEntity == -1:
+        raise Exception(f"Entidad con ID {updatedEntity['id']} no encontrada para el tipo '{type}'")
+    index = entities.index(originalEntity)
+    entities[index].update(updatedEntity)
+    saveData(entities, type)
 
-# agrgar a todas las entidades un campo deleted para hacer borrado logico.
-# EN las entidades agregar un campo que discrimine que tipo es. Luego se busca el path del archivo correspondiente por el tipo de entidad y se guarda ahi.
-#  Esto lo vamos a usar para hcer un metodo generico de creacion de entidad
+
+def deleteById(entity_type):
+    entityId = int(input(f"Ingrese el ID de la {entity_type.lower()} a eliminar: "))
+    entityToDelete = getEntityById(entity_type, entityId)
+
+    if not entityToDelete:
+        print(f"No se encontró ninguna {entity_type.lower()} con ID:", entityId)
+    else:
+        entityToDelete["deleted"] = True
+        updateEntity(entityToDelete)
+        print(f"\n{entity_type.capitalize()} con ID {entityId} ha sido eliminada lógicamente del sistema.\n")
+
+
 
 
 #Esta funcion es generica, se le pasa el key y se trae el path y los valores default. Ademas comprueba que no exista el archivo para no pisar los datos existentes
@@ -59,20 +80,28 @@ def initDefaultFile(value):
         with open(getPath(key),"w") as file:
             json.dump(default,file)
 
-
+#Valores default
 defaultValues = {
 
     entitiesEnum.USER: [
         {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000},
         {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000}],
-    entitiesEnum.MOVIES:[],#Agrega default movies y asi con todas las entidades,
+        entitiesEnum.MOVIES: [
+        {"id": 1, "title": "DeadPool", "duration": 127, "genre": "Superheroes", "category": "Accion", "rating": "18", "release_date": "20/07/2024"},
+        {"id": 2, "title": "Alien", "duration": 112, "genre": "Pelicula de alien", "category": "Suspenso", "rating": "16", "release_date": "20/09/2024"},
+        {"id": 3, "title": "Longlegs", "duration": 100, "genre": "pelicula de terror", "category": "Terror", "rating": "13", "release_date": "20/08/2024"}],
+   
     entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
 }
 
+#Try-Catch
 def getDefaultValue(value):
-    #TODO:AGREGAR TRYCATCH
-    key = value.upper()
-    return defaultValues[key]
+    try:
+        key = value.upper()
+        return defaultValues[key]
+    except KeyError:
+        print(f"Error: No hay valores por defecto para '{value}'")
+        return None
 
 def getEntityByProperties(entityType,properties,*values):
     entities = loadData(entityType)
@@ -131,7 +160,7 @@ def saveData(values,type):
         cachedEntities[type] = []
 
 
-def addEntity(entity):
+def addEntity(entity): 
     type = ""
     if "type" in entity:
         type = entity["type"].upper()
@@ -140,3 +169,5 @@ def addEntity(entity):
     values = loadData(type)
     values.append(entity)
     saveData(values,type)
+
+
