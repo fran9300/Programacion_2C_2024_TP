@@ -1,5 +1,5 @@
 from repositories.repository import addEntity
-from main.entities import EntitiesFields
+from entities import EntitiesFields
 
 
 def addRoom():

@@ -1,24 +1,26 @@
-from numeration import getNumberFromSecuence
-from entities.utils import getById, clear
+
+
 from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
-from main.entities import EntitiesFields
-from main.entities.EntitiesFields import MOVIES_FIELDS
+from entities import EntitiesFields
 
 
 
 
+def getMovies():
+    #Borrar esto dsp 
+    return None
 
 
 
 def addMovie():
     newMovie = {
         "type": "MOVIES",
-        MOVIES_FIELDS[1]: input("Ingrese nombre de la película: "),
-        MOVIES_FIELDS[2]: int(input("Ingrese duración en minutos: ")),
-        MOVIES_FIELDS[3]: input("Ingrese descripción de la película: "),
-        MOVIES_FIELDS[4]: input("Ingrese género de la película: "),
-        MOVIES_FIELDS[5]: input("Ingrese edad recomendada: "),
-        MOVIES_FIELDS[6]: input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
+        EntitiesFields.MOVIES_FIELDS[1]: input("Ingrese nombre de la película: "),
+        EntitiesFields.MOVIES_FIELDS[2]: int(input("Ingrese duración en minutos: ")),
+        EntitiesFields.MOVIES_FIELDS[3]: input("Ingrese descripción de la película: "),
+        EntitiesFields.MOVIES_FIELDS[4]: input("Ingrese género de la película: "),
+        EntitiesFields.MOVIES_FIELDS[5]: input("Ingrese edad recomendada: "),
+        EntitiesFields.MOVIES_FIELDS[6]: input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
     }
     
     addEntity(newMovie)
@@ -36,7 +38,7 @@ def editMovie():
         while editing:
             print("\nEditando la película:", movieToEdit)
             print("Seleccione el campo que desea editar:")
-            for key, value in MOVIES_FIELDS.items():
+            for key, value in EntitiesFields.MOVIES_FIELDS.items():
                 print(f"{key}. {value.capitalize()}")
             print("7. Terminar de editar\n")
 
@@ -44,8 +46,8 @@ def editMovie():
             if choice == 7:
                 editing = False
                 print("\nEdición finalizada.")
-            elif choice in MOVIES_FIELDS:
-                field = MOVIES_FIELDS[choice]
+            elif choice in EntitiesFields.MOVIES_FIELDS:
+                field = EntitiesFields.MOVIES_FIELDS[choice]
                 newValue = input(f"Ingrese el nuevo valor para {field}: ")
                 movieToEdit[field] = newValue
             else:
@@ -64,8 +66,8 @@ def printMovies():
     movies = loadData("MOVIES")  
     print("ID | Nombre | Duración | Género | Clasificación")
     for movie in movies:
-     if not movie.get("deleted", False): 
-        print(f"{movie['id']} | {movie[MOVIES_FIELDS[1]]} | {movie[MOVIES_FIELDS[2]]} minutos | {movie[MOVIES_FIELDS[4]]} | +{movie[MOVIES_FIELDS[5]]}")
+     if not movie[EntitiesFields.DELETED] == False: 
+        print(f"{movie['id']} | {movie[EntitiesFields.MOVIES_FIELDS[1]]} | {movie[EntitiesFields.MOVIES_FIELDS[2]]} minutos | {movie[EntitiesFields.MOVIES_FIELDS[4]]} | +{movie[EntitiesFields.MOVIES_FIELDS[5]]}")
 print()
 
 

@@ -1,6 +1,6 @@
 import json
 from repositories.path import getPath
-from main.entities import EntitiesFields
+from entities import EntitiesFields
 from entities.utils import getById
 
 

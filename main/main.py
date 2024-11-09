@@ -1,14 +1,12 @@
 
-from entities.movies import getMovies,addMovie,printMovies,deleteMovie,editMovie, movies
-from numeration import getSecuences, getNumberFromSecuence 
-from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass, users
+from entities.movies import addMovie,printMovies,deleteMovie,editMovie
+from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
 from entities.utils import clear
 from entities.room import addRoom
 import os
 import re
 from repositories.repository import getEntityByProperties,initDefaultValues
 from entities.reservation import showRoom
-from main.entities import EntitiesFields
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -78,20 +76,20 @@ def loadMovie():
 def viewMovies():
     #Función para consultar y mostrar la lista de películas disponibles en el sistema
     clear()
-    printMovies(movies)
+    printMovies()
 
 def editMovieInfo():
     clear()
-    printMovies(movies)
+    printMovies()
     editMovie()
 
 def removeMovie():
     #Funcion para eliminar una película del sistema. Muestra las películas disponibles y permite que el usuario seleccione una para eliminar
     clear()
-    printMovies(movies)
+    printMovies()
     movieId=int(input("Ingrese el ID de la película que desea eliminar:"))
 
-    deleteMovie(movieId,movies)
+    deleteMovie(movieId)
 
 
 

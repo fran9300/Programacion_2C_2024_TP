@@ -1,4 +1,4 @@
-import main.entities.EntitiesFields as EntitiesFields
+import entities.EntitiesFields as EntitiesFields
 from repositories.repository import addEntity
 
 

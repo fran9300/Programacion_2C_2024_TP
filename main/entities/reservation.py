@@ -1,4 +1,4 @@
-from main.entities import EntitiesFields
+from entities import EntitiesFields
 from repositories.repository import getEntityByProperties,addEntity,listByProperties
 
 def addReservation(entity):

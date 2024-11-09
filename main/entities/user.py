@@ -1,17 +1,12 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
-from repositories import addEntity, updateEntity, getEntityById, loadData, deleteById
-from main.entities.EntitiesFields import USERS_FIELDS
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
+from entities.EntitiesFields import USERS_FIELDS
 
-# Datos de ejemplo para usuarios
-users = [
-    [1, "fpelli", "Franco", "Pelli", "contraseña", 2, "20020325", "fpelli@uade.edu.ar", 100000],
-    [2, "ipelli", "Ivan", "Pelli", "contraseña123", 2, "20061010", "ipelli@uade.edu.ar", 50000],
-    [3, "admin", "", "", "admin", 1, "20000101", "admin@uade.edu.ar", 100000]
-]
+
 
 def getUsers():
-    return users
+    return None
 
 def addUser():
     newUser = {
