@@ -1,7 +1,7 @@
 
 from entities.movies import getMovies,addMovie,printMovies,deleteMovie,editMovie, movies
 from numeration import getSecuences, getNumberFromSecuence 
-from entities.user import getUsers,addUser,checkUserAndPass,editUser, deleteUser,imprimirUsuarios, users
+from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass, users
 from entities.utils import clear
 import os
 import re
@@ -82,22 +82,22 @@ def asignarPeliculaASala():
 
 #Funciones para el manejo de las películas------------------------------------------------------------------------------------------------
 
-def cargarPelicula():
+def loadMovie():
     #Función para cargar una nueva película en el sistema
     addMovie()
     return None
 
-def consultarPeliculas():
+def viewMovies():
     #Función para consultar y mostrar la lista de películas disponibles en el sistema
     clear()
     printMovies(movies)
 
-def editarPeliculas():
+def editMovieInfo():
     clear()
     printMovies(movies)
     editMovie()
 
-def eliminarPelicula():
+def removeMovie():
     #Funcion para eliminar una película del sistema. Muestra las películas disponibles y permite que el usuario seleccione una para eliminar
     clear()
     printMovies(movies)
@@ -198,25 +198,29 @@ def consultarSalas():
 
 #Funciones para el manejo de los usuarios------------------------------------------------------------------------------------------------
 
-def Registro():
+def addNewUser():
     #Funcion para registrar a un nuevo usuario en el sistema
     clear()
     addUser()
 
-def edicionDeUsuario():
+def editUSerInfo():
+    #Funcion para editar usuarios
     clear()
-    imprimirUsuarios(users)
+    printUsers(users)
     editUser(users)
 
-def eliminarUsuario():
-    # removeUser
+def removeUser():
+    # Funcion para eliminar usuarios
     userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
     deleteUser(userId, users)
     return None
 
-def consultarUsuarios():
+def viewUsers():
+    #Funcion para imprimir los usuarios
     clear()
-    imprimirUsuarios(users)
+    printUsers(users)
+
+#Funciones descuentos--------------------------------------------------------------------------------------------------
 
 def configDescuentoPorTipoDePago(metodo):
     #Función para configurar el descuento aplicado según el tipo de pago seleccionado
@@ -322,7 +326,7 @@ def aplicarPuntos(total):
 def comprarEntrada():
     #FLUJO DE COMPRAR PELICULA
     #Esto es el flujo pero no esta implementado
-    consultarPeliculas()
+    viewMovies()
     #elegir pelicula
     #elegir horario que tengan butacas disponibles: muestro todos los horarios  o solo los horarios con butacas disponibles
     # Consultar cantida de entradas
@@ -381,6 +385,10 @@ def IniciarSesion():
         mainMenu = mainMenuUser
     currentMenu = mainMenu
 
+def Registro():
+    # Lógica para el registro de usuarios
+    print("Registro de usuario")
+
 #Programa principal
 # metodoDePago=pedirMetodoDePago()
 # print ("Metodo de pago seleccionado:", metodoDePago)
@@ -408,18 +416,18 @@ gestionSalas = {
 }
 
 gestionPeliculas = {
-    "1":consultarPeliculas,
-    "2":cargarPelicula,
-    "3":eliminarPelicula,
-    "4":editarPeliculas,
+    "1":viewMovies,
+    "2":loadMovie,
+    "3":removeMovie,
+    "4":editMovieInfo,
     "5":volverMenuPrincipal
 }
 
 gestionUsuarios = {
-    "1": consultarUsuarios,
-    "2": Registro,
-    "3": edicionDeUsuario,
-    "4": eliminarUsuario,
+    "1": viewUsers,
+    "2": addUser,
+    "3": editUSerInfo,
+    "4": removeMovie,
     "5": volverMenuPrincipal
 }
 
@@ -455,7 +463,7 @@ mainMenuAdmin = {
 
 mainMenuUser = {
     #TODO agregar opciones para el usuario
-    "1":consultarPeliculas,
+    "1":loadMovie,
     "2":LoginMenu
 }
 

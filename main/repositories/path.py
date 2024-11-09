@@ -3,7 +3,7 @@ from entities import entitiesEnum
 
 paths = {
     entitiesEnum.USER:"main/repositories/user.json",
-    "MOVIE":"main/repositories/nombre a remplazar",
+    entitiesEnum.MOVIE: "main/repositories/movie.json",
     "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
     "SECUENCE":"main/repositories/secuences.json"

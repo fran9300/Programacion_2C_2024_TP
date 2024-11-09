@@ -1,6 +1,6 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
-from repositories import addEntity, updateEntity, getEntityById, loadData
+from repositories import addEntity, updateEntity, getEntityById, loadData, deleteById
 from entitiesEnum import MOVIES_FIELDS
 
 
@@ -16,15 +16,14 @@ def getMovies():
     return movies
 
 def addMovie():
-    
     newMovie = {
-        "type": "MOVIES",  
-        "title": input("Ingrese nombre de la película: "),
-        "duration": int(input("Ingrese duración en minutos: ")),
-        "description": input("Ingrese descripción de la película: "),
-        "genre": input("Ingrese género de la película: "),
-        "rating": input("Ingrese edad recomendada: "),
-        "release_date": input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
+        "type": "MOVIES",
+        MOVIES_FIELDS[1]: input("Ingrese nombre de la película: "),
+        MOVIES_FIELDS[2]: int(input("Ingrese duración en minutos: ")),
+        MOVIES_FIELDS[3]: input("Ingrese descripción de la película: "),
+        MOVIES_FIELDS[4]: input("Ingrese género de la película: "),
+        MOVIES_FIELDS[5]: input("Ingrese edad recomendada: "),
+        MOVIES_FIELDS[6]: input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
     }
     
     addEntity(newMovie)
@@ -61,17 +60,8 @@ def editMovie():
         updateEntity(movieToEdit)
         print("\nPelícula con ID", movieId, "ha sido actualizada en el sistema.\n")
 
-
 def deleteMovie():
-    movieId = int(input("Ingrese el ID de la película a eliminar: "))
-    movieToDelete = getEntityById("MOVIES", movieId)
-
-    if not movieToDelete:
-        print("No se encontró ninguna película con ID:", movieId)
-    else:
-        movieToDelete["deleted"] = True
-        updateEntity(movieToDelete)
-        print("\nPelícula con ID", movieId, "ha sido eliminada lógicamente del sistema.\n")
+    deleteById("MOVIES")
 
 
 
@@ -79,9 +69,10 @@ def printMovies():
     movies = loadData("MOVIES")  
     print("ID | Nombre | Duración | Género | Clasificación")
     for movie in movies:
-        if not movie.get("deleted", False): 
-            print(f"{movie['id']} | {movie['title']} | {movie['duration']} minutos | {movie['genre']} | +{movie['rating']}")
-    print()
+     if not movie.get("deleted", False): 
+        print(f"{movie['id']} | {movie[MOVIES_FIELDS[1]]} | {movie[MOVIES_FIELDS[2]]} minutos | {movie[MOVIES_FIELDS[4]]} | +{movie[MOVIES_FIELDS[5]]}")
+print()
+
 
 
 
