@@ -23,6 +23,7 @@ ROOM_COLUMNS = "columns"
 CONFIG_ROOM_ID = "roomId"
 CONFIG_TIME = "time"
 CONFIG_MOVIE_ID = "movieId"
+CONFIG_DAY = "day"
 
 # reservation properties
 
@@ -42,6 +43,8 @@ MOVIES_FIELDS = {
     5: "rating",
     6: "release_date"
 }
+#TODO: que qude como el resto de properties
+
 
 # entitiesEnum.py
 
@@ -55,4 +58,5 @@ USERS_FIELDS = {
     7: "email",
     8: "balance"
 }
+#TODO: que qude como el resto de properties, obviamente arreglar donde se llamaban a estos campos
 

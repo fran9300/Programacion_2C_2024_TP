@@ -1,19 +1,14 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
-from repositories import addEntity, updateEntity, getEntityById, loadData, deleteById
-from entitiesEnum import MOVIES_FIELDS
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
+from main.entities import EntitiesFields
+from main.entities.EntitiesFields import MOVIES_FIELDS
 
 
-# [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
-movies = [
-    [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
-    [2,"Alien",112,"Pelicula de alien","Suspenso","16","20/09/2024"],
-    [3,"Longlegs",100,"pelicula de terror","Terror","13","20/08/2024"]
-]
 
 
-def getMovies():
-    return movies
+
+
 
 def addMovie():
     newMovie = {
@@ -61,7 +56,7 @@ def editMovie():
         print("\nPelícula con ID", movieId, "ha sido actualizada en el sistema.\n")
 
 def deleteMovie():
-    deleteById("MOVIES")
+    deleteById(EntitiesFields.MOVIES)
 
 
 

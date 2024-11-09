@@ -1,15 +1,15 @@
-from entities import entitiesEnum
+from main.entities import EntitiesFields
 #A la hora de usar archivos se debe usar esto para que los paths esten encapsulados. En caso de mover los archivos solo habra que modificar el path aca.
 
 paths = {
-    entitiesEnum.USER:"main/repositories/user.json",
-    entitiesEnum.MOVIE: "main/repositories/movie.json",
+    EntitiesFields.USER:"main/repositories/user.json",
+    EntitiesFields.MOVIE: "main/repositories/movie.json",
     "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
     "SECUENCE":"main/repositories/secuences.json",
-    entitiesEnum.RESERVATION:"main/repositories/reservation.json",
-    entitiesEnum.ROOM : "main/repositories/room.json",
-    entitiesEnum.ROOM_CONFIGURATION :"main/repositories/room_configuration.json"
+    EntitiesFields.RESERVATION:"main/repositories/reservation.json",
+    EntitiesFields.ROOM : "main/repositories/room.json",
+    EntitiesFields.ROOM_CONFIGURATION :"main/repositories/room_configuration.json"
 }
 
 

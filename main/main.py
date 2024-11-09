@@ -6,10 +6,9 @@ from entities.utils import clear
 from entities.room import addRoom
 import os
 import re
-import repositories.repository
-from repositories.repository import getEntityByProperties
+from repositories.repository import getEntityByProperties,initDefaultValues
 from entities.reservation import showRoom
-from entities import entitiesEnum
+from main.entities import EntitiesFields
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -17,20 +16,8 @@ from entities import entitiesEnum
 currentMenu = {}
 mainMenu = {}
 
-#[id,nombre,filas,columnas]
-salas = [
-    [1,"1",25,30],
-    [2,"2",20,25],
-    [3,"3",30,25]
-]
 
-#[id,idSala,horario,fecha]
-horarios = [
-    [1,1,"1400","0903"],
-    [1,2,"1200","0904"],
-    [1,2,"1500","0904"],
-    [1,3,"1800","0905"]
-]
+
 
 roles = [
     [1,"admin"],
@@ -75,15 +62,13 @@ def  login():
     # TODO: login
     return None
 
-def asignarPeliculaASala():
-    printMovies()
-    # TODO: tiene que mostrar los horarios disponibles en una fecha para sala y poder reservarla
-    return None
+
 
 
 
 
 #Funciones para el manejo de las películas------------------------------------------------------------------------------------------------
+
 
 def loadMovie():
     #Función para cargar una nueva película en el sistema
@@ -107,36 +92,40 @@ def removeMovie():
     movieId=int(input("Ingrese el ID de la película que desea eliminar:"))
 
     deleteMovie(movieId,movies)
+
+
+
+
     
 
 #Funciones para el manejo de las salas---------------------------------------------------------------------------------------------------
+#Esta creo q deberiamos borarrla
+# def crearMatrizSala():
+#     #Función para crear una matriz que representa la dispocion de asientos en una sala de cine
 
-def crearMatrizSala():
-    #Función para crear una matriz que representa la dispocion de asientos en una sala de cine
+#     #pregunta por filas  y columnas y crea la matriz
+#     filas = int(input("introduzca el número de filas desdeadas para la sala: "))
+#     columnas = int(input("introduzca el número de columnas desdeadas para la sala: "))
 
-    #pregunta por filas  y columnas y crea la matriz
-    filas = int(input("introduzca el número de filas desdeadas para la sala: "))
-    columnas = int(input("introduzca el número de columnas desdeadas para la sala: "))
-
-    matrizSala = []
-    continuar = True
+#     matrizSala = []
+#     continuar = True
     
-    while continuar:
-        if filas <= 0 or columnas <= 0:
-            print("Las filas y columnas deben ser mayores que 0.")
-            filas = int(input("Introduce el número de filas: "))
-            columnas = int(input("Introduce el número de columnas: "))
-        else:
-            continuar = False
+#     while continuar:
+#         if filas <= 0 or columnas <= 0:
+#             print("Las filas y columnas deben ser mayores que 0.")
+#             filas = int(input("Introduce el número de filas: "))
+#             columnas = int(input("Introduce el número de columnas: "))
+#         else:
+#             continuar = False
 
-    for i in range(filas):
-        fila_matriz = []  
-        for j in range(columnas):
-            fila_matriz.append("O")
-        matrizSala.append(fila_matriz)
+#     for i in range(filas):
+#         fila_matriz = []  
+#         for j in range(columnas):
+#             fila_matriz.append("O")
+#         matrizSala.append(fila_matriz)
 
-    return matrizSala
-
+#     return matrizSala
+#TODO: reutilizar esto como validtion
 def cargarHorarios():
     #Funcion que le permite al usuario agregar horiarios disponibles para una sala de cine
     arrayHorarios = []
@@ -160,16 +149,6 @@ def liberarSala():
     #@fran9300
     return None
 
-def cargarSala():
-    #Función para cargar una nueva sala en el sistema con su matriz de asientos y horarios
-    # TODO: sala: cantidad de filas, cantidad de columnas, horario, pelicula
-    clear()
-    matrizSala = crearMatrizSala()
-    horariosSala = cargarHorarios()
-
-    sala = [matrizSala, horariosSala, "pelicula"]
-
-    return sala
 
 def imprimirSala():
     #TODO: imprime el estado actual de la sala
@@ -177,20 +156,10 @@ def imprimirSala():
     return None
 
 def crearSala():
-    # global salas
-    # clear()
-    # newSala = []
-    # newSala.append(getNumberFromSecuence("salaNumeration"))
-    # newSala.append(input("Ingrese nombre de sala: "))
-    # newSala.append(int(input("Ingrese la cantidad de filas: ")))
-    # newSala.append(input("Ingrese la cantidad de columnas: "))
-    # print()
-    # print(newSala)
-    # salas.append(newSala)
-    # print("\nNueva sala agregada\n")
     addRoom()
 
 def consultarSalas():
+        #TODO: hacer con lo que tenemos nuevo
         global salas
         clear()
         print("ID | Nombre | Filas | Columnas ")
@@ -248,10 +217,7 @@ def clientConfig():
 
 #Funciones para el manejo de la compra de entradas-----------------------------------------------------------------------------------------
 
-def elegirButacas():
-    #TODO: retorna la posicion de la butaca elegida formato letra-numero(fila-columna)
-    #@AgustinaMieres
-    return None
+
 
 def calcularTotal(cantidadEntradas):
     #Función para calcular el costo total de las entradas seleccionadas
@@ -330,20 +296,20 @@ def aplicarPuntos(total):
 def comprarEntrada():
     #FLUJO DE COMPRAR PELICULA
     #Esto es el flujo pero no esta implementado
-    viewMovies()
+    # viewMovies()
     #elegir pelicula
     #elegir horario que tengan butacas disponibles: muestro todos los horarios  o solo los horarios con butacas disponibles
     # Consultar cantida de entradas
-    imprimirSala() # para ver estado actual de la sala
-    elegirButacas()
-    calcularTotal()
-    pedirMetodoDePago()
-    aplicarDescuento()
-    ingresarCuponDescuento()
+    # imprimirSala() # para ver estado actual de la sala
+    # elegirButacas()
+    # calcularTotal()
+    # pedirMetodoDePago()
+    # aplicarDescuento()
+    # ingresarCuponDescuento()
     #confirmar
-    chequeoPago()
-    reservarButaca()
-    imprimirFactura()
+    # chequeoPago()
+    # reservarButaca()
+    # imprimirFactura()
     return None
 
 #Funciones para el manejo del menu interactivo-----------------------------------------------------------------------------------------
@@ -394,20 +360,11 @@ def Registro():
     print("Registro de usuario")
 
 #Programa principal
-# metodoDePago=pedirMetodoDePago()
-# print ("Metodo de pago seleccionado:", metodoDePago)
-
-# cantEntradas=int(input("Ingrese la cantidad de entradas que desea comprar: "))
-
-# montoTotal=calcularTotal(5)
 
 
-# if MetodosDePago==5:
-#     montoTotal=aplicarPuntos(montoTotal)
 
 
-# totalFinal=aplicarDescuento(montoTotal,MetodosDePago)
-# print ("El precio final es: ", totalFinal)
+
 def volverMenuPrincipal():
     clear()
     global currentMenu
@@ -477,24 +434,17 @@ loginMenu = {
 }
 
 
-
 # print("ejemplo getById")
 # print(getById(2,getMovies()))      
-#TODO: funcion que inicialice todos los valores default es decir que llame a todos estos minimetodos asi no tenemos que pasarle parametros
-repositories.repository.initDefaultFile("USER")
-repositories.repository.initDefaultFile("SECUENCE")
-repositories.repository.initDefaultFile(entitiesEnum.ROOM)
-repositories.repository.initDefaultFile(entitiesEnum.ROOM_CONFIGURATION)
-repositories.repository.initDefaultFile(entitiesEnum.RESERVATION)
 
 # PROBAR :D
-print(repositories.repository.getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
+# print(getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
 # print(repositories.repository.getEntityById("USER",1))
+initDefaultValues()
 
 
 
-
-showRoom(1)
+# showRoom(1)
 
 currentMenu = loginMenu
 option = ''
