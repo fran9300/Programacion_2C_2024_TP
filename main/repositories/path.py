@@ -6,7 +6,10 @@ paths = {
     entitiesEnum.MOVIE: "main/repositories/movie.json",
     "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
-    "SECUENCE":"main/repositories/secuences.json"
+    "SECUENCE":"main/repositories/secuences.json",
+    entitiesEnum.RESERVATION:"main/repositories/reservation.json",
+    entitiesEnum.ROOM : "main/repositories/room.json",
+    entitiesEnum.ROOM_CONFIGURATION :"main/repositories/room_configuration.json"
 }
 
 

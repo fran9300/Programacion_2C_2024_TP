@@ -3,8 +3,35 @@
 USER = "USER"
 MOVIES = "MOVIES"
 SECUENCE = "SECUENCE"
-
+RESERVATION = "RESERVATION"
+ROOM = "ROOM"
+ROOM_CONFIGURATION = "ROOM_CONFIGURATION"
+#general properties
 ID = "id"
+DELETED = "deleted"
+TYPE = "type"
+
+
+#Room properties
+
+ROOM_NAME = "name"
+ROOM_ROWS = "rows"
+ROOM_COLUMNS = "columns"
+
+#Room configuration proeprties
+
+CONFIG_ROOM_ID = "roomId"
+CONFIG_TIME = "time"
+CONFIG_MOVIE_ID = "movieId"
+
+# reservation properties
+
+RESERVATION_ROOM_ID = "roomId"
+RESERVATION_USER_ID = "userId"
+RESERVATION_ROW = "row"
+RESERVATION_COLUMN = "column"
+
+
 
 # Diccionario para los campos de la entidad MOVIES
 MOVIES_FIELDS = {
@@ -28,3 +55,4 @@ USERS_FIELDS = {
     7: "email",
     8: "balance"
 }
+
