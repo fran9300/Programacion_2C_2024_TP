@@ -1,7 +1,7 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
 from repositories import addEntity, updateEntity, getEntityById, loadData, deleteById
-from entitiesEnum import USERS_FIELDS
+from main.entities.EntitiesFields import USERS_FIELDS
 
 # Datos de ejemplo para usuarios
 users = [
@@ -63,6 +63,7 @@ def deleteUser():
     deleteById("USERS")
 
 def printUsers():
+    #TODO usar metodo generico
     users = loadData("USERS")  
     print("ID | Nombre de usuario | Nombre | Apellido | Nivel de Acceso | Email | Saldo")
     for user in users:
@@ -72,7 +73,7 @@ def printUsers():
 
 def checkIfUserExist(userName):
     #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
-    #TODO:REFACTOR que se fije en la base d datos
+    #TODO:REFACTOR que quede como validation
     filtered = list(filter(lambda value : value[1]==userName,getUsers()))
     if(filtered):
         return True

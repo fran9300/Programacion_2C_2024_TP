@@ -7,10 +7,3 @@ def getById(id,arr):
 
 clear = lambda: os.system('cls')
 
-
-# TODAS LAS "ENTIDADES" EN SU PRIMER CAMPO TIENE EL ID
-    # [
-    #     [id,nombre,duracion],
-    #     [id,nombre,duracion],
-    #     [id,nombre,duracion],
-    # ]

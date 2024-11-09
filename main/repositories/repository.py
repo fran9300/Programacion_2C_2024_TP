@@ -1,13 +1,16 @@
 import json
 from repositories.path import getPath
-from entities import entitiesEnum
+from main.entities import EntitiesFields
 from entities.utils import getById
 
 
 cachedEntities = {
-    entitiesEnum.USER : [],
-    entitiesEnum.MOVIES: [],
-    entitiesEnum.SECUENCE: []
+    EntitiesFields.USER : [],
+    EntitiesFields.MOVIES: [],
+    EntitiesFields.SECUENCE: [],
+    EntitiesFields.ROOM: [],
+    EntitiesFields.ROOM_CONFIGURATION: [],
+    EntitiesFields.RESERVATION: []
 }
 
 def loadUsers():
@@ -32,11 +35,11 @@ def createTransaction():
     return None
 
 def autoInsertId(entity,type):
-    secuences = loadData(entitiesEnum.SECUENCE)
+    secuences = loadData(EntitiesFields.SECUENCE)
     nextId = secuences[type]
-    entity[entitiesEnum.ID] = nextId
+    entity[EntitiesFields.ID] = nextId
     secuences[type] = secuences[type] +1
-    saveData(secuences,entitiesEnum.SECUENCE)
+    saveData(secuences,EntitiesFields.SECUENCE)
     return entity
 
     
@@ -62,7 +65,7 @@ def deleteById(entity_type):
     if not entityToDelete:
         print(f"No se encontró ninguna {entity_type.lower()} con ID:", entityId)
     else:
-        entityToDelete["deleted"] = True
+        entityToDelete[EntitiesFields.DELETED] = True
         updateEntity(entityToDelete)
         print(f"\n{entity_type.capitalize()} con ID {entityId} ha sido eliminada lógicamente del sistema.\n")
 
@@ -83,16 +86,28 @@ def initDefaultFile(value):
 #Valores default
 defaultValues = {
 
-    entitiesEnum.USER: [
-        {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000},
-        {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000}],
-        entitiesEnum.MOVIES: [
-        {"id": 1, "title": "DeadPool", "duration": 127, "genre": "Superheroes", "category": "Accion", "rating": "18", "release_date": "20/07/2024"},
-        {"id": 2, "title": "Alien", "duration": 112, "genre": "Pelicula de alien", "category": "Suspenso", "rating": "16", "release_date": "20/09/2024"},
-        {"id": 3, "title": "Longlegs", "duration": 100, "genre": "pelicula de terror", "category": "Terror", "rating": "13", "release_date": "20/08/2024"}],
-   
-    entitiesEnum.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4}
+    EntitiesFields.USER: [
+        {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000,EntitiesFields.DELETED:False},
+        {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000,EntitiesFields.DELETED:False}],
+    EntitiesFields.MOVIES: [
+        {"id": 1, "title": "DeadPool", "duration": 127, "genre": "Superheroes", "category": "Accion", "rating": "18", "release_date": "20/07/2024",EntitiesFields.DELETED:False},
+        {"id": 2, "title": "Alien", "duration": 112, "genre": "Pelicula de alien", "category": "Suspenso", "rating": "16", "release_date": "20/09/2024",EntitiesFields.DELETED:False},
+        {"id": 3, "title": "Longlegs", "duration": 100, "genre": "pelicula de terror", "category": "Terror", "rating": "13", "release_date": "20/08/2024",EntitiesFields.DELETED:False}],
+    EntitiesFields.ROOM:[{EntitiesFields.ID:1,EntitiesFields.ROOM_NAME:"test",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False}],
+    EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 5,EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.DELETED:False}],
+    EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],                                 
+    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":4,"RESERVATION":4}
+
+
 }
+
+def initDefaultValues():
+    initDefaultFile(EntitiesFields.USER)
+    initDefaultFile(EntitiesFields.SECUENCE)
+    #TODO:agregar el de movie
+    initDefaultFile(EntitiesFields.ROOM)
+    initDefaultFile(EntitiesFields.ROOM_CONFIGURATION)
+    initDefaultFile(EntitiesFields.RESERVATION)
 
 #Try-Catch
 def getDefaultValue(value):
