@@ -70,4 +70,28 @@ def printUsers():
             print(f"{user['id']} | {user[USERS_FIELDS[1]]} | {user[USERS_FIELDS[2]]} | {user[USERS_FIELDS[3]]} | {user[USERS_FIELDS[5]]} | {user[USERS_FIELDS[7]]} | ${user[USERS_FIELDS[8]]}")
     print()
 
+def checkIfUserExist(userName):
+    #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
+    #TODO:REFACTOR que se fije en la base d datos
+    filtered = list(filter(lambda value : value[1]==userName,getUsers()))
+    if(filtered):
+        return True
+    else:
+        return False
 
+def checkUserAndPass(user,password):
+    #Función para chequear si el usuario o la clave son correctas
+
+    filtered = list(filter(lambda value : value[1]==user,getUsers()))
+
+    if len(filtered) == 0:
+        clear()
+        print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
+        return None 
+
+    user = filtered[0]
+    if(user[4] == password):
+        return user
+    else:
+        clear()
+        print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
