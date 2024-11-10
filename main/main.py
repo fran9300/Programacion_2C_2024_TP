@@ -5,7 +5,7 @@ from entities.utils import clear
 from entities.room import addRoom
 import os
 import re
-from repositories.repository import getEntityByProperties,initDefaultValues
+from repositories.repository import getEntityByProperties,initDefaultValues,printEntities
 from entities.reservation import showRoom
 
 
@@ -183,7 +183,7 @@ def editUSerInfo():
 def removeUser():
     # Funcion para eliminar usuarios
     userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
-    deleteUser(userId)
+
     return None
 
 def viewUsers():
@@ -441,7 +441,7 @@ loginMenu = {
 initDefaultValues()
 
 
-
+printEntities("ROOM")
 # showRoom(1)
 
 currentMenu = loginMenu
