@@ -1,10 +1,10 @@
 
 
-from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
 
 
-
+#Abm reservas
 
 def getMovies():
     #Borrar esto dsp 
@@ -63,12 +63,9 @@ def deleteMovie():
 
 
 def printMovies():
-    movies = loadData("MOVIES")  
-    print("ID | Nombre | Duración | Género | Clasificación")
-    for movie in movies:
-     if not movie[EntitiesFields.DELETED] == False: 
-        print(f"{movie['id']} | {movie[EntitiesFields.MOVIES_FIELDS[1]]} | {movie[EntitiesFields.MOVIES_FIELDS[2]]} minutos | {movie[EntitiesFields.MOVIES_FIELDS[4]]} | +{movie[EntitiesFields.MOVIES_FIELDS[5]]}")
-print()
+    printEntities(EntitiesFields.MOVIES)
+
+
 
 
 

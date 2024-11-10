@@ -1,15 +1,16 @@
-from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
-from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
-from entities.EntitiesFields import USERS_FIELDS
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
+from entities.EntitiesFields import USERS_FIELDS
+
+
 
 
 
 def getUsers():
     return None
 
-def addUser():
+def addUser(): 
     newUser = {
         "type": "USERS",
         USERS_FIELDS[1]: input("Ingrese el nombre de usuario: "),
@@ -59,13 +60,8 @@ def deleteUser():
     deleteById("USERS")
 
 def printUsers():
-    #TODO usar metodo generico
-    users = loadData("USERS")  
-    print("ID | Nombre de usuario | Nombre | Apellido | Nivel de Acceso | Email | Saldo")
-    for user in users:
-        if not user.get("deleted", False): 
-            print(f"{user['id']} | {user[USERS_FIELDS[1]]} | {user[USERS_FIELDS[2]]} | {user[USERS_FIELDS[3]]} | {user[USERS_FIELDS[5]]} | {user[USERS_FIELDS[7]]} | ${user[USERS_FIELDS[8]]}")
-    print()
+    printEntities(EntitiesFields.USER)
+
 
 def checkIfUserExist(userName):
     #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
