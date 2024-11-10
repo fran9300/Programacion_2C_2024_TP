@@ -34,29 +34,25 @@ RESERVATION_COLUMN = "column"
 
 
 
-# Diccionario para los campos de la entidad MOVIES
-MOVIES_FIELDS = {
-    1: "title",
-    2: "duration",
-    3: "description",
-    4: "genre",
-    5: "rating",
-    6: "release_date"
-}
-#TODO: que qude como el resto de properties
+# MOVIES properties
+MOVIE_TITLE = "title"
+MOVIE_DURATION = "duration"
+MOVIE_DESCRIPTION = "description"
+MOVIE_GENRE = "genre"
+MOVIE_RATING = "rating"
+MOVIE_RELEASE_DATE = "release_date"
+
 
 
 # entitiesEnum.py
 
-USERS_FIELDS = {
-    1: "username",
-    2: "first_name",
-    3: "last_name",
-    4: "password",
-    5: "access_level",
-    6: "birthdate",
-    7: "email",
-    8: "balance"
-}
-#TODO: que qude como el resto de properties, obviamente arreglar donde se llamaban a estos campos
+USER_USERNAME = "username"
+USER_FIRST_NAME = "first_name"
+USER_LAST_NAME = "last_name"
+USER_PASSWORD = "password"
+USER_ACCESS_LEVEL = "access_level"
+USER_BIRTHDATE = "birthdate"
+USER_EMAIL = "email"
+USER_BALANCE = "balance"
+
 
