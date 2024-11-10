@@ -3,20 +3,13 @@ from entities import EntitiesFields
 
 #ABM salas
 def addRoom():
-    newRoom = {
-        "type": EntitiesFields.ROOM,
-        EntitiesFields.ROOM_NAME: input("Ingrese el nombre de la sala: "),
-        EntitiesFields.ROOM_ROWS: int(input("Ingrese la cantidad de filas (máximo 30): ")),
-        EntitiesFields.ROOM_COLUMNS: int(input("Ingrese la cantidad de columnas (máximo 30): "))
-    }
-    
-    if newRoom[EntitiesFields.ROOM_ROWS] > 30 or newRoom[EntitiesFields.ROOM_ROWS] < 1:
-        print("Error: La cantidad de filas debe estar entre 1 y 30.")
-        return
-    if newRoom[EntitiesFields.ROOM_COLUMNS] > 30 or newRoom[EntitiesFields.ROOM_COLUMNS] < 1:
-        print("Error: La cantidad de columnas debe estar entre 1 y 30.")
-        return
-    
+
+    newRoom = {}
+    newRoom[EntitiesFields.ROOM_NAME] = input("ingrese nombre de sala")
+    newRoom[EntitiesFields.ROOM_ROWS] = input("ingrese cantidad de filas") #agregar validator para no tener fils mas de 30
+    newRoom[EntitiesFields.ROOM_NAME] = input("ingrese cantidad de columnas") #idem
+    newRoom[EntitiesFields.TYPE] = EntitiesFields.ROOM
+    #Las validaciones las podemos hacer con unas lambdas y que se llamen automaticamente desde el add entity, despues vemos
     addEntity(newRoom)
     print("\nNueva sala agregada al sistema.\n")
 
@@ -103,3 +96,6 @@ def freeRooms():
 
     print(f"Todas las reservas de la sala con ID {room_id} han sido liberadas.")
 
+def updateRoom():
+    #TODO
+    return None
