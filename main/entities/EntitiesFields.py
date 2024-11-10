@@ -17,7 +17,7 @@ TYPE = "type"
 ROOM_NAME = "name"
 ROOM_ROWS = "rows"
 ROOM_COLUMNS = "columns"
-
+ROOM_FIELDS = [ROOM_NAME,ROOM_ROWS,ROOM_COLUMNS]
 #Room configuration proeprties
 
 CONFIG_ROOM_ID = "roomId"
@@ -60,3 +60,11 @@ USERS_FIELDS = {
 }
 #TODO: que qude como el resto de properties, obviamente arreglar donde se llamaban a estos campos
 
+FIELDS = {
+    USER: "USER",#agregar los fields de cada entidad
+    MOVIES: "MOVIES",
+    SECUENCE: "SECUENCE",
+    RESERVATION: "RESERVATION",
+    ROOM: ROOM_FIELDS,
+    ROOM_CONFIGURATION: "ROOM_CONFIGURATION",
+}

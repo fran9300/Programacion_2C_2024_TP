@@ -185,4 +185,22 @@ def addEntity(entity):
     values.append(entity)
     saveData(values,type)
 
+def printEntities(entityKey):
+    entities = loadData(entityKey)
+    fields = EntitiesFields.FIELDS[entityKey]
+    headerLine = ""
+    for field in fields:
+        if not headerLine == "":
+                headerLine += ' | '
+        headerLine += field 
+    print(headerLine)
+    for entity in entities:
+        line = ""
+        for field in fields:
+            if not line == "":
+                line += ' | '
+            line += str(entity[field])
+        print(line)
+
+
 
