@@ -17,7 +17,7 @@ TYPE = "type"
 ROOM_NAME = "name"
 ROOM_ROWS = "rows"
 ROOM_COLUMNS = "columns"
-ROOM_FIELDS = [ROOM_NAME,ROOM_ROWS,ROOM_COLUMNS]
+ROOM_FIELDS = [ID,ROOM_NAME,ROOM_ROWS,ROOM_COLUMNS]
 #Room configuration proeprties
 
 CONFIG_ROOM_ID = "roomId"

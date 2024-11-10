@@ -195,12 +195,13 @@ def printEntities(entityKey):
         headerLine += field 
     print(headerLine)
     for entity in entities:
-        line = ""
-        for field in fields:
-            if not line == "":
-                line += ' | '
-            line += str(entity[field])
-        print(line)
+        if entity[EntitiesFields.DELETED] == False:
+            line = ""
+            for field in fields:
+                if not line == "":
+                    line += ' | '
+                line += str(entity[field])
+            print(line)
 
 
 
