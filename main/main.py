@@ -177,19 +177,19 @@ def addNewUser():
 def editUSerInfo():
     #Funcion para editar usuarios
     clear()
-    printUsers(users)
-    editUser(users)
+    printUsers()
+    editUser()
 
 def removeUser():
     # Funcion para eliminar usuarios
     userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
-    deleteUser(userId, users)
+    deleteUser(userId)
     return None
 
 def viewUsers():
     #Funcion para imprimir los usuarios
     clear()
-    printUsers(users)
+    printUsers()
 
 #Funciones descuentos--------------------------------------------------------------------------------------------------
 
