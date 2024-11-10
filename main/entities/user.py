@@ -3,11 +3,11 @@ from entities.utils import getById, clear
 from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
 
-
+#Abm usuarios
 def getUsers():
     return None
 
-def addUser():
+def addUser(): 
     newUser = {
         EntitiesFields.TYPE: EntitiesFields.USER,
         EntitiesFields.USER_USERNAME: input("Ingrese el nombre de usuario: "),

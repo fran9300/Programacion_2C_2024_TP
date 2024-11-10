@@ -1,7 +1,7 @@
 from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, listByProperties, printEntities
 from entities import EntitiesFields
 
-
+#ABM salas
 def addRoom():
     newRoom = {
         "type": EntitiesFields.ROOM,
@@ -73,6 +73,7 @@ def printRooms():
 
 
 
+#Funcion para liberar sala
 def freeRooms():
     
     print("Salas disponibles:")
