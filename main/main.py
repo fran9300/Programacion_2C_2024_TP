@@ -347,9 +347,9 @@ def IniciarSesion():
         password = input("Ingrese contraseña: ")
         user = checkUserAndPass(user,password)
     clear()
-    if user[5] == 1:
+    if user["role"] == 1:
         mainMenu = mainMenuAdmin        
-    elif user[5] == 2:
+    elif user["role"] == 2:
         mainMenu = mainMenuUser
     currentMenu = mainMenu
 

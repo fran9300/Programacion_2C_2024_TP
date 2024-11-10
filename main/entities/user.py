@@ -2,6 +2,7 @@ from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
 from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
 from entities.EntitiesFields import USERS_FIELDS
+from entities import EntitiesFields
 
 
 
@@ -78,7 +79,7 @@ def checkIfUserExist(userName):
 def checkUserAndPass(user,password):
     #Función para chequear si el usuario o la clave son correctas
 
-    filtered = list(filter(lambda value : value[1]==user,getUsers()))
+    filtered = list(filter(lambda value : value["username"]==user,loadData(EntitiesFields.USER)))
 
     if len(filtered) == 0:
         clear()
@@ -86,7 +87,7 @@ def checkUserAndPass(user,password):
         return None 
 
     user = filtered[0]
-    if(user[4] == password):
+    if(user["password"] == password):
         return user
     else:
         clear()
