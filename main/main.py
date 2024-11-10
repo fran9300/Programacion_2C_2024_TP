@@ -2,12 +2,13 @@
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
 from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
 from entities.utils import clear
-from entities.room import addRoom
+from entities.room import addRoom,editRoom, deleteRoom, printRooms, freeRooms
 import os
 import re
 from repositories.repository import getEntityByProperties,initDefaultValues,printEntities
 from entities.reservation import showRoom
-
+from entities.room import addRoom, editRoom, deleteRoom, printRooms
+from repositories.repository import clear
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
 
@@ -97,6 +98,34 @@ def removeMovie():
     
 
 #Funciones para el manejo de las salas---------------------------------------------------------------------------------------------------
+
+from entities.room import addRoom, editRoom, deleteRoom, printRooms
+from repositories.repository import clear
+
+def loadRoom():
+    # Función para cargar una nueva sala en el sistema
+    addRoom()
+    return None
+
+def viewRooms():
+    # Función para consultar y mostrar la lista de salas disponibles en el sistema
+    clear()
+    printRooms()
+
+def editRoomInfo():
+    # Función para editar la información de una sala existente en el sistema
+    clear()
+    printRooms()
+    roomId = int(input("Ingrese el ID de la sala que desea editar: "))
+    editRoom(roomId)
+
+def removeRoom():
+    # Función para eliminar una sala del sistema. Muestra las salas disponibles y permite que el usuario seleccione una para eliminar
+    clear()
+    printRooms()
+    roomId = int(input("Ingrese el ID de la sala que desea eliminar: "))
+    deleteRoom(roomId)
+
 #Esta creo q deberiamos borarrla
 # def crearMatrizSala():
 #     #Función para crear una matriz que representa la dispocion de asientos en una sala de cine
@@ -142,29 +171,7 @@ def cargarHorarios():
 
     return arrayHorarios
 
-def liberarSala():
-    #TODO: una vez se cargo una pelicula: se requiere restablecer la sala
-    #@fran9300
-    return None
 
-
-def imprimirSala():
-    #TODO: imprime el estado actual de la sala
-    #@fpelliStudent
-    return None
-
-def crearSala():
-    addRoom()
-
-def consultarSalas():
-        #TODO: hacer con lo que tenemos nuevo
-        global salas
-        clear()
-        print("ID | Nombre | Filas | Columnas ")
-        for sala in salas:
-            print(f"{sala[0]} | {sala[1]} | {sala[2]} | {sala[3]} ")
-        print()
-        return None
 
 
 #Funciones para el manejo de los usuarios------------------------------------------------------------------------------------------------
@@ -183,7 +190,7 @@ def editUSerInfo():
 def removeUser():
     # Funcion para eliminar usuarios
     userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
-
+    deleteUser(userId)
     return None
 
 def viewUsers():
@@ -369,10 +376,13 @@ def volverMenuPrincipal():
     currentMenu = mainMenu
 
 gestionSalas = {
-    "1":consultarSalas,
-    "2":crearSala,
-    "3":volverMenuPrincipal
+    "1": viewRooms,          
+    "2": loadRoom,           
+    "3": editRoomInfo,       
+    "4": removeRoom,         
+    "5": volverMenuPrincipal 
 }
+
 
 gestionPeliculas = {
     "1":viewMovies,
@@ -409,7 +419,7 @@ mainMenuAdmin = {
     "3":GestionUsuarios,
     "4":configDescuentoPorTipoDePago,
     "5":imprimirDescuentos,
-    "6":liberarSala,
+    "6":freeRooms,
     "7":LoginMenu
 }
 
