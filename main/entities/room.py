@@ -1,4 +1,4 @@
-from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, listByProperties
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, listByProperties, printEntities
 from entities import EntitiesFields
 
 
@@ -69,12 +69,8 @@ def deleteRoom():
         print("No se encontró ninguna sala con ID:", roomId)
 
 def printRooms():
-    rooms = loadData(EntitiesFields.ROOM)
-    print("ID | Nombre | Filas | Columnas")
-    for room in rooms:
-        if room.get(EntitiesFields.DELETED) == False:  # Asegura que solo muestra salas activas
-            print(f"{room['id']} | {room[EntitiesFields.ROOM_NAME]} | {room[EntitiesFields.ROOM_ROWS]} filas | {room[EntitiesFields.ROOM_COLUMNS]} columnas")
-    print()
+    printEntities(EntitiesFields.ROOM)
+
 
 
 def freeRooms():

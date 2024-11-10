@@ -190,11 +190,7 @@ def editUSerInfo():
 def removeUser():
     # Funcion para eliminar usuarios
     userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
-<<<<<<< HEAD
-    deleteUser(userId)
-=======
 
->>>>>>> develop
     return None
 
 def viewUsers():

@@ -1,6 +1,6 @@
 
 
-from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
 
 
@@ -91,13 +91,8 @@ def deleteMovie():
 
 
 def printMovies():
-    
-    movies = loadData(EntitiesFields.MOVIES)  
-    print("ID | Nombre | Duración | Género | Clasificación")
-    for movie in movies:
-        if not movie[EntitiesFields.DELETED]: 
-            print(f"{movie[EntitiesFields.ID]} | {movie[EntitiesFields.MOVIE_TITLE]} | {movie[EntitiesFields.MOVIE_DURATION]} minutos | {movie[EntitiesFields.MOVIE_GENRE]} | +{movie[EntitiesFields.MOVIE_RATING]}")
-    print()
+    printEntities(EntitiesFields.MOVIES)
+
 
 
 

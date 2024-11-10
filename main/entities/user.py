@@ -1,6 +1,6 @@
 from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
-from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
 
 
@@ -101,12 +101,8 @@ def deleteUser():
 
 
 def printUsers():
-    users = loadData(EntitiesFields.USER)  
-    print("ID | Nombre de usuario | Nombre | Apellido | Nivel de Acceso | Email | Saldo")
-    for user in users:
-        if not user.get(EntitiesFields.DELETED, False): 
-            print(f"{user[EntitiesFields.ID]} | {user[EntitiesFields.USER_USERNAME]} | {user[EntitiesFields.USER_FIRST_NAME]} | {user[EntitiesFields.USER_LAST_NAME]} | {user[EntitiesFields.USER_ACCESS_LEVEL]} | {user[EntitiesFields.USER_EMAIL]} | ${user[EntitiesFields.USER_BALANCE]:.2f}")
-    print()
+    printEntities(EntitiesFields.USER)
+
 
 
 def checkUserAndPass(username, password):
