@@ -46,7 +46,7 @@ def addReservation(userId):
                     showRoom(sala_reserva["roomId"],sala_reserva["day"],sala_reserva["time"])
                     i += 1
             else:
-                print("\naciento ya reservado, por favor seleccione otro.\n")
+                print("\nasiento ya reservado, por favor seleccione otro.\n")
 
         if cantidad_entradas != 0:
             importe = cantidad_entradas * valorEntrada
