@@ -15,16 +15,17 @@ def getMovies():
 def addMovie():
     newMovie = {
         "type": "MOVIES",
-        EntitiesFields.MOVIES_FIELDS[1]: input("Ingrese nombre de la película: "),
-        EntitiesFields.MOVIES_FIELDS[2]: int(input("Ingrese duración en minutos: ")),
-        EntitiesFields.MOVIES_FIELDS[3]: input("Ingrese descripción de la película: "),
-        EntitiesFields.MOVIES_FIELDS[4]: input("Ingrese género de la película: "),
-        EntitiesFields.MOVIES_FIELDS[5]: input("Ingrese edad recomendada: "),
-        EntitiesFields.MOVIES_FIELDS[6]: input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
+        EntitiesFields.MOVIES_FIELDS[0]: input("Ingrese nombre de la película: "),
+        EntitiesFields.MOVIES_FIELDS[1]: int(input("Ingrese duración en minutos: ")),
+        EntitiesFields.MOVIES_FIELDS[2]: input("Ingrese descripción de la película: "),
+        EntitiesFields.MOVIES_FIELDS[3]: input("Ingrese género de la película: "),
+        EntitiesFields.MOVIES_FIELDS[4]: input("Ingrese edad recomendada: "),
+        EntitiesFields.MOVIES_FIELDS[5]: input("Ingrese fecha de estreno (formato DD/MM/YYYY): ")
     }
     
     addEntity(newMovie)
     print("\nNueva película agregada al sistema.\n")
+
 
 
 def editMovie():
@@ -63,7 +64,7 @@ def deleteMovie():
 
 
 def printMovies():
-    printEntities(EntitiesFields.MOVIES)
+    printEntities("USER")
 
 
 

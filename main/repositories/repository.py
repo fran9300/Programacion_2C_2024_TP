@@ -86,13 +86,21 @@ def initDefaultFile(value):
 #Valores default
 defaultValues = {
 
-    EntitiesFields.USER: [
-        {"id":1,"username":"fpelli","name":"Franco","lastName":"Pelli","password":"contraseña","role":2,"email":"fpelli@uade.edu.ar","credit":1000,EntitiesFields.DELETED:False},
-        {"id":2,"username":"admin","name":"","lastName":"","password":"admin","role":1,"email":"fpelli@uade.edu.ar","credit":1000,EntitiesFields.DELETED:False}],
-    EntitiesFields.MOVIES: [
-        {"id": 1, "title": "DeadPool", "duration": 127, "genre": "Superheroes", "category": "Accion", "rating": "18", "release_date": "20/07/2024",EntitiesFields.DELETED:False},
-        {"id": 2, "title": "Alien", "duration": 112, "genre": "Pelicula de alien", "category": "Suspenso", "rating": "16", "release_date": "20/09/2024",EntitiesFields.DELETED:False},
-        {"id": 3, "title": "Longlegs", "duration": 100, "genre": "pelicula de terror", "category": "Terror", "rating": "13", "release_date": "20/08/2024",EntitiesFields.DELETED:False}],
+    EntitiesFields.USER: [{EntitiesFields.ID:1, EntitiesFields.USER_USERNAME:"fpelli",EntitiesFields.USER_NAME:"Franco",
+                           EntitiesFields.USER_LASTANAME: "Pelli", EntitiesFields.USER_PASSWORD:"contraseña", EntitiesFields.USER_ROLE:2,
+                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False},
+                           {EntitiesFields.ID:2, EntitiesFields.USER_USERNAME:"admin",EntitiesFields.USER_NAME:"",
+                           EntitiesFields.USER_LASTANAME: "", EntitiesFields.USER_PASSWORD:"admin", EntitiesFields.USER_ROLE:1,
+                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False}],
+    EntitiesFields.MOVIES: [{EntitiesFields.ID:1, EntitiesFields.MOVIE_TITLE:"Deadpool",EntitiesFields.MOVIE_DURATION:127,
+                           EntitiesFields.MOVIE_GENRE: "Superheroes", EntitiesFields.MOVIE_CATEGORY:"Accion", EntitiesFields.MOVIE_RATING:"18",
+                           EntitiesFields.MOVIE_RELEASEDATE:"20/07/2024", EntitiesFields.DELETED:False},
+                           {EntitiesFields.ID:2, EntitiesFields.MOVIE_TITLE:"Longlegs",EntitiesFields.MOVIE_DURATION:"100",
+                           EntitiesFields.MOVIE_GENRE: "pelicula de terror", EntitiesFields.MOVIE_CATEGORY:"terror", EntitiesFields.MOVIE_RATING:"13",
+                           EntitiesFields.MOVIE_RELEASEDATE:"20/09/2024", EntitiesFields.DELETED:False},
+                           {EntitiesFields.ID:3, EntitiesFields.MOVIE_TITLE:"Alien",EntitiesFields.MOVIE_DURATION:"100",
+                           EntitiesFields.MOVIE_GENRE: "pelicula de aliens", EntitiesFields.MOVIE_CATEGORY:"suspenso", EntitiesFields.MOVIE_RATING:"18",
+                           EntitiesFields.MOVIE_RELEASEDATE:"20/10/2024", EntitiesFields.DELETED:False}],
     EntitiesFields.ROOM:[{EntitiesFields.ID:1,EntitiesFields.ROOM_NAME:"test",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False}],
     EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 5,EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.DELETED:False}],
     EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],                                 
