@@ -13,7 +13,7 @@ def addRoomConfiguration():
     printEntities(EntitiesFields.MOVIES)
     print()
 
-    newConfig = {"type": "ROOM_CONFIGURATION",
+    newConfig = {"type": EntitiesFields.ROOM_CONFIGURATION,
                 EntitiesFields.CONFIG_FIELDS[1]: int(input("ingrese el id de la pelicula")),
                 EntitiesFields.CONFIG_FIELDS[2]: int(input("ingrese el id de la sala")),
                 EntitiesFields.CONFIG_FIELDS[3]: input("Ingrese día de la funcion"),
