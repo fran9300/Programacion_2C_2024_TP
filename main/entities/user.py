@@ -12,23 +12,23 @@ def getUsers():
 
 def addUser(): 
     newUser = {
-        "type": "USERS",
-        USERS_FIELDS[1]: input("Ingrese el nombre de usuario: "),
-        USERS_FIELDS[2]: input("Ingrese el primer nombre: "),
-        USERS_FIELDS[3]: input("Ingrese el apellido: "),
+        "type": "USER",
+        USERS_FIELDS[1]:input("Ingrese el nombre de usuario:"),
+        USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
+        USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
         USERS_FIELDS[4]: input("Ingrese la contraseña: "),
-        USERS_FIELDS[5]: int(input("Ingrese el nivel de acceso (1=Admin, 2=Usuario): ")),
-        USERS_FIELDS[6]: input("Ingrese la fecha de nacimiento (AAAAMMDD): "),
-        USERS_FIELDS[7]: input("Ingrese el correo electrónico: "),
-        USERS_FIELDS[8]: float(input("Ingrese el saldo inicial: "))
+        USERS_FIELDS[5]: int(input("Ingrese el rol (1=Admin, 2=Usuario): ")),
+        USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
+        USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: "))
     }
     
     addEntity(newUser)
     print("\nNuevo usuario agregado al sistema.\n")
 
+
 def editUser():
     userId = int(input("Ingrese el ID del usuario a editar: "))
-    userToEdit = getEntityById("USERS", userId)
+    userToEdit = getEntityById("USER", userId)
 
     if not userToEdit:
         print("No se encontró ningún usuario con ID:", userId)
@@ -37,17 +37,25 @@ def editUser():
         while editing:
             print("\nEditando el usuario:", userToEdit)
             print("Seleccione el campo que desea editar:")
-            for key, value in USERS_FIELDS.items():
-                print(f"{key}. {value.capitalize()}")
-            print("9. Terminar de editar\n")
+            for index in range(1, len(USERS_FIELDS)):
+                field = USERS_FIELDS[index]
+                print(f"{index}. {field.capitalize()}")
+            print(f"{len(USERS_FIELDS)}. Terminar de editar\n")
 
             choice = int(input("Elige una opción: "))
-            if choice == 9:
+            if choice == len(USERS_FIELDS):
                 editing = False
                 print("\nEdición finalizada.")
-            elif choice in USERS_FIELDS:
+            elif 1 <= choice < len(USERS_FIELDS):
                 field = USERS_FIELDS[choice]
                 newValue = input(f"Ingrese el nuevo valor para {field}: ")
+                
+                # Conversión de tipo según el campo
+                if field == "role":
+                    newValue = int(newValue)
+                elif field == "credit":
+                    newValue = float(newValue)
+
                 userToEdit[field] = newValue
             else:
                 print("Opción no válida.")
@@ -56,8 +64,12 @@ def editUser():
         updateEntity(userToEdit)
         print("\nUsuario con ID", userId, "ha sido actualizado en el sistema.\n")
 
+
+
 def deleteUser():
-    deleteById("USERS")
+    userId = int(input("Ingrese el ID del usuario a eliminar: "))
+    deleteById("USER", userId)
+    print("\nUsuario con ID", userId, "ha sido eliminado del sistema.\n")
 
 def printUsers():
     printEntities(EntitiesFields.USER)
