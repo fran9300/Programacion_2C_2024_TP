@@ -1,21 +1,20 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
-from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
+from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass,NewUser
+from entities.reservation import addReservation, checkReservations, valorEntrada
 from entities.utils import clear
-from entities.room import addRoom
+from entities.room import addRoom, printRooms
+from entities.room_configuration import addRoomConfiguration
 import os
 import re
-from repositories.repository import getEntityByProperties,initDefaultValues,printEntities
-from entities.reservation import showRoom
+from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
 
 currentMenu = {}
 mainMenu = {}
-
-
-
+currentUserId = ""
 
 roles = [
     [1,"admin"],
@@ -28,8 +27,6 @@ userPayment = [
     [2,1,3],
     [3,2,2]
 ]
-
-valorEntrada = 2000
 
 descuentos = {
     "Cash": 0.30,     # 30% descuento
@@ -49,27 +46,34 @@ METODOS_DE_PAGO = {
 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
-def getValorEntrada():
-    return valorEntrada
-
-def setValorEntrada(number):
+def VerificarPrecioEntrada():
     global valorEntrada
-    valorEntrada = number
+    clear()
+    print(f"\nvalor actual de la entrada de cine: {valorEntrada}\n")
 
-def  login():
-    # TODO: login
-    return None
-
-
-
-
-
+def ModificarValorEntrada():
+    #TODO cambiar a entidad para poder guardarla en un archivo json
+    global valorEntrada
+    VerificarPrecioEntrada()
+    try:
+        valorEntrada = float(input("ingrese el valor de la entrada estandar de cine: "))
+        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
+    except ValueError:
+        clear()
+        print("valor incorrecto, ingrese un numero con . para el precio de la entrada\n")
+    else:
+        clear()
+        if confirmacion == 1:
+            print("\rprecio de la entrada actualizado correctamente\n")
+        else:
+            print("\noperacion cancelada\n")
 
 #Funciones para el manejo de las películas------------------------------------------------------------------------------------------------
 
 
 def loadMovie():
     #Función para cargar una nueva película en el sistema
+    clear()
     addMovie()
     return None
 
@@ -87,42 +91,19 @@ def removeMovie():
     #Funcion para eliminar una película del sistema. Muestra las películas disponibles y permite que el usuario seleccione una para eliminar
     clear()
     printMovies()
+    
+
+    
+    deleteById(EntitiesFields.MOVIES)
+
     movieId=int(input("Ingrese el ID de la película que desea eliminar:"))
-
     deleteMovie(movieId)
-
-
 
 
     
 
 #Funciones para el manejo de las salas---------------------------------------------------------------------------------------------------
-#Esta creo q deberiamos borarrla
-# def crearMatrizSala():
-#     #Función para crear una matriz que representa la dispocion de asientos en una sala de cine
 
-#     #pregunta por filas  y columnas y crea la matriz
-#     filas = int(input("introduzca el número de filas desdeadas para la sala: "))
-#     columnas = int(input("introduzca el número de columnas desdeadas para la sala: "))
-
-#     matrizSala = []
-#     continuar = True
-    
-#     while continuar:
-#         if filas <= 0 or columnas <= 0:
-#             print("Las filas y columnas deben ser mayores que 0.")
-#             filas = int(input("Introduce el número de filas: "))
-#             columnas = int(input("Introduce el número de columnas: "))
-#         else:
-#             continuar = False
-
-#     for i in range(filas):
-#         fila_matriz = []  
-#         for j in range(columnas):
-#             fila_matriz.append("O")
-#         matrizSala.append(fila_matriz)
-
-#     return matrizSala
 #TODO: reutilizar esto como validtion
 def cargarHorarios():
     #Funcion que le permite al usuario agregar horiarios disponibles para una sala de cine
@@ -154,22 +135,31 @@ def imprimirSala():
     return None
 
 def crearSala():
+    clear()
     addRoom()
 
-def consultarSalas():
-        #TODO: hacer con lo que tenemos nuevo
-        global salas
-        clear()
-        print("ID | Nombre | Filas | Columnas ")
-        for sala in salas:
-            print(f"{sala[0]} | {sala[1]} | {sala[2]} | {sala[3]} ")
-        print()
-        return None
+def CrearFuncionDePelicula():
+    clear()
+    addRoomConfiguration()
 
+def consultarSalas():
+    clear()
+    printRooms()
+
+def ReservarEntradas():
+    clear()
+    global currentUserId
+    addReservation(currentUserId)
+
+def VerMisReservas():
+    clear()
+    global currentUserId
+    checkReservations(currentUserId)
+    
 
 #Funciones para el manejo de los usuarios------------------------------------------------------------------------------------------------
 
-def addNewUser():
+def AgregarNuevoUsuario():
     #Funcion para registrar a un nuevo usuario en el sistema
     clear()
     addUser()
@@ -190,6 +180,10 @@ def viewUsers():
     #Funcion para imprimir los usuarios
     clear()
     printUsers()
+
+def CheckUsuarioActual():
+    clear()
+    print(f"User ID: {currentUserId}\n")
 
 #Funciones descuentos--------------------------------------------------------------------------------------------------
 
@@ -215,12 +209,6 @@ def clientConfig():
 
 #Funciones para el manejo de la compra de entradas-----------------------------------------------------------------------------------------
 
-
-
-def calcularTotal(cantidadEntradas):
-    #Función para calcular el costo total de las entradas seleccionadas
-    total = getValorEntrada() * cantidadEntradas
-    return total
 
 def pedirMetodoDePago():
     #Función que le solicita al usuario el metodo de pago que quiere utilizar
@@ -266,11 +254,6 @@ def chequeoPago(usuario):
     # @fran9300
     return None
 
-def reservarButaca():
-    #recibe nro de butaca y la reserva en array de la sala (lo marca o con 1 o con los datos del cliente)
-    #@fran9300
-    return None
-
 def imprimirFactura():
      #@fran9300
     #TODO: generacionFactura()
@@ -313,7 +296,7 @@ def comprarEntrada():
 #Funciones para el manejo del menu interactivo-----------------------------------------------------------------------------------------
 
 def imprimirMenu(menu):
-    print("Ingrese el número de alguna de las siguientes opciones: \n")
+    print("Ingrese el número de alguna de las siguientes opciones o escriba 'exit' para salir: \n")
     for key in menu.keys():
         print(f"{key}-{menu[key].__name__}")
 
@@ -339,40 +322,42 @@ def GestionSalas():
 
 
 def IniciarSesion():
-    global currentMenu,mainMenu
+    global currentMenu,mainMenu, currentUserId
     user = None
+    intentos = 0
+    intentosMax = 3
     clear()
-    while user == None:
+    while user == None and intentos < intentosMax:
+        intentos += 1
         user = input("Ingrese usuario: ")
         password = input("Ingrese contraseña: ")
         user = checkUserAndPass(user,password)
+        if user == None:
+            print(f"\nIntento fallido {intentos} de {intentosMax}.\n")
+    if user == None:
+        clear()
+        print("\nHa alcanzado el número máximo de intentos. Intente nuevamente más tarde.\n")
+        currentMenu = loginMenu
+        return 
     clear()
     if user["role"] == 1:
         mainMenu = mainMenuAdmin        
     elif user["role"] == 2:
         mainMenu = mainMenuUser
     currentMenu = mainMenu
+    currentUserId = user["id"]
 
 def Registro():
-    # Lógica para el registro de usuarios
-    print("Registro de usuario")
+    clear()
+    NewUser()
 
 #Programa principal
-
-
-
 
 
 def volverMenuPrincipal():
     clear()
     global currentMenu
     currentMenu = mainMenu
-
-gestionSalas = {
-    "1":consultarSalas,
-    "2":crearSala,
-    "3":volverMenuPrincipal
-}
 
 gestionPeliculas = {
     "1":viewMovies,
@@ -382,26 +367,23 @@ gestionPeliculas = {
     "5":volverMenuPrincipal
 }
 
+gestionSalas = {
+    "1":consultarSalas,
+    "2":crearSala,
+    "3":CrearFuncionDePelicula,
+    "4":liberarSala,
+    "5":VerificarPrecioEntrada,
+    "6":ModificarValorEntrada,
+    "7":volverMenuPrincipal
+}
+
 gestionUsuarios = {
     "1": viewUsers,
-    "2": addUser,
+    "2": AgregarNuevoUsuario,
     "3": editUSerInfo,
     "4": removeMovie,
     "5": volverMenuPrincipal
 }
-
-# FLujo
-# def adminManage():
-#     login()
-#     consultarPeliculas()
-#     cargarPelicula()
-#     eliminarPelicula()
-#     cargarSala()
-#     asignarPeliculaASala()
-#     configDescuentoPorTipoDePago()
-#     liberarSala()
-#     return None
-
 
 mainMenuAdmin = {
     "1":GestionPeliculas,
@@ -409,21 +391,19 @@ mainMenuAdmin = {
     "3":GestionUsuarios,
     "4":configDescuentoPorTipoDePago,
     "5":imprimirDescuentos,
-    "6":liberarSala,
+    "6":CheckUsuarioActual,
     "7":LoginMenu
+    
 }
-
-#Flujo de cliente
-# def clientManage():
-#     consultarPeliculas()
-#     comprarEntrada()
-#     configuracionDelUsuario()
-#     return ''
 
 mainMenuUser = {
     #TODO agregar opciones para el usuario
-    "1":loadMovie,
-    "2":LoginMenu
+    "1":viewMovies,
+    "2":ReservarEntradas,
+    "3":VerMisReservas,
+    "4":CheckUsuarioActual,
+    "5":LoginMenu
+    
 }
 
 loginMenu = {
@@ -439,10 +419,6 @@ loginMenu = {
 # print(getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
 # print(repositories.repository.getEntityById("USER",1))
 initDefaultValues()
-
-
-printEntities("ROOM")
-# showRoom(1)
 
 currentMenu = loginMenu
 option = ''

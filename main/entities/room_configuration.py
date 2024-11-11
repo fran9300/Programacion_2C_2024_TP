@@ -1,16 +1,27 @@
 import entities.EntitiesFields as EntitiesFields
-from repositories.repository import addEntity
+from repositories.repository import addEntity, printEntities
+from entities.utils import clear
 
 
 def addRoomConfiguration():
-    config = {}
-    #llamar a show rooms asi elige el id
-    config[EntitiesFields.CONFIG_ROOM_ID] = input("ingrese el id de la sala") # aca deberiamos hacer una comprobacion de q elige una sala q existe
-    config[EntitiesFields.CONFIG_ROOM_TIME] = input("Ingrese horarios")
-    #llamar a show movies asi elige el id
-    config[EntitiesFields.CONFIG_MOVIE] = input("ingrese el id de la pelicula")
-    config[EntitiesFields.TYPE] = EntitiesFields.ROOM_CONFIGURATION
-    addEntity(config)
+
+    clear()
+    print("salas disponibles:")
+    printEntities(EntitiesFields.ROOM)
+    print()
+    print("películas disponibles:")
+    printEntities(EntitiesFields.MOVIES)
+    print()
+
+    newConfig = {"type": EntitiesFields.ROOM_CONFIGURATION,
+                EntitiesFields.CONFIG_FIELDS[1]: int(input("ingrese el id de la pelicula")),
+                EntitiesFields.CONFIG_FIELDS[2]: int(input("ingrese el id de la sala")),
+                EntitiesFields.CONFIG_FIELDS[3]: input("Ingrese día de la funcion"),
+                EntitiesFields.CONFIG_FIELDS[4]: input("Ingrese horario de la funcion"),
+                EntitiesFields.DELETED : False,
+                 }
+    addEntity(newConfig)
+    print("\nNueva funcion de pelicula agregada al sistema.\n")
 
 
 def updateRoomConfiguration(id):

@@ -3,7 +3,7 @@ from entities import EntitiesFields
 
 paths = {
     EntitiesFields.USER:"main/repositories/user.json",
-    EntitiesFields.MOVIES: "main/repositories/movie.json",
+    EntitiesFields.MOVIES: "main/repositories/movies.json",
     "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
     "SECUENCE":"main/repositories/secuences.json",
