@@ -70,7 +70,7 @@ def deleteMovie():
 
 
 def printMovies():
-    printEntities("MOVIES")
+    printEntities(EntitiesFields.MOVIES)
 
 
 
