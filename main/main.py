@@ -183,11 +183,8 @@ def editUSerInfo():
     printUsers()
     editUser()
 
-def removeUser():
-    # Funcion para eliminar usuarios
-    userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
-
-    return None
+def eliminarUsuario():
+    deleteUser()
 
 def viewUsers():
     #Funcion para imprimir los usuarios
@@ -353,12 +350,12 @@ def IniciarSesion():
         currentMenu = loginMenu
         return 
     clear()
-    if user["role"] == 1:
+    if user[EntitiesFields.USER_ROLE] == 1:
         mainMenu = mainMenuAdmin        
-    elif user["role"] == 2:
+    elif user[EntitiesFields.USER_ROLE] == 2:
         mainMenu = mainMenuUser
     currentMenu = mainMenu
-    currentUserId = user["id"]
+    currentUserId = user[EntitiesFields.ID]
 
 def Registro():
     clear()
@@ -397,7 +394,7 @@ gestionUsuarios = {
     "1": viewUsers,
     "2": AgregarNuevoUsuario,
     "3": editUSerInfo,
-    "4": removeMovie,
+    "4": eliminarUsuario,
     "5": volverMenuPrincipal
 }
 

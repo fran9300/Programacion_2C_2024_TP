@@ -99,9 +99,7 @@ def editUser():
 
 
 def deleteUser():
-    userId = int(input("Ingrese el ID del usuario a eliminar: "))
-    deleteById("USER", userId)
-    print("\nUsuario con ID", userId, "ha sido eliminado del sistema.\n")
+    deleteById(EntitiesFields.USER)
 
 def printUsers():
     printEntities(EntitiesFields.USER)
