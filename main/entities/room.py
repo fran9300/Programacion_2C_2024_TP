@@ -99,6 +99,7 @@ def freeRooms():
     # Eliminar (liberar) cada reserva de la sala
     for reserva in reservas:
         reserva[EntitiesFields.DELETED] = True  # Marcar la reserva como eliminada
+        reserva[EntitiesFields.TYPE] = EntitiesFields.RESERVATION
         updateEntity(reserva)  # Guardar el cambio en la reserva
 
     print(f"Todas las reservas de la sala con ID {room_id} han sido liberadas.")

@@ -3,7 +3,7 @@ from entities.movies import addMovie,printMovies,deleteMovie,editMovie
 from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass,NewUser
 from entities.reservation import addReservation, checkReservations, valorEntrada, checkRoom
 from entities.utils import clear
-from entities.room import addRoom, printRooms, deleteRoom
+from entities.room import addRoom, printRooms, deleteRoom,freeRooms
 from entities.room_configuration import addRoomConfiguration,printConfigRoom
 import os
 import re
@@ -124,8 +124,7 @@ def cargarHorarios():
     return arrayHorarios
 
 def liberarSala():
-    #TODO: una vez se cargo una pelicula: se requiere restablecer la sala
-    #@fran9300
+    freeRooms()
     return None
 
 
