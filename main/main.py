@@ -4,7 +4,7 @@ from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, ch
 from entities.reservation import addReservation, checkReservations, valorEntrada, checkRoom
 from entities.utils import clear
 from entities.room import addRoom, printRooms, deleteRoom,freeRooms
-from entities.room_configuration import addRoomConfiguration,printConfigRoom
+from entities.room_configuration import addRoomConfiguration,printConfigRoom,deleteConfigRoom
 import os
 import re
 from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById, EntitiesFields
@@ -148,7 +148,9 @@ def CrearFuncionDePelicula():
 def MostrarFuncionesProgramadas():
     clear()
     printConfigRoom()
-
+def EliminarFuncionProgramada():
+    clear()
+    deleteConfigRoom()
 
 def consultarSalas():
     clear()
@@ -381,11 +383,12 @@ gestionSalas = {
     "3":eliminarSala,
     "4":CrearFuncionDePelicula,
     "5":MostrarFuncionesProgramadas,
-    "6":liberarSala,
-    "7":VerificarPrecioEntrada,
-    "8":ModificarValorEntrada,
-    "9":CheckearReservasSalas,
-    "10":volverMenuPrincipal
+    "6":EliminarFuncionProgramada,
+    "7":liberarSala,
+    "8":VerificarPrecioEntrada,
+    "9":ModificarValorEntrada,
+    "10":CheckearReservasSalas,
+    "11":volverMenuPrincipal
 }
 
 gestionUsuarios = {

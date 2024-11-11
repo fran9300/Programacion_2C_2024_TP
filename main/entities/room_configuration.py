@@ -1,5 +1,5 @@
 import entities.EntitiesFields as EntitiesFields
-from repositories.repository import addEntity, printEntities
+from repositories.repository import addEntity, printEntities,deleteById
 from entities.utils import clear
 
 
@@ -34,4 +34,4 @@ def printConfigRoom():
 
 
 def deleteConfigRoom():
-    id = int(input("ingrese el id de la funcion programada a eliminar: "))
+    deleteById(EntitiesFields.ROOM_CONFIGURATION)
