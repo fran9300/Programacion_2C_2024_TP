@@ -13,19 +13,6 @@ cachedEntities = {
     EntitiesFields.RESERVATION: []
 }
 
-def loadUsers():
-    return None
-
-def loadMovies():
-    return None
-
-def loadRooms():
-    return None
-
-def loadPaymentMethods():
-    return None
-
-
 def logicDelete():
     #Se debe permitir eliminar una entidad de manera logica. Evitar borrado fisco.
     return None
@@ -88,13 +75,14 @@ def initDefaultFile(value):
 defaultValues = {
     EntitiesFields.USER: [{EntitiesFields.ID:1, EntitiesFields.USER_USERNAME:"admin",EntitiesFields.USER_NAME:"",
                            EntitiesFields.USER_LASTNAME: "", EntitiesFields.USER_PASSWORD:"admin", EntitiesFields.USER_ROLE:1,
-                           EntitiesFields.USER_EMAIL:"", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False},
+                           EntitiesFields.USER_EMAIL:"", EntitiesFields.USER_CREDIT:10000, EntitiesFields.DELETED:False},
                            {EntitiesFields.ID:2, EntitiesFields.USER_USERNAME:"fpelli",EntitiesFields.USER_NAME:"Franco",
                            EntitiesFields.USER_LASTNAME: "Pelli", EntitiesFields.USER_PASSWORD:"contraseña", EntitiesFields.USER_ROLE:2,
-                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False},
-                           {EntitiesFields.ID:3, EntitiesFields.USER_USERNAME:"fkin",EntitiesFields.USER_NAME:"fran",
-                           EntitiesFields.USER_LASTNAME: "kin", EntitiesFields.USER_PASSWORD:"fkin", EntitiesFields.USER_ROLE:2,
-                           EntitiesFields.USER_EMAIL:"fkin@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False}],
+                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:10000, EntitiesFields.DELETED:False},
+                           {EntitiesFields.ID:3, EntitiesFields.USER_USERNAME:"user",EntitiesFields.USER_NAME:"user",
+                           EntitiesFields.USER_LASTNAME: "user", EntitiesFields.USER_PASSWORD:"user", EntitiesFields.USER_ROLE:2,
+                           EntitiesFields.USER_EMAIL:"", EntitiesFields.USER_CREDIT:10000, EntitiesFields.DELETED:False}],
+
     EntitiesFields.MOVIES: [{EntitiesFields.ID:1, EntitiesFields.MOVIE_TITLE:"Deadpool",EntitiesFields.MOVIE_DURATION:127,
                            EntitiesFields.MOVIE_GENRE: "Superheroes", EntitiesFields.MOVIE_CATEGORY:"Accion", EntitiesFields.MOVIE_RATING:"18",
                            EntitiesFields.MOVIE_RELEASEDATE:"20/07/2024", EntitiesFields.DELETED:False},
@@ -104,14 +92,21 @@ defaultValues = {
                            {EntitiesFields.ID:3, EntitiesFields.MOVIE_TITLE:"Alien",EntitiesFields.MOVIE_DURATION:"100",
                            EntitiesFields.MOVIE_GENRE: "pelicula de aliens", EntitiesFields.MOVIE_CATEGORY:"suspenso", EntitiesFields.MOVIE_RATING:"18",
                            EntitiesFields.MOVIE_RELEASEDATE:"20/10/2024", EntitiesFields.DELETED:False}],
+
     EntitiesFields.ROOM:[{EntitiesFields.ID:1,EntitiesFields.ROOM_NAME:"test",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False},
                          {EntitiesFields.ID:2,EntitiesFields.ROOM_NAME:"test2",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False},
                          {EntitiesFields.ID:3,EntitiesFields.ROOM_NAME:"test3",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False}],
+
     EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"Lunes",EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.DELETED:False},
                                        {EntitiesFields.ID:2,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"Martes",EntitiesFields.CONFIG_TIME:"17:00",EntitiesFields.DELETED:False},
-                                       {EntitiesFields.ID:3,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Miercoles",EntitiesFields.CONFIG_TIME:"18:00",EntitiesFields.DELETED:False}],
-    EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],                                 
-    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":4,"RESERVATION":4}
+                                       {EntitiesFields.ID:3,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Miercoles",EntitiesFields.CONFIG_TIME:"18:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:4,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"Jueves",EntitiesFields.CONFIG_TIME:"19:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:5,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"Viernes",EntitiesFields.CONFIG_TIME:"21:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:6,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Sabado",EntitiesFields.CONFIG_TIME:"20:00",EntitiesFields.DELETED:False}],
+
+    EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_DAY: "Lunes",EntitiesFields.RESERVATION_TIME : "16:00",EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],       
+
+    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4}
 
 
 }
@@ -168,7 +163,7 @@ def getEntityById(entityType,id):
 
 
 def loadData(value):
-    #función para cargar las entidades guardades en su respectivo archivo json.
+    #función para cargar las entidades guardades de su respectivo archivo json.
     #TODO AGREGAR TRY
     try:
         global cachedEntities
@@ -243,3 +238,22 @@ def printAllEntities(entityKey):
         print(line)
     print()
 
+def printCustomEntities(lista,type):
+    #función genérica para imprimir una lista generica junto con el tipo de entidad, mientras que el campo deleted sea falso
+    entities = lista
+    fields = EntitiesFields.FIELDS[type]
+    headerLine = ""
+    for field in fields:
+        if not headerLine == "":
+                headerLine += ' | '
+        headerLine += field 
+    print(headerLine)
+    for entity in entities:
+        if entity[EntitiesFields.DELETED] == False:
+            line = ""
+            for field in fields:
+                if not line == "":
+                    line += ' | '
+                line += str(entity[field])
+            print(line)
+    print()

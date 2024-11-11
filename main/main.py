@@ -1,14 +1,13 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
 from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass,NewUser
-from entities.reservation import addReservation
+from entities.reservation import addReservation, checkReservations, valorEntrada
 from entities.utils import clear
 from entities.room import addRoom, printRooms
 from entities.room_configuration import addRoomConfiguration
 import os
 import re
 from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById
-from entities.reservation import showRoom
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -29,8 +28,6 @@ userPayment = [
     [3,2,2]
 ]
 
-valorEntrada = 2000
-
 descuentos = {
     "Cash": 0.30,     # 30% descuento
     "Transfer": 0.20, # 20% descuento
@@ -49,21 +46,27 @@ METODOS_DE_PAGO = {
 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
-def getValorEntrada():
-    return valorEntrada
-
-def setValorEntrada(number):
+def VerificarPrecioEntrada():
     global valorEntrada
-    valorEntrada = number
+    clear()
+    print(f"\nvalor actual de la entrada de cine: {valorEntrada}\n")
 
-def  login():
-    # TODO: login
-    return None
-
-
-
-
-
+def ModificarValorEntrada():
+    #TODO cambiar a entidad para poder guardarla en un archivo json
+    global valorEntrada
+    VerificarPrecioEntrada()
+    try:
+        valorEntrada = float(input("ingrese el valor de la entrada estandar de cine: "))
+        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
+    except ValueError:
+        clear()
+        print("valor incorrecto, ingrese un numero con . para el precio de la entrada\n")
+    else:
+        clear()
+        if confirmacion == 1:
+            print("\rprecio de la entrada actualizado correctamente\n")
+        else:
+            print("\noperacion cancelada\n")
 
 #Funciones para el manejo de las películas------------------------------------------------------------------------------------------------
 
@@ -148,6 +151,12 @@ def ReservarEntradas():
     global currentUserId
     addReservation(currentUserId)
 
+def VerMisReservas():
+    clear()
+    global currentUserId
+    checkReservations(currentUserId)
+    
+
 #Funciones para el manejo de los usuarios------------------------------------------------------------------------------------------------
 
 def AgregarNuevoUsuario():
@@ -174,7 +183,7 @@ def viewUsers():
 
 def CheckUsuarioActual():
     clear()
-    print(f"\nUser ID: {currentUserId}\n")
+    print(f"User ID: {currentUserId}\n")
 
 #Funciones descuentos--------------------------------------------------------------------------------------------------
 
@@ -200,12 +209,6 @@ def clientConfig():
 
 #Funciones para el manejo de la compra de entradas-----------------------------------------------------------------------------------------
 
-
-
-def calcularTotal(cantidadEntradas):
-    #Función para calcular el costo total de las entradas seleccionadas
-    total = getValorEntrada() * cantidadEntradas
-    return total
 
 def pedirMetodoDePago():
     #Función que le solicita al usuario el metodo de pago que quiere utilizar
@@ -321,11 +324,21 @@ def GestionSalas():
 def IniciarSesion():
     global currentMenu,mainMenu, currentUserId
     user = None
+    intentos = 0
+    intentosMax = 3
     clear()
-    while user == None:
+    while user == None and intentos < intentosMax:
+        intentos += 1
         user = input("Ingrese usuario: ")
         password = input("Ingrese contraseña: ")
         user = checkUserAndPass(user,password)
+        if user == None:
+            print(f"\nIntento fallido {intentos} de {intentosMax}.\n")
+    if user == None:
+        clear()
+        print("\nHa alcanzado el número máximo de intentos. Intente nuevamente más tarde.\n")
+        currentMenu = loginMenu
+        return 
     clear()
     if user["role"] == 1:
         mainMenu = mainMenuAdmin        
@@ -337,7 +350,6 @@ def IniciarSesion():
 def Registro():
     clear()
     NewUser()
-    print("Registro de usuario")
 
 #Programa principal
 
@@ -359,7 +371,10 @@ gestionSalas = {
     "1":consultarSalas,
     "2":crearSala,
     "3":CrearFuncionDePelicula,
-    "4":volverMenuPrincipal
+    "4":liberarSala,
+    "5":VerificarPrecioEntrada,
+    "6":ModificarValorEntrada,
+    "7":volverMenuPrincipal
 }
 
 gestionUsuarios = {
@@ -376,9 +391,8 @@ mainMenuAdmin = {
     "3":GestionUsuarios,
     "4":configDescuentoPorTipoDePago,
     "5":imprimirDescuentos,
-    "6":liberarSala,
-    "7":CheckUsuarioActual,
-    "8":LoginMenu
+    "6":CheckUsuarioActual,
+    "7":LoginMenu
     
 }
 
@@ -386,8 +400,9 @@ mainMenuUser = {
     #TODO agregar opciones para el usuario
     "1":viewMovies,
     "2":ReservarEntradas,
-    "3":CheckUsuarioActual,
-    "4":LoginMenu
+    "3":VerMisReservas,
+    "4":CheckUsuarioActual,
+    "5":LoginMenu
     
 }
 

@@ -42,17 +42,18 @@ def NewUser():
             USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
             USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
             USERS_FIELDS[4]: input("Ingrese la contraseña: "),
-            USERS_FIELDS[5]: int(input("Ingrese el rol (1=Admin, 2=Usuario): ")),
+            USERS_FIELDS[5]: 2,
             USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
             USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: ")),
             EntitiesFields.DELETED : False
         }
         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
     except:
-        print("\ningrese valores numéricos enteros para el rol y valores numéricos con punto para el saldo\n")
+        print("\ningrese valores numéricos con punto para el saldo\n")
     else:
         if confirmacion == 1:
             addEntity(newUser)
+            clear()
             print("\nNuevo usuario agregado al sistema.\n")
         else:
             print("\noperacion cancelada\n")
@@ -122,7 +123,7 @@ def checkUserAndPass(user,password):
 
     if len(filtered) == 0:
         clear()
-        print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
+        print("Usuario o contraseña incorrecta, intente nuevamente\n")
         return None 
 
     user = filtered[0]
