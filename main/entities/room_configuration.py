@@ -14,10 +14,10 @@ def addRoomConfiguration():
     print()
 
     newConfig = {"type": EntitiesFields.ROOM_CONFIGURATION,
-                EntitiesFields.CONFIG_FIELDS[1]: int(input("ingrese el id de la pelicula")),
-                EntitiesFields.CONFIG_FIELDS[2]: int(input("ingrese el id de la sala")),
-                EntitiesFields.CONFIG_FIELDS[3]: input("Ingrese día de la funcion"),
-                EntitiesFields.CONFIG_FIELDS[4]: input("Ingrese horario de la funcion"),
+                EntitiesFields.ID: int(input("ingrese el id de la pelicula")),
+                EntitiesFields.CONFIG_ROOM_ID: int(input("ingrese el id de la sala")),
+                EntitiesFields.CONFIG_DAY: input("Ingrese día de la funcion"),
+                EntitiesFields.CONFIG_TIME: input("Ingrese horario de la funcion"),
                 EntitiesFields.DELETED : False,
                  }
     addEntity(newConfig)
@@ -27,3 +27,11 @@ def addRoomConfiguration():
 def updateRoomConfiguration(id):
     # TODO
     return None
+
+
+def printConfigRoom():
+    printEntities(EntitiesFields.ROOM_CONFIGURATION)
+
+
+def deleteConfigRoom():
+    id = int(input("ingrese el id de la funcion programada a eliminar: "))

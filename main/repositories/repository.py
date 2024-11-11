@@ -46,6 +46,7 @@ def updateEntity(updatedEntity):
 
 
 def deleteById(entity_type):
+    printEntities(entity_type)
     entityId = int(input(f"Ingrese el ID de la {entity_type.lower()} a eliminar: "))
     entityToDelete = getEntityById(entity_type, entityId)
 
@@ -53,6 +54,7 @@ def deleteById(entity_type):
         print(f"No se encontró ninguna {entity_type.lower()} con ID:", entityId)
     else:
         entityToDelete[EntitiesFields.DELETED] = True
+        entityToDelete[EntitiesFields.TYPE] = entity_type
         updateEntity(entityToDelete)
         print(f"\n{entity_type.capitalize()} con ID {entityId} ha sido eliminada lógicamente del sistema.\n")
 

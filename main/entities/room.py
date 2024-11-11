@@ -64,12 +64,9 @@ def editRoom():
         updateEntity(roomToEdit)
         print("\nSala con ID", roomId, "ha sido actualizada en el sistema.\n")
 
-def deleteRoom():
-    roomId = int(input("Ingrese el ID de la sala a eliminar: "))
-    if deleteById(EntitiesFields.ROOM, roomId):
-        print("\nSala eliminada del sistema.\n")
-    else:
-        print("No se encontró ninguna sala con ID:", roomId)
+def deleteRoom():    
+    deleteById(EntitiesFields.ROOM)
+
 
 def printRooms():
     printEntities(EntitiesFields.ROOM)
