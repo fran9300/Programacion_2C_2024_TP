@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"USER": 6, "MOVIES": 5, "ROOM": 6, "ROOM_CONFIGURATION": 9, "RESERVATION": 4}
+=======
+{"USER": 5, "MOVIES": 4, "ROOM": 5, "ROOM_CONFIGURATION": 8, "RESERVATION": 4}
+>>>>>>> 1c629c85c0cb9ef22eeac1b2d0796ad11bb1cdaa
