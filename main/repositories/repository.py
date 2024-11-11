@@ -72,8 +72,9 @@ def deleteById(entity_type):
 
 
 
-#Esta funcion es generica, se le pasa el key y se trae el path y los valores default. Ademas comprueba que no exista el archivo para no pisar los datos existentes
+
 def initDefaultFile(value):
+#funcion generica, se le pasa el key y se trae el path y los valores default. Ademas comprueba que no exista el archivo para no pisar los datos existentes
     key = value.upper()
     try:
         file = open(getPath(key),"r")
@@ -85,13 +86,15 @@ def initDefaultFile(value):
 
 #Valores default
 defaultValues = {
-
-    EntitiesFields.USER: [{EntitiesFields.ID:1, EntitiesFields.USER_USERNAME:"fpelli",EntitiesFields.USER_NAME:"Franco",
-                           EntitiesFields.USER_LASTANAME: "Pelli", EntitiesFields.USER_PASSWORD:"contraseña", EntitiesFields.USER_ROLE:2,
+    EntitiesFields.USER: [{EntitiesFields.ID:1, EntitiesFields.USER_USERNAME:"admin",EntitiesFields.USER_NAME:"",
+                           EntitiesFields.USER_LASTNAME: "", EntitiesFields.USER_PASSWORD:"admin", EntitiesFields.USER_ROLE:1,
+                           EntitiesFields.USER_EMAIL:"", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False},
+                           {EntitiesFields.ID:2, EntitiesFields.USER_USERNAME:"fpelli",EntitiesFields.USER_NAME:"Franco",
+                           EntitiesFields.USER_LASTNAME: "Pelli", EntitiesFields.USER_PASSWORD:"contraseña", EntitiesFields.USER_ROLE:2,
                            EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False},
-                           {EntitiesFields.ID:2, EntitiesFields.USER_USERNAME:"admin",EntitiesFields.USER_NAME:"",
-                           EntitiesFields.USER_LASTANAME: "", EntitiesFields.USER_PASSWORD:"admin", EntitiesFields.USER_ROLE:1,
-                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False}],
+                           {EntitiesFields.ID:3, EntitiesFields.USER_USERNAME:"fkin",EntitiesFields.USER_NAME:"fran",
+                           EntitiesFields.USER_LASTNAME: "kin", EntitiesFields.USER_PASSWORD:"fkin", EntitiesFields.USER_ROLE:2,
+                           EntitiesFields.USER_EMAIL:"fkin@uade.edu.ar", EntitiesFields.USER_CREDIT:1000, EntitiesFields.DELETED:False}],
     EntitiesFields.MOVIES: [{EntitiesFields.ID:1, EntitiesFields.MOVIE_TITLE:"Deadpool",EntitiesFields.MOVIE_DURATION:127,
                            EntitiesFields.MOVIE_GENRE: "Superheroes", EntitiesFields.MOVIE_CATEGORY:"Accion", EntitiesFields.MOVIE_RATING:"18",
                            EntitiesFields.MOVIE_RELEASEDATE:"20/07/2024", EntitiesFields.DELETED:False},
@@ -101,10 +104,14 @@ defaultValues = {
                            {EntitiesFields.ID:3, EntitiesFields.MOVIE_TITLE:"Alien",EntitiesFields.MOVIE_DURATION:"100",
                            EntitiesFields.MOVIE_GENRE: "pelicula de aliens", EntitiesFields.MOVIE_CATEGORY:"suspenso", EntitiesFields.MOVIE_RATING:"18",
                            EntitiesFields.MOVIE_RELEASEDATE:"20/10/2024", EntitiesFields.DELETED:False}],
-    EntitiesFields.ROOM:[{EntitiesFields.ID:1,EntitiesFields.ROOM_NAME:"test",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False}],
-    EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 5,EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.DELETED:False}],
+    EntitiesFields.ROOM:[{EntitiesFields.ID:1,EntitiesFields.ROOM_NAME:"test",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False},
+                         {EntitiesFields.ID:2,EntitiesFields.ROOM_NAME:"test2",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False},
+                         {EntitiesFields.ID:3,EntitiesFields.ROOM_NAME:"test3",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False}],
+    EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"Lunes",EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:2,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"Martes",EntitiesFields.CONFIG_TIME:"17:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:3,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Miercoles",EntitiesFields.CONFIG_TIME:"18:00",EntitiesFields.DELETED:False}],
     EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],                                 
-    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIE" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":4,"RESERVATION":4}
+    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":4,"RESERVATION":4}
 
 
 }
@@ -112,7 +119,7 @@ defaultValues = {
 def initDefaultValues():
     initDefaultFile(EntitiesFields.USER)
     initDefaultFile(EntitiesFields.SECUENCE)
-    #TODO:agregar el de movie
+    initDefaultFile(EntitiesFields.MOVIES)
     initDefaultFile(EntitiesFields.ROOM)
     initDefaultFile(EntitiesFields.ROOM_CONFIGURATION)
     initDefaultFile(EntitiesFields.RESERVATION)
@@ -127,6 +134,7 @@ def getDefaultValue(value):
         return None
 
 def getEntityByProperties(entityType,properties,*values):
+    #función para obtener una entidad usando una propiedad de la misma, se pueden utilizar varias propiedades y valores siempre y cuando sean la misma cantidad
     entities = loadData(entityType)
     quantity = len(properties)
     if (len(properties) != len(values)):
@@ -160,6 +168,7 @@ def getEntityById(entityType,id):
 
 
 def loadData(value):
+    #función para cargar las entidades guardades en su respectivo archivo json.
     #TODO AGREGAR TRY
     try:
         global cachedEntities
@@ -178,12 +187,14 @@ def loadData(value):
             
 
 def saveData(values,type):
+    #función para guardar la nueva entidad en su correspondiente archivo json.
     with open(getPath(type),"wt") as file:
         json.dump(values,file)
         cachedEntities[type] = []
 
 
-def addEntity(entity): 
+def addEntity(entity):
+    #función genérica para agregar una nueva entidad recien creada, tal como una pelicula o un usuario.  
     type = ""
     if "type" in entity:
         type = entity["type"].upper()
@@ -194,6 +205,7 @@ def addEntity(entity):
     saveData(values,type)
 
 def printEntities(entityKey):
+    #función genérica para imprimir los distintos tipos de entidades, mientras que el campo deleted sea falso
     entities = loadData(entityKey)
     fields = EntitiesFields.FIELDS[entityKey]
     headerLine = ""
@@ -210,6 +222,24 @@ def printEntities(entityKey):
                     line += ' | '
                 line += str(entity[field])
             print(line)
+    print()
 
-
+def printAllEntities(entityKey):
+    #función genérica para imprimir los distintos tipos de entidades, INCLUSO si poseen verdadero el campo deleted
+    entities = loadData(entityKey)
+    fields = EntitiesFields.FIELDS[entityKey]
+    headerLine = ""
+    for field in fields:
+        if not headerLine == "":
+                headerLine += ' | '
+        headerLine += field 
+    print(headerLine)
+    for entity in entities:
+        line = ""
+        for field in fields:
+            if not line == "":
+                line += ' | '
+            line += str(entity[field])
+        print(line)
+    print()
 
