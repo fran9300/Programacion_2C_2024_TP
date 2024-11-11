@@ -19,8 +19,8 @@ def addReservation(userId):
         pelicula = getEntityByProperties(EntitiesFields.MOVIES,[EntitiesFields.ID],sala_reserva["movieId"])
 
         clear()
-        print(f"\n{pelicula["title"]} el día {sala_reserva["day"]} a las {sala_reserva["time"]} hs\n")
-        showRoom(sala_reserva["roomId"],sala_reserva["day"],sala_reserva["time"])
+        print(f"\n{pelicula[EntitiesFields.MOVIE_TITLE]} el día {sala_reserva[EntitiesFields.CONFIG_DAY]} a las {sala_reserva[EntitiesFields.CONFIG_TIME]} hs\n")
+        showRoom(sala_reserva["roomId"])
         cantidad_entradas = int(input("indique la cantidad de entradas que desea reservar (maximo de 6) o 0 para cancelar la reserva: "))
 
         i = 0
@@ -62,10 +62,10 @@ def addReservation(userId):
     except IndexError:
         print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
 
-def showRoom(roomConfigId,day,time):
+def showRoom(roomConfigId):
     roomConfig = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION,[EntitiesFields.ID],roomConfigId)
     room = getEntityByProperties(EntitiesFields.ROOM,[EntitiesFields.ID],roomConfig[EntitiesFields.CONFIG_ROOM_ID])
-    values = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.RESERVATION_DAY,EntitiesFields.RESERVATION_TIME,EntitiesFields.DELETED],roomConfigId,day,time,False)
+    values = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.DELETED],roomConfigId,False)
     arr =[[0 for _ in range(room[EntitiesFields.ROOM_COLUMNS])] for _ in range(room[EntitiesFields.ROOM_ROWS])] ## esto deberia setearse segun lo onfigurado en la sala
     for value in values:
         arr[value[EntitiesFields.RESERVATION_ROW]-1][value[EntitiesFields.RESERVATION_COLUMN]-1] = 1
@@ -87,9 +87,7 @@ def checkRoom():
     printEntities(EntitiesFields.ROOM_CONFIGURATION)
     try:
         roomConfigId = int(input("\nintroduzca el id de la sala: "))
-        day = (input("introduzca el día de la funcion: "))
-        time = (input("introduzca el horario de la funcion (HH:MM): "))
-        showRoom(roomConfigId,day,time)
+        showRoom(roomConfigId)
     except ValueError:
         print("por favor, introduzca el id como entero y el día y tiempo como se solicita\n")
     #TODO modificar para que el día este en may{usculas o minúsculas, y verificar el ingreso del horario
