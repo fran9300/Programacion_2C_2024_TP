@@ -180,7 +180,6 @@ def AgregarNuevoUsuario():
 def editUSerInfo():
     #Funcion para editar usuarios
     clear()
-    printUsers()
     editUser()
 
 def eliminarUsuario():
