@@ -7,7 +7,7 @@ def addRoomConfiguration():
 
     clear()
     print("salas disponibles:")
-    printEntities("ROOM")
+    printEntities(EntitiesFields.ROOM)
     print()
     print("películas disponibles:")
     printEntities("MOVIES")
