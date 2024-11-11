@@ -1,13 +1,13 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
 from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass,NewUser
-from entities.reservation import addReservation, checkReservations, valorEntrada
+from entities.reservation import addReservation, checkReservations, valorEntrada, checkRoom
 from entities.utils import clear
 from entities.room import addRoom, printRooms
 from entities.room_configuration import addRoomConfiguration
 import os
 import re
-from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById
+from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById, EntitiesFields
 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
@@ -155,6 +155,10 @@ def VerMisReservas():
     clear()
     global currentUserId
     checkReservations(currentUserId)
+
+def CheckearReservasSalas():
+    clear()
+    checkRoom()
     
 
 #Funciones para el manejo de los usuarios------------------------------------------------------------------------------------------------
@@ -374,7 +378,8 @@ gestionSalas = {
     "4":liberarSala,
     "5":VerificarPrecioEntrada,
     "6":ModificarValorEntrada,
-    "7":volverMenuPrincipal
+    "7":CheckearReservasSalas,
+    "8":volverMenuPrincipal
 }
 
 gestionUsuarios = {
@@ -399,10 +404,11 @@ mainMenuAdmin = {
 mainMenuUser = {
     #TODO agregar opciones para el usuario
     "1":viewMovies,
-    "2":ReservarEntradas,
-    "3":VerMisReservas,
-    "4":CheckUsuarioActual,
-    "5":LoginMenu
+    "2":CheckearReservasSalas,
+    "3":ReservarEntradas,
+    "4":VerMisReservas,
+    "5":CheckUsuarioActual,
+    "6":LoginMenu
     
 }
 

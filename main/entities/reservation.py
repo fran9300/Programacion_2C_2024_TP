@@ -82,6 +82,18 @@ def checkAvailable(roomId,day,time,row,column):
         return False
     return False if found else True
 
+def checkRoom():
+
+    printEntities(EntitiesFields.ROOM_CONFIGURATION)
+    try:
+        roomConfigId = int(input("\nintroduzca el id de la sala: "))
+        day = (input("introduzca el día de la funcion: "))
+        time = (input("introduzca el horario de la funcion (HH:MM): "))
+        showRoom(roomConfigId,day,time)
+    except ValueError:
+        print("por favor, introduzca el id como entero y el día y tiempo como se solicita\n")
+    #TODO modificar para que el día este en may{usculas o minúsculas, y verificar el ingreso del horario
+
 def checkReservations(userId):
     reservas = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_USER_ID,EntitiesFields.DELETED],userId,False)
     printCustomEntities(reservas,"RESERVATION")
