@@ -6,6 +6,7 @@ from entities.utils import clear
 valorEntrada = 5000
 
 def addReservation(userId):
+    #permite agregar una nueva reservacion de butacas por parte del usuario. 
     try:
         printMovies()
         print()
@@ -63,6 +64,7 @@ def addReservation(userId):
         print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
 
 def showRoom(roomConfigId):
+    #función para mostrar el estado de la sala seleccionada
     roomConfig = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION,[EntitiesFields.ID],roomConfigId)
     room = getEntityByProperties(EntitiesFields.ROOM,[EntitiesFields.ID],roomConfig[EntitiesFields.CONFIG_ROOM_ID])
     values = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.DELETED],roomConfigId,False)
@@ -77,13 +79,14 @@ def showRoom(roomConfigId):
         print(row)
 
 def checkAvailable(roomId,row,column):
+    #función para chequear si una butaca se encuentra disponible o no, en una sala especifica
     found = getEntityByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.RESERVATION_ROW,EntitiesFields.RESERVATION_COLUMN,EntitiesFields.DELETED],roomId,row,column,False)
     if found != None:
         return False
     return False if found else True
 
 def checkRoom():
-
+    #función para consultar el estado de la sala seleccionada
     printEntities(EntitiesFields.ROOM_CONFIGURATION)
     try:
         roomConfigId = int(input("\nintroduzca el id de la sala: "))
@@ -93,5 +96,6 @@ def checkRoom():
     #TODO modificar para que el día este en may{usculas o minúsculas, y verificar el ingreso del horario
 
 def checkReservations(userId):
+    #función para consultar las reservas realizadas por el usuario actual
     reservas = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_USER_ID,EntitiesFields.DELETED],userId,False)
     printCustomEntities(reservas,"RESERVATION")

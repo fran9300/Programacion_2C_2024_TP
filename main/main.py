@@ -47,12 +47,14 @@ METODOS_DE_PAGO = {
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
 def VerificarPrecioEntrada():
+    #muestra el precio de la entrada estandar de cine
     global valorEntrada
     clear()
     print(f"\nvalor actual de la entrada de cine: {valorEntrada}\n")
 
 def ModificarValorEntrada():
     #TODO cambiar a entidad para poder guardarla en un archivo json
+    #modificar el valor de la entrada estandar, es solo momentaneo y mas tarde va a ser modificado
     global valorEntrada
     VerificarPrecioEntrada()
     try:
@@ -306,32 +308,38 @@ def comprarEntrada():
 #Funciones para el manejo del menu interactivo-----------------------------------------------------------------------------------------
 
 def imprimirMenu(menu):
+    #función para imprimir el menu actual
     print("Ingrese el número de alguna de las siguientes opciones o escriba 'exit' para salir: \n")
     for key in menu.keys():
         print(f"{key}-{menu[key].__name__}")
 
 def GestionPeliculas():
+    #para ir al menu de gestion de películas
     clear()
     global currentMenu    
     currentMenu  = gestionPeliculas
 
 def GestionUsuarios():
+    #para ir al menu de manejo de usuarios
     clear()
     global currentMenu
     currentMenu = gestionUsuarios
 
 def LoginMenu():
+    #para ir al menu de logeo
     clear()
     global currentMenu
     currentMenu = loginMenu
 
 def GestionSalas():
+    #para ir al menu de manejo de salas
     clear()
     global currentMenu
     currentMenu = gestionSalas
 
 
 def IniciarSesion():
+    #función de inicio de sesión
     global currentMenu,mainMenu, currentUserId
     user = None
     intentos = 0
@@ -365,6 +373,7 @@ def Registro():
 
 
 def volverMenuPrincipal():
+    #permite volver al mainMenu, por ahora no estamos utilizando mas andiameinto de menues.
     clear()
     global currentMenu
     currentMenu = mainMenu
