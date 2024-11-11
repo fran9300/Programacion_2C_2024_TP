@@ -26,12 +26,12 @@ def addReservation(userId):
         i = 0
 
         while i != cantidad_entradas and i != 6 : 
-            fila_aciento_reserva = int(input("seleccione fila del aciento deseado: "))
-            columna_aciento_reserva = int(input("seleccione columna del aciento deseado: "))
+            fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
+            columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
             
             if checkAvailable(sala_reserva["roomId"],sala_reserva["day"],sala_reserva["time"],fila_aciento_reserva,columna_aciento_reserva):
                     newReservation = {
-                            "type": "RESERVATION",
+                            "type": EntitiesFields.RESERVATION,
                             EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["roomId"],
                             EntitiesFields.RESERVATION_FIELDS[2]: userId,
                             EntitiesFields.RESERVATION_FIELDS[3]: sala_reserva["day"],
