@@ -43,7 +43,7 @@ def addReservation(userId):
                     addEntity(newReservation)
                     clear()
                     print("\nNueva reserva guardada.\n")
-                    showRoom(sala_reserva["roomId"],sala_reserva["day"],sala_reserva["time"])
+                    showRoom(sala_reserva["roomId"])
                     i += 1
             else:
                 print("\nasiento ya reservado, por favor seleccione otro.\n")
