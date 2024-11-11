@@ -29,7 +29,7 @@ def addReservation(userId):
             fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
             columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
             
-            if checkAvailable(sala_reserva["roomId"],sala_reserva["day"],sala_reserva["time"],fila_aciento_reserva,columna_aciento_reserva):
+            if checkAvailable(sala_reserva["roomId"],fila_aciento_reserva,columna_aciento_reserva):
                     newReservation = {
                             "type": EntitiesFields.RESERVATION,
                             EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["roomId"],
@@ -76,8 +76,8 @@ def showRoom(roomConfigId):
         print("--------------------------------")
         print(row)
 
-def checkAvailable(roomId,day,time,row,column):
-    found = getEntityByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.RESERVATION_DAY,EntitiesFields.RESERVATION_TIME,EntitiesFields.RESERVATION_ROW,EntitiesFields.RESERVATION_COLUMN,EntitiesFields.DELETED],roomId,day,time,row,column,False)
+def checkAvailable(roomId,row,column):
+    found = getEntityByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.RESERVATION_ROW,EntitiesFields.RESERVATION_COLUMN,EntitiesFields.DELETED],roomId,row,column,False)
     if found != None:
         return False
     return False if found else True
