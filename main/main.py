@@ -94,7 +94,7 @@ def removeMovie():
     
 
     
-    deleteById("MOVIES")
+    deleteById(EntitiesFields.MOVIES)
 
     movieId=int(input("Ingrese el ID de la película que desea eliminar:"))
     deleteMovie(movieId)
