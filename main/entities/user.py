@@ -1,45 +1,115 @@
-from numeration import getNumberFromSecuence
 from entities.utils import getById, clear
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
+from entities import EntitiesFields
+from entities.EntitiesFields import USERS_FIELDS
 
-users= [
-    [1,"fpelli","Franco","Pelli","contraseña",2,"20020325","fpelli@uade.edu.ar",100000],
-    [2,"ipelli","Ivan","Pelli","contraseña123",2,"20061010","ipelli@uade.edu.ar",50000],
-    [3,"admin","","","admin",1,"20000101","admin@uade.edu.ar",100000]
-]
 
 
 
 
 def getUsers():
-    return users
+    return None
+
+def addUser(): 
+    try:
+        newUser = {
+            "type": "USER",
+            USERS_FIELDS[1]: input("Ingrese nuevo usuario:"),
+            USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
+            USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
+            USERS_FIELDS[4]: input("Ingrese la contraseña: "),
+            USERS_FIELDS[5]: int(input("Ingrese el rol (1=Admin, 2=Usuario): ")),
+            USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
+            USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: ")),
+            EntitiesFields.DELETED : False
+        }
+        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
+    except ValueError:
+        print("\ningrese valores numéricos enteros para el rol y valores numéricos con punto para el saldo\n")
+
+    else:
+        if confirmacion == 1:
+            addEntity(newUser)
+            print("\nNuevo usuario agregado al sistema.\n")
+        else:
+            print("\noperacion cancelada\n")
+
+def NewUser(): 
+    try:
+        newUser = {
+            "type": "USER",
+            USERS_FIELDS[1]: input("Ingrese nuevo usuario:"),
+            USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
+            USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
+            USERS_FIELDS[4]: input("Ingrese la contraseña: "),
+            USERS_FIELDS[5]: 2,
+            USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
+            USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: ")),
+            EntitiesFields.DELETED : False
+        }
+        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
+    except:
+        print("\ningrese valores numéricos con punto para el saldo\n")
+    else:
+        if confirmacion == 1:
+            addEntity(newUser)
+            clear()
+            print("\nNuevo usuario agregado al sistema.\n")
+        else:
+            print("\noperacion cancelada\n")
+
+def editUser():
+    userId = int(input("Ingrese el ID del usuario a editar: "))
+    userToEdit = getEntityById("USER", userId)
+
+    if not userToEdit:
+        print("No se encontró ningún usuario con ID:", userId)
+    else:
+        editing = True
+        while editing:
+            print("\nEditando el usuario:", userToEdit)
+            print("Seleccione el campo que desea editar:")
+            for index in range(1, len(USERS_FIELDS)):
+                field = USERS_FIELDS[index]
+                print(f"{index}. {field.capitalize()}")
+            print(f"{len(USERS_FIELDS)}. Terminar de editar\n")
+
+            choice = int(input("Elige una opción: "))
+            if choice == len(USERS_FIELDS):
+                editing = False
+                print("\nEdición finalizada.")
+            elif 1 <= choice < len(USERS_FIELDS):
+                field = USERS_FIELDS[choice]
+                newValue = input(f"Ingrese el nuevo valor para {field}: ")
+                
+                # Conversión de tipo según el campo
+                if field == "role":
+                    newValue = int(newValue)
+                elif field == "credit":
+                    newValue = float(newValue)
+
+                userToEdit[field] = newValue
+            else:
+                print("Opción no válida.")
+
+        # Guardar los cambios en el archivo
+        updateEntity(userToEdit)
+        print("\nUsuario con ID", userId, "ha sido actualizado en el sistema.\n")
 
 
 
-def addUser():
-    #Función para agregar usuario
-    global users
-    newUser = []
-    newUser.append(getNumberFromSecuence("userNumeration"))
-    userName = input("Ingrese nombre de usuario: ")
-    while checkIfUserExist(userName):
-        print("Nombre de usuario no disponible, ingrese otro")
-        userName = input("Ingrese nombre de usuario: ")
-    newUser.append(userName)
-    newUser.append(input("Ingrese nombre: "))
-    newUser.append(input("Ingrese apellido: "))
-    newUser.append(input("Ingrese contraseña: "))    
-    newUser.append(2) ## le agrega el rol
-    newUser.append(input("Ingrese fecha de nacimiento(formato YYYYMMDD): "))
-    newUser.append(input("Ingrese correo electronico: "))
-    newUser.append(int(input("Ingrese saldo: ")))    
-    users.append(newUser)
-    clear()
-    print("\nNuevo usuario agregado\n")
+def deleteUser():
+    userId = int(input("Ingrese el ID del usuario a eliminar: "))
+    deleteById("USER", userId)
+    print("\nUsuario con ID", userId, "ha sido eliminado del sistema.\n")
+
+def printUsers():
+    printEntities(EntitiesFields.USER)
 
 
 def checkIfUserExist(userName):
     #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
-
+    #TODO:REFACTOR que quede como validation
     filtered = list(filter(lambda value : value[1]==userName,getUsers()))
     if(filtered):
         return True
@@ -49,98 +119,16 @@ def checkIfUserExist(userName):
 def checkUserAndPass(user,password):
     #Función para chequear si el usuario o la clave son correctas
 
-    filtered = list(filter(lambda value : value[1]==user,getUsers()))
+    filtered = list(filter(lambda value : value["userName"]==user,loadData(EntitiesFields.USER)))
 
     if len(filtered) == 0:
         clear()
-        print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
+        print("Usuario o contraseña incorrecta, intente nuevamente\n")
         return None 
 
     user = filtered[0]
-    if(user[4] == password):
+    if(user["password"] == password):
         return user
     else:
         clear()
         print("\nUsuario o contraseña incorrecta, intente nuevamente\n")
-
-
-
-def editUser(users):
-    #Función para editar usuarios. Le pasamos la matriz users. Puede editar mas de un campo a la vez y finalizar la edicion cuando el usuario lo desee
-    print("Ingrese el ID del usuario que desea editar:")
-    user_id = int(input())
-
-    user = None
-    for u in users:
-        if u[0] == user_id:
-            user = u
-    
-    if not user:
-        print("Usuario no encontrado.")
-    else:
-        bandera=True
-        while bandera:
-            clear()
-            print("usuario a editar: ", user)
-            print() 
-            print("Seleccione el campo que desea editar:")
-            print("1. Nombre de usuario")
-            print("2. Nombre")
-            print("3. Apellido")
-            print("4. Contraseña")
-            print("5. Fecha de nacimiento")
-            print("6. Correo electrónico")
-            print("7. Saldo")
-            print ("8. Finalizar la edición")
-            print()
-            choice = int(input())
-
-            if choice == 1:
-                user[1] = input("Ingrese el nuevo nombre de usuario:")
-            elif choice == 2:
-                user[2] = input("Ingrese el nuevo nombre:")
-            elif choice == 3:
-                user[3] = input("Ingrese el nuevo apellido:")
-            elif choice == 4:
-                user[4] = input("Ingrese la nueva contraseña:")
-            elif choice == 5:
-                user[6] = input("Ingrese la nueva fecha de nacimiento (formato YYYYMMDD):")
-            elif choice == 6:
-                user[7] = input("Ingrese el nuevo correo electrónico:")
-            elif choice == 7:
-                user[8] = int(input("Ingrese el nuevo saldo:"))
-            elif choice==8:
-                bandera=False
-                clear()
-                print ("\nHa finalizado la edición")
-            else:
-                print("Opción no válida.")
-                return
-
-    print("\nDatos del usuario actualizados:", user, "\n")
-
-
-def deleteUser(usuarioId, usuarios):
-    #Función para eliminar usuario. Reutilizamos la función getById
-
-    userToDelete = getById(usuarioId, usuarios)
-    
-    if userToDelete == -1:
-        print("No se encontró ningún usuario con ID: ", usuarioId)
-    else:
-        users.remove(userToDelete)
-        print("Usuario con ID ",usuarioId, "ha sido eliminado.")
-
-    return users
-
-def imprimirUsuarios(usuarios):
-    #imprime los usuarios registrados, esta funcion solo existe para facilitar la eliminacion o modificacion de usuarios.
-    print("ID | Usuario | Nombre | Apellido | Mail")
-    for usuario in usuarios:
-        print(f"{usuario[0]} | {usuario[1]} | {usuario[2]}  | {usuario[3]} | {usuario[6]}")
-    print()
-    return None
-
-#Programa principal:
-#print (editUser(users))
-

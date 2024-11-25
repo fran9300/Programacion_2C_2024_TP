@@ -1,112 +1,80 @@
-from numeration import getNumberFromSecuence
-from entities.utils import getById, clear
 
 
-# [id,nombre,duracion,descripcion,genero,edad,fechaDeEstreno]
-movies = [
-    [1,"DeadPool",127,"Superheroes","Accion","18","20/07/2024"],
-    [2,"Alien",112,"Pelicula de alien","Suspenso","16","20/09/2024"],
-    [3,"Longlegs",100,"pelicula de terror","Terror","13","20/08/2024"]
-]
+from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
+from entities import EntitiesFields
 
+
+#Abm reservas
 
 def getMovies():
-    return movies
+    #Borrar esto dsp 
+    return None
 
 
-#Función para agregar películas al sistema
+
 def addMovie():
-    clear()
-    global movies
-    newMovie = []
-    newMovie.append(getNumberFromSecuence("movieNumeration"))
-    newMovie.append(input("Ingrese nombre de pelicula: "))
-    newMovie.append(int(input("Ingrese duracion: ")))
-    newMovie.append(input("Ingrese descripcion: "))    
-    newMovie.append(input("Ingrese género: "))
-    newMovie.append(input("Ingrese edad: "))
-    newMovie.append(input("Ingrese fecha de estreno (formato DD/MM/YYYY): "))
-    clear()
-    print(newMovie)
-    movies.append(newMovie)
-    print("\nNueva pelicula agregada\n")
+    try:
+        newMovie = {
+            "type": "MOVIES",
+            EntitiesFields.MOVIES_FIELDS[1]: input("Ingrese nombre de la película: "),
+            EntitiesFields.MOVIES_FIELDS[2]: int(input("Ingrese duración en minutos: ")),
+            EntitiesFields.MOVIES_FIELDS[3]: input("Ingrese género de la película: "),
+            EntitiesFields.MOVIES_FIELDS[4]: input("Ingrese categoría de la película: "),
+            EntitiesFields.MOVIES_FIELDS[5]: input("Ingrese edad recomendada: "),
+            EntitiesFields.MOVIES_FIELDS[6]: input("Ingrese fecha de estreno (formato DD/MM/YYYY): "),
+            EntitiesFields.DELETED : False
+        }
+        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
+    except ValueError:
+        print("\ningrese solo valores numéricos para la duración de la película\n")
+    else:
+        if confirmacion == 1:
+            addEntity(newMovie)
+            print("\nNueva película agregada al sistema.\n")
+        else:
+            print("\noperacion cancelada\n")
 
-
-#Función para editar películas. Como parametro el pasamos el id de la película Puede editar mas de un campo a la vez y
-#finalizar la edicion cuando el usuario lo desee
 def editMovie():
-    global movies
-    movieId = int(input("ingrese id de pelicula a editar\n"))
-    movieToEdit = None
-    for movie in movies:
-        if movie[0] == movieId:
-            movieToEdit = movie
+    movieId = int(input("Ingrese el ID de la película a editar: "))
+    movieToEdit = getEntityById("MOVIES", movieId)
 
     if not movieToEdit:
         print("No se encontró ninguna película con ID:", movieId)
-        clear()
     else:
-        clear()
-        bandera = True
-        while bandera:
-            print("Editando la película:", movieToEdit ,"\n")
-            print("Seleccione el campo que desea editar:\n")
-            print("1. Nombre de la película")
-            print("2. Duración")
-            print("3. Descripción")
-            print("4. Género")
-            print("5. Edad recomendada")
-            print("6. Fecha de estreno")
+        editing = True
+        while editing:
+            print("\nEditando la película:", movieToEdit)
+            print("Seleccione el campo que desea editar:")
+            for key, value in EntitiesFields.MOVIES_FIELDS.items():
+                print(f"{key}. {value.capitalize()}")
             print("7. Terminar de editar\n")
 
-            choice = int(input())  # Esta línea debe estar dentro del bucle
-            print()
-            if choice == 1:
-                movieToEdit[1] = input("Ingrese el nuevo nombre de la película:")
-            elif choice == 2:
-                movieToEdit[2] = int(input("Ingrese la nueva duración:"))
-            elif choice == 3:
-                movieToEdit[3] = input("Ingrese la nueva descripción:")
-            elif choice == 4:
-                movieToEdit[4] = input("Ingrese el nuevo género:")
-            elif choice == 5:
-                movieToEdit[5] = input("Ingrese la nueva edad recomendada:")
-            elif choice == 6:
-                movieToEdit[6] = input("Ingrese la nueva fecha de estreno (formato YYYYMMDD):")
-            elif choice == 7:
-                bandera = False
-                print("Edición finalizada")
+            choice = int(input("Elige una opción: "))
+            if choice == 7:
+                editing = False
+                print("\nEdición finalizada.")
+            elif choice in EntitiesFields.MOVIES_FIELDS:
+                field = EntitiesFields.MOVIES_FIELDS[choice]
+                newValue = input(f"Ingrese el nuevo valor para {field}: ")
+                movieToEdit[field] = newValue
             else:
                 print("Opción no válida.")
 
-            clear()
-            print("\nPelícula con ID", movieId, "ha sido actualizada.\n")
-            print("Resultado:", movieToEdit)
+        # Guardar los cambios en el archivo
+        updateEntity(movieToEdit)
+        print("\nPelícula con ID", movieId, "ha sido actualizada en el sistema.\n")
 
-    return movies
-
-
-def deleteMovie(peliculaId, peliculas):
-    #Función para eliminar película. Reutilizamos la función getById
-
-    movieToDelete = getById(peliculaId, peliculas)
-    
-    if movieToDelete == -1:
-        clear()
-        print("No se encontró ninguna película con ID: ", peliculaId)
-    else:
-        clear()
-        peliculas.remove(movieToDelete)
-        print("\nPelícula con ID ",peliculaId, " ha sido eliminada.\n")
-
-    return peliculas
+def deleteMovie():
+    deleteById(EntitiesFields.MOVIES)
 
 
-def imprimirPeliculas(peliculas):
-    #Función que muestra la cartelera
-    print("ID | Nombre | Duración | Género | Clasificación")
-    for pelicula in peliculas:
-        print(f"{pelicula[0]} | {pelicula[1]} | {pelicula[2]} minutos | {pelicula[4]} | +{pelicula[5]}")
-    print()
-    return None
+
+def printMovies():
+    printEntities(EntitiesFields.MOVIES)
+
+
+
+
+
+
 
