@@ -3,8 +3,8 @@ from entities.movies import addMovie,printMovies,deleteMovie,editMovie
 from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass,NewUser
 from entities.reservation import addReservation, checkReservations, valorEntrada, checkRoom
 from entities.utils import clear
-from entities.room import addRoom, printRooms
-from entities.room_configuration import addRoomConfiguration
+from entities.room import addRoom, printRooms, deleteRoom,freeRooms
+from entities.room_configuration import addRoomConfiguration,printConfigRoom,deleteConfigRoom
 import os
 import re
 from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById, EntitiesFields
@@ -47,12 +47,14 @@ METODOS_DE_PAGO = {
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
 def VerificarPrecioEntrada():
+    #muestra el precio de la entrada estandar de cine
     global valorEntrada
     clear()
     print(f"\nvalor actual de la entrada de cine: {valorEntrada}\n")
 
 def ModificarValorEntrada():
     #TODO cambiar a entidad para poder guardarla en un archivo json
+    #modificar el valor de la entrada estandar, es solo momentaneo y mas tarde va a ser modificado
     global valorEntrada
     VerificarPrecioEntrada()
     try:
@@ -124,8 +126,7 @@ def cargarHorarios():
     return arrayHorarios
 
 def liberarSala():
-    #TODO: una vez se cargo una pelicula: se requiere restablecer la sala
-    #@fran9300
+    freeRooms()
     return None
 
 
@@ -138,9 +139,20 @@ def crearSala():
     clear()
     addRoom()
 
+def eliminarSala():
+    clear()
+    deleteRoom()
+
 def CrearFuncionDePelicula():
     clear()
     addRoomConfiguration()
+
+def MostrarFuncionesProgramadas():
+    clear()
+    printConfigRoom()
+def EliminarFuncionProgramada():
+    clear()
+    deleteConfigRoom()
 
 def consultarSalas():
     clear()
@@ -171,14 +183,10 @@ def AgregarNuevoUsuario():
 def editUSerInfo():
     #Funcion para editar usuarios
     clear()
-    printUsers()
     editUser()
 
-def removeUser():
-    # Funcion para eliminar usuarios
-    userId=int(input("Ingrese el ID del usuario que desea eliminar: "))
-
-    return None
+def eliminarUsuario():
+    deleteUser()
 
 def viewUsers():
     #Funcion para imprimir los usuarios
@@ -300,32 +308,38 @@ def comprarEntrada():
 #Funciones para el manejo del menu interactivo-----------------------------------------------------------------------------------------
 
 def imprimirMenu(menu):
+    #función para imprimir el menu actual
     print("Ingrese el número de alguna de las siguientes opciones o escriba 'exit' para salir: \n")
     for key in menu.keys():
         print(f"{key}-{menu[key].__name__}")
 
 def GestionPeliculas():
+    #para ir al menu de gestion de películas
     clear()
     global currentMenu    
     currentMenu  = gestionPeliculas
 
 def GestionUsuarios():
+    #para ir al menu de manejo de usuarios
     clear()
     global currentMenu
     currentMenu = gestionUsuarios
 
 def LoginMenu():
+    #para ir al menu de logeo
     clear()
     global currentMenu
     currentMenu = loginMenu
 
 def GestionSalas():
+    #para ir al menu de manejo de salas
     clear()
     global currentMenu
     currentMenu = gestionSalas
 
 
 def IniciarSesion():
+    #función de inicio de sesión
     global currentMenu,mainMenu, currentUserId
     user = None
     intentos = 0
@@ -344,12 +358,12 @@ def IniciarSesion():
         currentMenu = loginMenu
         return 
     clear()
-    if user["role"] == 1:
+    if user[EntitiesFields.USER_ROLE] == 1:
         mainMenu = mainMenuAdmin        
-    elif user["role"] == 2:
+    elif user[EntitiesFields.USER_ROLE] == 2:
         mainMenu = mainMenuUser
     currentMenu = mainMenu
-    currentUserId = user["id"]
+    currentUserId = user[EntitiesFields.ID]
 
 def Registro():
     clear()
@@ -359,6 +373,7 @@ def Registro():
 
 
 def volverMenuPrincipal():
+    #permite volver al mainMenu, por ahora no estamos utilizando mas andiameinto de menues.
     clear()
     global currentMenu
     currentMenu = mainMenu
@@ -374,19 +389,22 @@ gestionPeliculas = {
 gestionSalas = {
     "1":consultarSalas,
     "2":crearSala,
-    "3":CrearFuncionDePelicula,
-    "4":liberarSala,
-    "5":VerificarPrecioEntrada,
-    "6":ModificarValorEntrada,
-    "7":CheckearReservasSalas,
-    "8":volverMenuPrincipal
+    "3":eliminarSala,
+    "4":CrearFuncionDePelicula,
+    "5":MostrarFuncionesProgramadas,
+    "6":EliminarFuncionProgramada,
+    "7":liberarSala,
+    "8":VerificarPrecioEntrada,
+    "9":ModificarValorEntrada,
+    "10":CheckearReservasSalas,
+    "11":volverMenuPrincipal
 }
 
 gestionUsuarios = {
     "1": viewUsers,
     "2": AgregarNuevoUsuario,
     "3": editUSerInfo,
-    "4": removeMovie,
+    "4": eliminarUsuario,
     "5": volverMenuPrincipal
 }
 

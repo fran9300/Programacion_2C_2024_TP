@@ -3,6 +3,7 @@ from entities import EntitiesFields
 
 #ABM salas
 def addRoom():
+    #permite agregar una nueva sala de cine, con su nombre, filas y columnas
     try:
         newRoom = {
                     "type": "ROOM",
@@ -24,61 +25,64 @@ def addRoom():
 
 
 def editRoom():
-    roomId = int(input("Ingrese el ID de la sala a editar: "))
-    roomToEdit = getEntityById(EntitiesFields.ROOM, roomId)
+    #permite editar una sala existente
+    try:
+        roomId = int(input("Ingrese el ID de la sala a editar: "))
+        roomToEdit = getEntityById(EntitiesFields.ROOM, roomId)
 
-    if not roomToEdit:
-        print("No se encontró ninguna sala con ID:", roomId)
-    else:
-        editing = True
-        while editing:
-            print("\nEditando la sala:", roomToEdit)
-            print("Seleccione el campo que desea editar:")
-            print("1. Nombre")
-            print("2. Cantidad de filas")
-            print("3. Cantidad de columnas")
-            print("4. Terminar de editar\n")
+        if not roomToEdit:
+            print("No se encontró ninguna sala con ID:", roomId)
+        else:
+            editing = True
+            while editing:
+                print("\nEditando la sala:", roomToEdit)
+                print("Seleccione el campo que desea editar:")
+                print("1. Nombre")
+                print("2. Cantidad de filas")
+                print("3. Cantidad de columnas")
+                print("4. Terminar de editar\n")
 
-            choice = int(input("Elige una opción: "))
-            if choice == 4:
-                editing = False
-                print("\nEdición finalizada.")
-            elif choice == 1:
-                roomToEdit[EntitiesFields.ROOM_NAME] = input("Ingrese el nuevo nombre de la sala: ")
-            elif choice == 2:
-                filas = int(input("Ingrese la nueva cantidad de filas (máximo 30): "))
-                if 1 <= filas <= 30:
-                    roomToEdit[EntitiesFields.ROOM_ROWS] = filas
+                choice = int(input("Elige una opción: "))
+                if choice == 4:
+                    editing = False
+                    print("\nEdición finalizada.")
+                elif choice == 1:
+                    roomToEdit[EntitiesFields.ROOM_NAME] = input("Ingrese el nuevo nombre de la sala: ")
+                elif choice == 2:
+                    filas = int(input("Ingrese la nueva cantidad de filas (máximo 30): "))
+                    if 1 <= filas <= 30:
+                        roomToEdit[EntitiesFields.ROOM_ROWS] = filas
+                    else:
+                        print("Error: La cantidad de filas debe estar entre 1 y 30.")
+                elif choice == 3:
+                    columnas = int(input("Ingrese la nueva cantidad de columnas (máximo 30): "))
+                    if 1 <= columnas <= 30:
+                        roomToEdit[EntitiesFields.ROOM_COLUMNS] = columnas
+                    else:
+                        print("Error: La cantidad de columnas debe estar entre 1 y 30.")
                 else:
-                    print("Error: La cantidad de filas debe estar entre 1 y 30.")
-            elif choice == 3:
-                columnas = int(input("Ingrese la nueva cantidad de columnas (máximo 30): "))
-                if 1 <= columnas <= 30:
-                    roomToEdit[EntitiesFields.ROOM_COLUMNS] = columnas
-                else:
-                    print("Error: La cantidad de columnas debe estar entre 1 y 30.")
-            else:
-                print("Opción no válida.")
+                    print("Opción no válida.")
 
-        
-        updateEntity(roomToEdit)
-        print("\nSala con ID", roomId, "ha sido actualizada en el sistema.\n")
+            
+            updateEntity(roomToEdit)
+            print("\nSala con ID", roomId, "ha sido actualizada en el sistema.\n")
+    except ValueError:
+        print("valor mal introducido, por favor ingrese los mismos segun lo indicado en pantalla\n")
 
 def deleteRoom():
-    roomId = int(input("Ingrese el ID de la sala a eliminar: "))
-    if deleteById(EntitiesFields.ROOM, roomId):
-        print("\nSala eliminada del sistema.\n")
-    else:
-        print("No se encontró ninguna sala con ID:", roomId)
+    #permite borrar una sala existente, utilizando la funcion genérica deleteById    
+    deleteById(EntitiesFields.ROOM)
+
 
 def printRooms():
+    #permite imprimir una sala existente, utilizando la funcion genérica printEntities
     printEntities(EntitiesFields.ROOM)
 
 
 
-#Funcion para liberar sala
+
 def freeRooms():
-    
+    #Funcion para liberar sala
     print("Salas disponibles:")
     printRooms()  
     try:
@@ -102,6 +106,7 @@ def freeRooms():
     # Eliminar (liberar) cada reserva de la sala
     for reserva in reservas:
         reserva[EntitiesFields.DELETED] = True  # Marcar la reserva como eliminada
+        reserva[EntitiesFields.TYPE] = EntitiesFields.RESERVATION
         updateEntity(reserva)  # Guardar el cambio en la reserva
 
     print(f"Todas las reservas de la sala con ID {room_id} han sido liberadas.")

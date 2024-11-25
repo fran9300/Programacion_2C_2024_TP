@@ -10,7 +10,8 @@ from entities.EntitiesFields import USERS_FIELDS
 def getUsers():
     return None
 
-def addUser(): 
+def addUser():
+    #Permite agregar nuevos usuarios por parte del administrador  TODO verificaciones
     try:
         newUser = {
             "type": "USER",
@@ -34,7 +35,8 @@ def addUser():
         else:
             print("\noperacion cancelada\n")
 
-def NewUser(): 
+def NewUser():
+    #permite agregar un nuevo usuario (no administrador) TODO verificaciones 
     try:
         newUser = {
             "type": "USER",
@@ -59,51 +61,55 @@ def NewUser():
             print("\noperacion cancelada\n")
 
 def editUser():
-    userId = int(input("Ingrese el ID del usuario a editar: "))
-    userToEdit = getEntityById("USER", userId)
+    #permite editar usuarios existentes
+    try:
+        printEntities(EntitiesFields.USER)
+        userId = int(input("Ingrese el ID del usuario a editar: "))
+        userToEdit = getEntityById(EntitiesFields.USER, userId)
 
-    if not userToEdit:
-        print("No se encontró ningún usuario con ID:", userId)
-    else:
-        editing = True
-        while editing:
-            print("\nEditando el usuario:", userToEdit)
-            print("Seleccione el campo que desea editar:")
-            for index in range(1, len(USERS_FIELDS)):
-                field = USERS_FIELDS[index]
-                print(f"{index}. {field.capitalize()}")
-            print(f"{len(USERS_FIELDS)}. Terminar de editar\n")
+        if not userToEdit:
+            print("No se encontró ningún usuario con ID:", userId)
+        else:
+            editing = True
+            while editing:
+                print("\nEditando el usuario:", userToEdit)
+                print("Seleccione el campo que desea editar:")
+                for i,field in enumerate(EntitiesFields.USERS_FIELDS):
+                    print(str(i)+"-"+field)
+                print("ingrese -1 para dejar de editar")
 
-            choice = int(input("Elige una opción: "))
-            if choice == len(USERS_FIELDS):
-                editing = False
-                print("\nEdición finalizada.")
-            elif 1 <= choice < len(USERS_FIELDS):
-                field = USERS_FIELDS[choice]
-                newValue = input(f"Ingrese el nuevo valor para {field}: ")
-                
-                # Conversión de tipo según el campo
-                if field == "role":
-                    newValue = int(newValue)
-                elif field == "credit":
-                    newValue = float(newValue)
+                choice = int(input("Elige una opción: "))
+                if choice == -1:
+                    editing = False
+                    print("\nEdición finalizada.")
+                elif 1 <= choice < len(USERS_FIELDS):
+                    field = USERS_FIELDS[choice]
+                    newValue = input(f"Ingrese el nuevo valor para {field}: ")
+                    
+                    # Conversión de tipo según el campo
+                    if field == EntitiesFields.USER_ROLE:
+                        newValue = int(newValue)
+                    elif field == EntitiesFields.USER_CREDIT:
+                        newValue = float(newValue)
 
-                userToEdit[field] = newValue
-            else:
-                print("Opción no válida.")
+                    userToEdit[field] = newValue
+                else:
+                    print("Opción no válida.")
 
-        # Guardar los cambios en el archivo
-        updateEntity(userToEdit)
-        print("\nUsuario con ID", userId, "ha sido actualizado en el sistema.\n")
-
+            # Guardar los cambios en el archivo
+            userToEdit[EntitiesFields.TYPE] = EntitiesFields.USER
+            updateEntity(userToEdit)
+            print("\nUsuario con ID", userId, "ha sido actualizado en el sistema.\n")
+    except ValueError:
+        print("valor mal introducido, por favor ingrese los mismos segun lo indicado en pantalla\n")
 
 
 def deleteUser():
-    userId = int(input("Ingrese el ID del usuario a eliminar: "))
-    deleteById("USER", userId)
-    print("\nUsuario con ID", userId, "ha sido eliminado del sistema.\n")
+    #permite borrar usuarios existentes, utilizando la funcion genérica deleteById
+    deleteById(EntitiesFields.USER)
 
 def printUsers():
+    #permite imprimir usuarios existentes, utilizando la funcion genérica printEntities
     printEntities(EntitiesFields.USER)
 
 
