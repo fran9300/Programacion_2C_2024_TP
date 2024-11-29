@@ -221,6 +221,29 @@ def printEntities(entityKey):
             print(line)
     print()
 
+def printEntities2(entityKey):
+    # Cargar datos y campos
+    entities = loadData(entityKey)
+    fields = EntitiesFields.FIELDS[entityKey]
+
+    # Calcular los anchos máximos para las columnas
+    max_lengths = [max(len(str(field)), *(len(str(entity[field])) for entity in entities)) for field in fields]
+
+    # Crear el formato dinámico para las filas
+    row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
+
+    # Imprimir la cabecera
+    print(row_format.format(*fields))
+    print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
+
+    # Imprimir las entidades
+    for entity in entities:
+        if not entity[EntitiesFields.DELETED]:
+            print(row_format.format(*(str(entity[field]) for field in fields)))
+
+    print()
+
+
 def printAllEntities(entityKey):
     #función genérica para imprimir los distintos tipos de entidades, INCLUSO si poseen verdadero el campo deleted
     entities = loadData(entityKey)

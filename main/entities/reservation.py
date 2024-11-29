@@ -21,7 +21,7 @@ def addReservation(userId):
 
         clear()
         print(f"\n{pelicula[EntitiesFields.MOVIE_TITLE]} el día {sala_reserva[EntitiesFields.CONFIG_DAY]} a las {sala_reserva[EntitiesFields.CONFIG_TIME]} hs\n")
-        showRoom(sala_reserva["roomId"])
+        showRoom(sala_reserva["id"])
         cantidad_entradas = int(input("indique la cantidad de entradas que desea reservar (maximo de 6) o 0 para cancelar la reserva: "))
 
         i = 0
@@ -30,10 +30,10 @@ def addReservation(userId):
             fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
             columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
             
-            if checkAvailable(sala_reserva["roomId"],fila_aciento_reserva,columna_aciento_reserva):
+            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva):
                     newReservation = {
                             "type": EntitiesFields.RESERVATION,
-                            EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["roomId"],
+                            EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["id"],
                             EntitiesFields.RESERVATION_FIELDS[2]: userId,
                             EntitiesFields.RESERVATION_FIELDS[3]: sala_reserva["day"],
                             EntitiesFields.RESERVATION_FIELDS[4]: sala_reserva["time"],
@@ -44,7 +44,7 @@ def addReservation(userId):
                     addEntity(newReservation)
                     clear()
                     print("\nNueva reserva guardada.\n")
-                    showRoom(sala_reserva["roomId"])
+                    showRoom(sala_reserva["id"])
                     i += 1
             else:
                 print("\nasiento ya reservado, por favor seleccione otro.\n")
@@ -90,6 +90,7 @@ def checkRoom():
     printEntities(EntitiesFields.ROOM_CONFIGURATION)
     try:
         roomConfigId = int(input("\nintroduzca el id de la sala: "))
+        clear()
         showRoom(roomConfigId)
     except ValueError:
         print("por favor, introduzca el id como entero y el día y tiempo como se solicita\n")
