@@ -21,50 +21,49 @@ ROOM_FIELDS = [ID,ROOM_NAME,ROOM_ROWS,ROOM_COLUMNS]
 #Room configuration proeprties
 
 CONFIG_ROOM_ID = "roomId"
+CONFIG_DAY = "day"
 CONFIG_TIME = "time"
 CONFIG_MOVIE_ID = "movieId"
-CONFIG_DAY = "day"
+CONFIG_FIELDS = [ID,CONFIG_MOVIE_ID,CONFIG_ROOM_ID,CONFIG_DAY,CONFIG_TIME,]
 
 # reservation properties
 
 RESERVATION_ROOM_ID = "roomId"
 RESERVATION_USER_ID = "userId"
+RESERVATION_DAY = "day"
+RESERVATION_TIME = "time"
 RESERVATION_ROW = "row"
 RESERVATION_COLUMN = "column"
+RESERVATION_FIELDS = [ID,RESERVATION_ROOM_ID,RESERVATION_USER_ID,RESERVATION_DAY,RESERVATION_TIME,RESERVATION_ROW,RESERVATION_COLUMN]
 
 
+MOVIE_TITLE="title"
+MOVIE_DURATION="duration"
+MOVIE_GENRE="genre"
+MOVIE_CATEGORY="category"
+MOVIE_RATING="rating"
+MOVIE_RELEASEDATE="releaseDate"
 
-# Diccionario para los campos de la entidad MOVIES
-MOVIES_FIELDS = {
-    1: "title",
-    2: "duration",
-    3: "description",
-    4: "genre",
-    5: "rating",
-    6: "release_date"
-}
-#TODO: que qude como el resto de properties
+MOVIES_FIELDS=[ID,MOVIE_TITLE,MOVIE_DURATION,MOVIE_GENRE,MOVIE_CATEGORY,MOVIE_RATING,MOVIE_RELEASEDATE]
 
 
-# entitiesEnum.py
+USER_USERNAME="userName"
+USER_NAME= "name"
+USER_LASTNAME="lastName"
+USER_PASSWORD="password"
+USER_ROLE="role"
+USER_EMAIL="email"
+USER_CREDIT="credit"
 
-USERS_FIELDS = {
-    1: "username",
-    2: "first_name",
-    3: "last_name",
-    4: "password",
-    5: "access_level",
-    6: "birthdate",
-    7: "email",
-    8: "balance"
-}
-#TODO: que qude como el resto de properties, obviamente arreglar donde se llamaban a estos campos
+USERS_FIELDS= [ID,USER_USERNAME,USER_NAME,USER_LASTNAME,USER_PASSWORD,USER_ROLE,USER_EMAIL,USER_CREDIT]
+
+
 
 FIELDS = {
-    USER: "USER",#agregar los fields de cada entidad
-    MOVIES: "MOVIES",
+    USER: USERS_FIELDS,
+    MOVIES: MOVIES_FIELDS,
     SECUENCE: "SECUENCE",
-    RESERVATION: "RESERVATION",
+    RESERVATION: RESERVATION_FIELDS,
     ROOM: ROOM_FIELDS,
-    ROOM_CONFIGURATION: "ROOM_CONFIGURATION",
+    ROOM_CONFIGURATION: CONFIG_FIELDS,
 }
