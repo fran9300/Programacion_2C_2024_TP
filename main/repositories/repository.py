@@ -117,7 +117,7 @@ defaultValues = {
 
     EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_DAY: "Lunes",EntitiesFields.RESERVATION_TIME : "16:00",EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],       
 
-    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4}
+    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4,"INVOICE":4,"INVOICE_RESERVATION":4}
 
 
 }
@@ -129,6 +129,8 @@ def initDefaultValues():
     initDefaultFile(EntitiesFields.ROOM)
     initDefaultFile(EntitiesFields.ROOM_CONFIGURATION)
     initDefaultFile(EntitiesFields.RESERVATION)
+    initDefaultFile(EntitiesFields.INVOICE)
+    initDefaultFile(EntitiesFields.INVOICE_RESERVATION)
 
 #Try-Catch
 def getDefaultValue(value):
@@ -212,7 +214,7 @@ def addEntity(entity):
     values = loadData(type)
     values.append(entity)
     saveData(values,type)
-
+    return entity[EntitiesFields.ID]
 
 def printEntities(entityKey):
     # Cargar datos y campos
