@@ -3,15 +3,20 @@ from utils.translator import getTranslation
 import re
 
 
-currentEntityId = 0
+currentEntityId = -1
+editingGlobal = False
 
-def validateEntity(entity):
-    global currentEntityId 
-    currentEntityId = entity[ID]    
+def validateEntity(entity,editing):
+    global currentEntityId,editingGlobal
+    editingGlobal = editing
+    print(editingGlobal)
+    if editing:
+        currentEntityId = entity[ID]    
     fields = FIELDS[entity["type"]]
     for field in fields:
         validateField(field,entity)
-    currentEntityId = 0
+    currentEntityId = -1
+    editingGlobal = False
 
 def validateField(field,entity):
     try:
@@ -65,16 +70,26 @@ def email(value):
         return "* Ingresar un formato valido de email\n"
 
 def uniqueUsername(value):
+    global editingGlobal
     from repositories.repository import getEntityByProperties
     user = getEntityByProperties(USER,[USER_USERNAME],value)
-    if user != None and user[ID] != currentEntityId:
-        return "* El nombre de usuario ingresado no esta disponible\n"
+    if user != None:
+        if editingGlobal and user[ID] != currentEntityId:
+            return "* El nombre de usuario ingresado no esta disponible\n"
+        elif not editingGlobal:
+            return "* El nombre de usuario ingresado no esta disponible\n"
+        
+
 
 def uniqueMovieTitle(value):
+    global editingGlobal
     from repositories.repository import getEntityByProperties
     movie = getEntityByProperties(MOVIES,[MOVIE_TITLE],value)
-    if movie != None and movie[ID] != currentEntityId:
-        return "* El nombre de pelicula ingresado no esta disponible\n"
+    if movie != None:
+        if editingGlobal and movie[ID] != currentEntityId:
+            return "* El nombre de pelicula ingresado no esta disponible\n"
+        elif not editingGlobal:
+            return "* El nombre de pelicula ingresado no esta disponible\n"
 
 def dateFormat(value):
     regex = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$"
