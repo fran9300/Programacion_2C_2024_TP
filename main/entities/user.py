@@ -160,7 +160,7 @@ def checkIfUserExist(userName):
 def checkUserAndPass(user,password):
     #Función para chequear si el usuario o la clave son correctas
 
-    filtered = list(filter(lambda value : value["username"]==user,loadData(EntitiesFields.USER)))
+    filtered = list(filter(lambda value : value["userName"]==user,loadData(EntitiesFields.USER)))
 
     if len(filtered) == 0:
         clear()
