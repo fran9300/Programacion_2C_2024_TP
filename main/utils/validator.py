@@ -73,7 +73,7 @@ def uniqueUsername(value):
 def uniqueMovieTitle(value):
     from repositories.repository import getEntityByProperties
     movie = getEntityByProperties(MOVIES,[MOVIE_TITLE],value)
-    if movie != None:
+    if movie != None and movie[ID] != currentEntityId:
         return "* El nombre de pelicula ingresado no esta disponible\n"
 
 def dateFormat(value):
