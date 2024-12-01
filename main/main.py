@@ -221,10 +221,9 @@ def clientConfig():
     #TODO: permite modificar los datos del cliente, y su metodo de pago
     return None
 """
-
 #Funciones para el manejo de la compra de entradas-----------------------------------------------------------------------------------------
 
-""""
+"""
 def pedirMetodoDePago():
     #Función que le solicita al usuario el metodo de pago que quiere utilizar
     
@@ -307,7 +306,8 @@ def comprarEntrada():
     # reservarButaca()
     # imprimirFactura()
     return None
-"""
+
+    """
 #Funciones para el manejo del menu interactivo-----------------------------------------------------------------------------------------
 
 def imprimirMenu(menu):
@@ -454,6 +454,7 @@ mainMenuAdmin = {
     "5": imprimirDescuentos,
     "6": CheckUsuarioActual,
     "7": LoginMenu
+    
 }
 
 mainMenuUser = {
@@ -466,6 +467,7 @@ mainMenuUser = {
     "7": listarSaldosUsuario,  # Listar saldos
     "8": pagarConSaldo,  # Pagar con saldo
     "9": LoginMenu
+    
 }
 
 loginMenu = {
