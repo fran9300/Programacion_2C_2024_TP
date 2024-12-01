@@ -199,6 +199,7 @@ def CheckUsuarioActual():
     clear()
     print(f"User ID: {currentUserId}\n")
 
+"""
 #Funciones descuentos--------------------------------------------------------------------------------------------------
 
 def configDescuentoPorTipoDePago(metodo):
@@ -219,11 +220,10 @@ def imprimirDescuentos():
 def clientConfig():
     #TODO: permite modificar los datos del cliente, y su metodo de pago
     return None
-
-
+"""
 #Funciones para el manejo de la compra de entradas-----------------------------------------------------------------------------------------
 
-
+"""
 def pedirMetodoDePago():
     #Función que le solicita al usuario el metodo de pago que quiere utilizar
     
@@ -307,6 +307,7 @@ def comprarEntrada():
     # imprimirFactura()
     return None
 
+    """
 #Funciones para el manejo del menu interactivo-----------------------------------------------------------------------------------------
 
 def imprimirMenu(menu):
@@ -372,9 +373,6 @@ def Registro():
     clear()
     addUser()
 
-#Programa principal
-
-
 def configurarDescuentos():
     """Permite al administrador configurar los descuentos."""
     descuentos = cargarDescuentos()
@@ -408,6 +406,9 @@ def pagarConSaldo():
     # Aquí puedes pedir el monto al usuario o dejarlo como ejemplo fijo
     monto = float(input("Ingrese el monto a pagar: "))
     elegirMetodoPago(currentUserId, monto)
+
+#Programa principal
+
 
 def volverMenuPrincipal():
     #permite volver al mainMenu, por ahora no estamos utilizando mas andiameinto de menues.
