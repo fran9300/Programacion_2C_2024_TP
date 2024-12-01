@@ -3,13 +3,15 @@ from utils.translator import getTranslation
 import re
 
 
+currentEntityId = 0
 
-
-def validateEntity(entity):    
+def validateEntity(entity):
+    global currentEntityId 
+    currentEntityId = entity[ID]    
     fields = FIELDS[entity["type"]]
     for field in fields:
         validateField(field,entity)
-
+    currentEntityId = 0
 
 def validateField(field,entity):
     try:
@@ -65,13 +67,13 @@ def email(value):
 def uniqueUsername(value):
     from repositories.repository import getEntityByProperties
     user = getEntityByProperties(USER,[USER_USERNAME],value)
-    if user != None:
+    if user != None and user[ID] != currentEntityId:
         return "* El nombre de usuario ingresado no esta disponible\n"
 
 def uniqueMovieTitle(value):
     from repositories.repository import getEntityByProperties
     movie = getEntityByProperties(MOVIES,[MOVIE_TITLE],value)
-    if movie != None:
+    if movie != None and movie[ID] != currentEntityId:
         return "* El nombre de pelicula ingresado no esta disponible\n"
 
 def dateFormat(value):
