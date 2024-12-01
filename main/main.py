@@ -1,6 +1,6 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
-from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass,NewUser
+from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
 from entities.reservation import addReservation, checkReservations, valorEntrada, checkRoom
 from entities.utils import clear
 from entities.room import addRoom, printRooms, deleteRoom,freeRooms
@@ -8,7 +8,7 @@ from entities.room_configuration import addRoomConfiguration,printConfigRoom,del
 import os
 import re
 from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById, EntitiesFields
-
+from utils.translator import getTranslation
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
 
@@ -311,7 +311,8 @@ def imprimirMenu(menu):
     #función para imprimir el menu actual
     print("Ingrese el número de alguna de las siguientes opciones o escriba 'exit' para salir: \n")
     for key in menu.keys():
-        print(f"{key}-{menu[key].__name__}")
+        itemName = getTranslation(menu[key].__name__)
+        print(f"{key}-{itemName}")
 
 def GestionPeliculas():
     #para ir al menu de gestion de películas
@@ -367,7 +368,7 @@ def IniciarSesion():
 
 def Registro():
     clear()
-    NewUser()
+    addUser()
 
 #Programa principal
 
@@ -443,6 +444,9 @@ loginMenu = {
 # print(getEntityByProperties("USER",["username","name"],"fpelli","Franco")) 
 # print(repositories.repository.getEntityById("USER",1))
 initDefaultValues()
+
+
+
 
 currentMenu = loginMenu
 option = ''
