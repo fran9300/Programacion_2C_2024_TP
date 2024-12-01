@@ -9,10 +9,9 @@ editingGlobal = False
 def validateEntity(entity,editing):
     global currentEntityId,editingGlobal
     editingGlobal = editing
-    print(editingGlobal)
     if editing:
         currentEntityId = entity[ID]    
-    fields = FIELDS[entity["type"]]
+    fields = FIELDS[entity[TYPE]]
     for field in fields:
         validateField(field,entity)
     currentEntityId = -1
