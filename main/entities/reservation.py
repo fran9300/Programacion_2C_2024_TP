@@ -31,7 +31,7 @@ def addReservation(userId):
             fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
             columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
             
-            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva,tempReservations=butacas):
+            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva,butacas):
                     newReservation = {
                             "type": EntitiesFields.RESERVATION,
                             EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["id"],
@@ -46,7 +46,7 @@ def addReservation(userId):
                     butacas.append(newReservation)
                     clear()
                     print("\nNueva reserva guardada.\n")
-                    showRoom(sala_reserva["id"],tempReservations=butacas)
+                    showRoom(sala_reserva["id"],butacas)
                     i += 1
             else:
                 print("\nasiento ya reservado, por favor seleccione otro.\n")
