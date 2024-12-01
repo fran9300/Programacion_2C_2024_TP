@@ -213,25 +213,29 @@ def addEntity(entity):
     values.append(entity)
     saveData(values,type)
 
+
 def printEntities(entityKey):
-    #función genérica para imprimir los distintos tipos de entidades, mientras que el campo deleted sea falso
+    # Cargar datos y campos
     entities = loadData(entityKey)
     fields = EntitiesFields.FIELDS[entityKey]
-    headerLine = ""
-    for field in fields:
-        if not headerLine == "":
-                headerLine += ' | '
-        headerLine += field 
-    print(headerLine)
+
+    # Calcular los anchos máximos para las columnas
+    max_lengths = [max(len(str(field)), *(len(str(entity[field])) for entity in entities)) for field in fields]
+
+    # Crear el formato dinámico para las filas
+    row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
+
+    # Imprimir la cabecera
+    print(row_format.format(*fields))
+    print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
+
+    # Imprimir las entidades
     for entity in entities:
-        if entity[EntitiesFields.DELETED] == False:
-            line = ""
-            for field in fields:
-                if not line == "":
-                    line += ' | '
-                line += str(entity[field])
-            print(line)
+        if not entity[EntitiesFields.DELETED]:
+            print(row_format.format(*(str(entity[field]) for field in fields)))
+
     print()
+
 
 def printAllEntities(entityKey):
     #función genérica para imprimir los distintos tipos de entidades, INCLUSO si poseen verdadero el campo deleted
@@ -252,7 +256,63 @@ def printAllEntities(entityKey):
         print(line)
     print()
 
-def printCustomEntities(lista,type):
+
+
+def printCustomEntities(lista, entityKey):
+    try:
+        # Asegurarse de trabajar con la lista directamente, no llamar a loadData
+        entities = lista  # Ahora trabajamos directamente con la lista pasada
+        fields = EntitiesFields.FIELDS[entityKey]
+
+        # Calcular los anchos máximos para las columnas
+        max_lengths = [max(len(field), *(len(str(entity[field])) for entity in entities if not entity[EntitiesFields.DELETED])) for field in fields]
+
+        # Crear el formato dinámico para las filas
+        row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
+
+        # Imprimir la cabecera
+        print(row_format.format(*fields))
+        print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
+
+        # Imprimir las entidades
+        for entity in entities:
+            if not entity[EntitiesFields.DELETED]:
+                print(row_format.format(*(str(entity[field]) for field in fields)))
+
+        print()
+    except TypeError:
+        print("no existen reservas para el usuario actual\n")
+    except Exception as e:
+        print(f"error desconocido: {e}")
+
+
+
+    '''
+#funcion para imprimir entidades anterior
+
+def printEntities(entityKey):
+    #función genérica para imprimir los distintos tipos de entidades, mientras que el campo deleted sea falso
+    entities = loadData(entityKey)
+    fields = EntitiesFields.FIELDS[entityKey]
+    headerLine = ""
+    for field in fields:
+        if not headerLine == "":
+                headerLine += ' | '
+        headerLine += field 
+    print(headerLine)
+    for entity in entities:
+        if entity[EntitiesFields.DELETED] == False:
+            line = ""
+            for field in fields:
+                if not line == "":
+                    line += ' | '
+                line += str(entity[field])
+            print(line)
+    print()
+    
+    #funcion para imprimir una customEntitie anterior
+
+    def printCustomEntities2(lista,type):
     #función genérica para imprimir una lista generica junto con el tipo de entidad, mientras que el campo deleted sea falso
     entities = lista
     fields = EntitiesFields.FIELDS[type]
@@ -271,3 +331,7 @@ def printCustomEntities(lista,type):
                 line += str(entity[field])
             print(line)
     print()
+    
+    
+    
+    '''

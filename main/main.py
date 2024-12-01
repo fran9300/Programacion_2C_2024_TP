@@ -470,7 +470,7 @@ mainMenuUser = {
 
 loginMenu = {
     "1":Registro,
-    "2":IniciarSesion
+    "2":IniciarSesion,
 }
 
 
@@ -487,6 +487,7 @@ initDefaultValues()
 
 currentMenu = loginMenu
 option = ''
+clear()
 while option != 'exit':
     imprimirMenu(currentMenu)
     print()
