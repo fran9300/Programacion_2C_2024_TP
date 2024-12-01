@@ -1,5 +1,6 @@
-from EntitiesFields import *
 from repositories.repository import addEntity
+from entities.EntitiesFields import *
+from datetime import datetime
 
 def createInvoice(userId,reservations,amount):
     if len(reservations) == 0:
@@ -9,12 +10,13 @@ def createInvoice(userId,reservations,amount):
     invoice[TYPE] = INVOICE
     invoice[INVOICE_USER] = userId
     invoice[INVOICE_AMOUNT] = amount
+    invoice[INVOICE_DATE] = str(datetime.now())
     invoiceId = addEntity(invoice)   
-    
-    for reservation in reservations: 
+    print("agrego el invoice id",invoiceId)
+    for reservationId in reservations: 
         invoice_reservation = {}
         invoice_reservation[TYPE] = INVOICE_RESERVATION
         invoice_reservation[INVOICE_RESERVATION_INVOICE_ID] = invoiceId
-        invoice_reservation[INVOICE_RESERVATION_RESERVATION_ID] = reservation[ID]
+        invoice_reservation[INVOICE_RESERVATION_RESERVATION_ID] = reservationId
         addEntity(invoice_reservation)
 

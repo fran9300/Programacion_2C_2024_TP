@@ -113,5 +113,6 @@ allValidations = {
     MOVIE_TITLE:[required,uniqueMovieTitle],
     MOVIE_RATING:[required,positiveFloat],
     MOVIE_DURATION:[required,positiveInteger],
-    MOVIE_RATING:[required,positiveInteger]
+    MOVIE_RATING:[required,positiveInteger],
+    INVOICE_AMOUNT:[required,positiveFloat]
 }

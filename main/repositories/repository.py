@@ -10,7 +10,9 @@ cachedEntities = {
     EntitiesFields.SECUENCE: [],
     EntitiesFields.ROOM: [],
     EntitiesFields.ROOM_CONFIGURATION: [],
-    EntitiesFields.RESERVATION: []
+    EntitiesFields.RESERVATION: [],
+    EntitiesFields.INVOICE: [],
+    EntitiesFields.INVOICE_RESERVATION: []
 }
 
 def logicDelete():
@@ -117,7 +119,9 @@ defaultValues = {
 
     EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_DAY: "Lunes",EntitiesFields.RESERVATION_TIME : "16:00",EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],       
 
-    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4,"INVOICE":4,"INVOICE_RESERVATION":4}
+    EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4,"INVOICE":4,"INVOICE_RESERVATION":4},
+    EntitiesFields.INVOICE_RESERVATION: [],
+    EntitiesFields.INVOICE: [],
 
 
 }
@@ -202,20 +206,23 @@ def saveData(values,type):
 
 
 def addEntity(entity):
-    print(entity)
-    #función genérica para agregar una nueva entidad recien creada, tal como una pelicula o un usuario.  
-    validateEntity(entity,False)
-    entity = convertValues(entity)
-    type = ""
-    if "type" in entity:
-        type = entity["type"].upper()
-        del entity["type"]
-    autoInsertId(entity,type)
-
-    values = loadData(type)
-    values.append(entity)
-    saveData(values,type)
-    return entity[EntitiesFields.ID]
+    try:
+        #función genérica para agregar una nueva entidad recien creada, tal como una pelicula o un usuario.  
+        validateEntity(entity,False)
+        entity = convertValues(entity)
+        type = ""
+        if "type" in entity:
+            type = entity["type"].upper()
+            del entity["type"]
+        autoInsertId(entity,type)
+        print(entity,"linea216",type)
+        values = loadData(type)
+        values.append(entity)
+        saveData(values,type)
+        print(entity)
+        return entity[EntitiesFields.ID]
+    except  Exception as e:
+        print(e)
 
 def printEntities(entityKey):
     # Cargar datos y campos

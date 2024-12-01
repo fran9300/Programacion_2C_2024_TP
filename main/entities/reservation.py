@@ -2,7 +2,7 @@ from entities import EntitiesFields
 from repositories.repository import getEntityByProperties,addEntity,listByProperties, printCustomEntities,printEntities
 from entities.movies import printMovies
 from entities.utils import clear
-
+from entities.invoice import createInvoice
 valorEntrada = 5000
 
 def addReservation(userId):
@@ -26,10 +26,10 @@ def addReservation(userId):
 
         i = 0
 
+        reservationsId = []
         while i != cantidad_entradas and i != 6 : 
             fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
             columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
-            
             if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva):
                     newReservation = {
                             "type": EntitiesFields.RESERVATION,
@@ -41,7 +41,7 @@ def addReservation(userId):
                             EntitiesFields.RESERVATION_FIELDS[6]: columna_aciento_reserva,
                             EntitiesFields.DELETED : False
                             }
-                    addEntity(newReservation)
+                    reservationsId.append(addEntity(newReservation))
                     clear()
                     print("\nNueva reserva guardada.\n")
                     showRoom(sala_reserva["id"])
@@ -53,6 +53,7 @@ def addReservation(userId):
             importe = cantidad_entradas * valorEntrada
             print(f"\nReserva del usuario numero: {userId}")
             print(f"importe total de :{importe} pesos\n")
+            createInvoice(userId,reservationsId,importe)
         else:
             clear()
             print("operación cancelada\n")
