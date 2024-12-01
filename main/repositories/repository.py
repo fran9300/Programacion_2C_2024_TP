@@ -38,7 +38,7 @@ def autoInsertId(entity,type):
     
 
 def updateEntity(updatedEntity):
-    validateEntity(updatedEntity)
+    validateEntity(updatedEntity,True)
     updatedEntity = convertValues(updatedEntity)
 
     type = ""
@@ -202,8 +202,9 @@ def saveData(values,type):
 
 
 def addEntity(entity):
+    print(entity)
     #función genérica para agregar una nueva entidad recien creada, tal como una pelicula o un usuario.  
-    validateEntity(entity)
+    validateEntity(entity,False)
     entity = convertValues(entity)
     type = ""
     if "type" in entity:
