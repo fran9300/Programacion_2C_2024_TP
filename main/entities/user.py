@@ -46,15 +46,16 @@ def editUser():
         else:
             editing = True
             while editing:
-                print("\nEditando el usuario:", userToEdit)
+                print("\nEditando el usuario:", userToEdit)                
                 print("Seleccione el campo que desea editar:")
-                for i,field in enumerate(EntitiesFields.USERS_FIELDS):
-                    fieldTrans = getTranslation(field)
-                    print(str(i)+"-"+field)
-                print("ingrese -1 para dejar de editar")
+                for index in range(1, len(USERS_FIELDS)):
+                    field = USERS_FIELDS[index]
+                    field = getTranslation(field)
+                    print(f"{index}. {field}")
+                print(f"{len(USERS_FIELDS)}. Terminar de editar\n")
 
                 choice = int(input("Elige una opción: "))
-                if choice == -1:
+                if choice == len(USERS_FIELDS):
                     editing = False
                     print("\nEdición finalizada.")
                 elif 1 <= choice < len(USERS_FIELDS):
