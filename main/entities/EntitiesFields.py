@@ -1,5 +1,3 @@
-# entities_enum.py
-
 USER = "USER"
 MOVIES = "MOVIES"
 SECUENCE = "SECUENCE"
@@ -108,3 +106,24 @@ FIELDS_TYPES = {
     RESERVATION_ROW:INTEGER, 
     RESERVATION_COLUMN:INTEGER
 }
+
+
+
+# Payment Config Entity
+USER_PAYMENT_FIELDS = [
+    "id",            # ID único de la entrada (autoincremental)
+    "user_id",       # ID del usuario
+    "payment_type",  # Tipo de método de pago (ID o nombre)
+    "balance"        # Saldo disponible para ese método de pago
+]
+
+# Opciones de método de pago
+PAYMENT_METHODS = {
+    1: "Cash",
+    2: "Transfer",
+    3: "Debit",
+    4: "Credit",
+    5: "Points"
+}
+
+   
