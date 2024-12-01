@@ -2,6 +2,7 @@ from entities.utils import getById, clear
 from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
 from entities.EntitiesFields import USERS_FIELDS
+from utils.translator import getTranslation
 
 
 
@@ -75,46 +76,19 @@ def addUser():
             USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
             USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
             USERS_FIELDS[4]: input("Ingrese la contraseña: "),
-            USERS_FIELDS[5]: int(input("Ingrese el rol (1=Admin, 2=Usuario): ")),
-            USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
-            USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: ")),
-            EntitiesFields.DELETED : False
-        }
-        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
-    except ValueError:
-        print("\ningrese valores numéricos enteros para el rol y valores numéricos con punto para el saldo\n")
-
-    else:
-        if confirmacion == 1:
-            addEntity(newUser)
-            print("\nNuevo usuario agregado al sistema.\n")
-        else:
-            print("\noperacion cancelada\n")
-
-def NewUser():
-    #permite agregar un nuevo usuario (no administrador) TODO verificaciones 
-    try:
-        newUser = {
-            "type": "USER",
-            USERS_FIELDS[1]: input("Ingrese nuevo usuario:"),
-            USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
-            USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
-            USERS_FIELDS[4]: input("Ingrese la contraseña: "),
             USERS_FIELDS[5]: 2,
             USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
-            USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: ")),
+            USERS_FIELDS[7]: input("Ingrese el saldo inicial: "),
             EntitiesFields.DELETED : False
         }
         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
-    except:
-        print("\ningrese valores numéricos con punto para el saldo\n")
-    else:
         if confirmacion == 1:
             addEntity(newUser)
-            clear()
             print("\nNuevo usuario agregado al sistema.\n")
         else:
             print("\noperacion cancelada\n")
+    except Exception as e: 
+        print("Error inesperado ingresando usuario")
 
 def editUser():
     #permite editar usuarios existentes
@@ -131,6 +105,7 @@ def editUser():
                 print("\nEditando el usuario:", userToEdit)
                 print("Seleccione el campo que desea editar:")
                 for i,field in enumerate(EntitiesFields.USERS_FIELDS):
+                    fieldTrans = getTranslation(field)
                     print(str(i)+"-"+field)
                 print("ingrese -1 para dejar de editar")
 
@@ -140,14 +115,8 @@ def editUser():
                     print("\nEdición finalizada.")
                 elif 1 <= choice < len(USERS_FIELDS):
                     field = USERS_FIELDS[choice]
-                    newValue = input(f"Ingrese el nuevo valor para {field}: ")
-                    
-                    # Conversión de tipo según el campo
-                    if field == EntitiesFields.USER_ROLE:
-                        newValue = int(newValue)
-                    elif field == EntitiesFields.USER_CREDIT:
-                        newValue = float(newValue)
-
+                    fieldTrans = getTranslation(field)
+                    newValue = input(f"Ingrese el nuevo valor para {fieldTrans}: ")
                     userToEdit[field] = newValue
                 else:
                     print("Opción no válida.")

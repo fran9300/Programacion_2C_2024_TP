@@ -2,8 +2,8 @@ import json
 from repositories.path import getPath
 from entities import EntitiesFields
 from entities.utils import getById
-
-
+from utils.validator import validateEntity
+import copy
 cachedEntities = {
     EntitiesFields.USER : [],
     EntitiesFields.MOVIES: [],
@@ -15,11 +15,17 @@ cachedEntities = {
 
 def logicDelete():
     #Se debe permitir eliminar una entidad de manera logica. Evitar borrado fisco.
+    #Creo q esto hay q borarrlo
     return None
 
-def createTransaction():
-    #@fpelli: se debe crear concepto de transaccionalidad.
-    return None
+def convertValues(entity):
+    entityType = entity[EntitiesFields.TYPE]
+    fields = EntitiesFields.FIELDS[entityType]
+    for field in fields:
+        if field != EntitiesFields.ID and field != EntitiesFields.DELETED:
+            entity[field] = EntitiesFields.convertValue(entity[field],EntitiesFields.FIELDS_TYPES[field])
+    return entity
+
 
 def autoInsertId(entity,type):
     secuences = loadData(EntitiesFields.SECUENCE)
@@ -32,6 +38,9 @@ def autoInsertId(entity,type):
     
 
 def updateEntity(updatedEntity):
+    validateEntity(updatedEntity)
+    updatedEntity = convertValues(updatedEntity)
+
     type = ""
     if "type" in updatedEntity:
         type = updatedEntity["type"].upper()
@@ -161,7 +170,7 @@ def listByProperties(entityType,properties,*values):
     return response
 
 def getEntityById(entityType,id):
-    return getEntityByProperties(entityType,["id"],id)
+    return copy.deepcopy(getEntityByProperties(entityType,["id"],id)) #Se devuelve una copia del objeto porque sino cuando se modifica como que se pisa el objeto en el archivo y rompe los validators
 
 
 def loadData(value):
@@ -192,11 +201,14 @@ def saveData(values,type):
 
 def addEntity(entity):
     #función genérica para agregar una nueva entidad recien creada, tal como una pelicula o un usuario.  
+    validateEntity(entity)
+    entity = convertValues(entity)
     type = ""
     if "type" in entity:
         type = entity["type"].upper()
         del entity["type"]
     autoInsertId(entity,type)
+
     values = loadData(type)
     values.append(entity)
     saveData(values,type)

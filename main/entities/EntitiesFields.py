@@ -67,3 +67,38 @@ FIELDS = {
     ROOM: ROOM_FIELDS,
     ROOM_CONFIGURATION: CONFIG_FIELDS,
 }
+
+STRING = "string"
+INTEGER = "integer"
+FLOAT = "float"
+DATE = "date"
+
+
+def convertValue(value,type):
+    match type:
+        case "string":
+            return value
+        case "float":
+            return float(value)
+        case "integer":
+            return int(value)
+        case "date":
+            return value
+        
+
+#Se agrega el field  y el tipo de campo que es
+FIELDS_TYPES = {
+    USER_USERNAME:STRING,
+    USER_NAME:STRING,
+    USER_LASTNAME:STRING,
+    USER_PASSWORD:STRING,
+    USER_ROLE:INTEGER,
+    USER_EMAIL:STRING,
+    USER_CREDIT:FLOAT,
+    MOVIE_TITLE:STRING ,
+    MOVIE_DURATION:INTEGER,
+    MOVIE_GENRE:STRING,
+    MOVIE_CATEGORY:STRING,
+    MOVIE_RATING:INTEGER,
+    MOVIE_RELEASEDATE:DATE,
+}
