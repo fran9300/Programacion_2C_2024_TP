@@ -2,9 +2,11 @@
 
 import json
 from entities.EntitiesFields import PAYMENT_METHODS
+from entities import EntitiesFields
+from repositories.repository import printEntities
 from entities.utils import clear
 
-DESCUENTOS_PATH = "main/repositories/descuentos.json"  # Archivo JSON para descuentos
+DESCUENTOS_PATH = "main/repositories/files/descuentos.json"  # Archivo JSON para descuentos
 
 def cargarDescuentos():
     """Carga los descuentos desde un archivo JSON."""

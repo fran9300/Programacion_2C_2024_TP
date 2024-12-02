@@ -116,6 +116,8 @@ def showRoom(roomConfigId, tempReservations=None):
         if tempReservations:
             for temp in tempReservations:
                 arr[temp[EntitiesFields.RESERVATION_FIELDS[5]] - 1][temp[EntitiesFields.RESERVATION_FIELDS[6]] - 1] = 2
+        
+        cantidadDeGuiones = (room[EntitiesFields.ROOM_COLUMNS]) * 2
 
         for column in arr:
             row = ''
@@ -126,7 +128,7 @@ def showRoom(roomConfigId, tempReservations=None):
                     row += '🟥'  # Reservado permanentemente
                 elif i == 2:
                     row += '🟩'  # Reservado temporalmente
-            print("--------------------------------")
+            print("-"*cantidadDeGuiones)
             print(row)
 
     except ValueError:

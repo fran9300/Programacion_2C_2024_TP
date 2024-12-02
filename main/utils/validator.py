@@ -104,26 +104,39 @@ def passwordStrong(value):
     regex = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$'
     if not  bool(re.match(regex,value)):
         return "* La contraseña debe tener al menos una letra y un caracter\n"
+    
+def maxValue30(value, max_value=30):
+        if int(value) > max_value:
+            return f"* El valor no puede ser mayor que {max_value}\n"
+        return ''
 
 
 
 #Como key se agrega el campo a validar y como valor se agrega un array de validators
 allValidations = {
     USER_USERNAME:[required,uniqueUsername],
-    USER_CREDIT:[required,positiveFloat],
     USER_EMAIL:[required,email],
     USER_PASSWORD:[required,passwordStrong],
+
     MOVIE_RELEASEDATE:[required,dateFormat],
     MOVIE_TITLE:[required,uniqueMovieTitle],
     MOVIE_RATING:[required,positiveFloat],
     MOVIE_DURATION:[required,positiveInteger],
     MOVIE_RATING:[required,positiveInteger],
+
     INVOICE_AMOUNT:[required,positiveFloat],
+
     USER_PAYMENT_BALANCE:[required,positiveFloat],
+
     CONFIG_ROOM_ID:[required],
     CONFIG_DAY:[required,dateFormat],
     CONFIG_MOVIE_ID:[required],
     CONFIG_TIME:[required,timeFormat],
-    TICKET_VALUE_VALUE:[required,positiveFloat]
+
+    TICKET_VALUE_VALUE:[required,positiveFloat],
+
+    ROOM_NAME:[required],
+    ROOM_ROWS: [required,positiveInteger,maxValue30],
+    ROOM_COLUMNS: [required,positiveInteger,maxValue30],
 
 }

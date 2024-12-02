@@ -4,7 +4,7 @@ from entities.utils import clear
 from entities.payment_methods import aplicarDescuento
 
   # Archivo JSON para datos de saldo
-USER_PAYMENT_PATH = "main/repositories/user_payment.json"
+USER_PAYMENT_PATH = "main/repositories/files/user_payment.json"
 
 def cargarUserPayments():
     """Carga los registros de pagos de usuarios desde el archivo JSON."""

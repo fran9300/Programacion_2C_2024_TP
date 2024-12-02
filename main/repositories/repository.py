@@ -1,7 +1,7 @@
 import json
 from repositories.path import getPath
 from entities import EntitiesFields
-from entities.utils import getById
+from entities.utils import getById, clear
 from utils.validator import validateEntity
 from utils.translator import getTranslation,getOriginal
 import copy
@@ -60,6 +60,7 @@ def updateEntity(updatedEntity):
 
 
 def deleteById(entity_type):
+    clear()
     printEntities(entity_type)
     entityId = int(input(f"Ingrese el ID de la {entity_type.lower()} a eliminar: "))
     entityToDelete = getEntityById(entity_type, entityId)
@@ -70,6 +71,7 @@ def deleteById(entity_type):
         entityToDelete[EntitiesFields.DELETED] = True
         entityToDelete[EntitiesFields.TYPE] = entity_type
         updateEntity(entityToDelete)
+        clear()
         print(f"\n{entity_type.capitalize()} con ID {entityId} ha sido eliminada lógicamente del sistema.\n")
 
 
@@ -91,13 +93,13 @@ def initDefaultFile(value):
 defaultValues = {
     EntitiesFields.USER: [{EntitiesFields.ID:1, EntitiesFields.USER_USERNAME:"admin",EntitiesFields.USER_NAME:"",
                            EntitiesFields.USER_LASTNAME: "", EntitiesFields.USER_PASSWORD:"admin", EntitiesFields.USER_ROLE:1,
-                           EntitiesFields.USER_EMAIL:"", EntitiesFields.USER_CREDIT:10000, EntitiesFields.DELETED:False},
+                           EntitiesFields.USER_EMAIL:"", EntitiesFields.DELETED:False},
                            {EntitiesFields.ID:2, EntitiesFields.USER_USERNAME:"fpelli",EntitiesFields.USER_NAME:"Franco",
                            EntitiesFields.USER_LASTNAME: "Pelli", EntitiesFields.USER_PASSWORD:"contraseña", EntitiesFields.USER_ROLE:2,
-                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.USER_CREDIT:10000, EntitiesFields.DELETED:False},
+                           EntitiesFields.USER_EMAIL:"fpelli@uade.edu.ar", EntitiesFields.DELETED:False},
                            {EntitiesFields.ID:3, EntitiesFields.USER_USERNAME:"user",EntitiesFields.USER_NAME:"user",
-                           EntitiesFields.USER_LASTNAME: "user", EntitiesFields.USER_PASSWORD:"user", EntitiesFields.USER_ROLE:2,
-                           EntitiesFields.USER_EMAIL:"", EntitiesFields.USER_CREDIT:10000, EntitiesFields.DELETED:False}],
+                           EntitiesFields.USER_LASTNAME: "user", EntitiesFields.USER_PASSWORD:"user1", EntitiesFields.USER_ROLE:2,
+                           EntitiesFields.USER_EMAIL:"user@gmail.com", EntitiesFields.DELETED:False}],
 
     EntitiesFields.MOVIES: [{EntitiesFields.ID:1, EntitiesFields.MOVIE_TITLE:"Deadpool",EntitiesFields.MOVIE_DURATION:127,
                            EntitiesFields.MOVIE_GENRE: "Superheroes", EntitiesFields.MOVIE_CATEGORY:"Accion", EntitiesFields.MOVIE_RATING:"18",
@@ -131,6 +133,7 @@ defaultValues = {
                                  {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:3,EntitiesFields.USER_PAYMENT_BALANCE:30000},
                                  {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:4,EntitiesFields.USER_PAYMENT_BALANCE:100000},
                                  {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:5,EntitiesFields.USER_PAYMENT_BALANCE:10000}],
+    
     EntitiesFields.TICKET_VALUE:[{EntitiesFields.ID:1,EntitiesFields.TICKET_VALUE_VALUE:5000}]
 
 
@@ -259,27 +262,6 @@ def printEntities(entityKey):
             print(row_format.format(*(str(entity[field]) for field in fields)))
 
     print()
-
-
-def printAllEntities(entityKey):
-    #función genérica para imprimir los distintos tipos de entidades, INCLUSO si poseen verdadero el campo deleted
-    entities = loadData(entityKey)
-    fields = EntitiesFields.FIELDS[entityKey]
-    headerLine = ""
-    for field in fields:
-        if not headerLine == "":
-                headerLine += ' | '
-        headerLine += field 
-    print(headerLine)
-    for entity in entities:
-        line = ""
-        for field in fields:
-            if not line == "":
-                line += ' | '
-            line += str(entity[field])
-        print(line)
-    print()
-
 
 
 def printCustomEntities(lista, entityKey):

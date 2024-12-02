@@ -7,18 +7,19 @@ def addRoomConfiguration():
     #funcion para agregar una nueva salas configuradas, con su pelicula, sala y fecha.
     try:
         clear()
-        print("salas disponibles:")
-        printEntities(EntitiesFields.ROOM)
-        print()
         print("películas disponibles:")
         printEntities(EntitiesFields.MOVIES)
         print()
+        print("salas disponibles:")
+        printEntities(EntitiesFields.ROOM)
+        print()
+
 
         newConfig = {"type": EntitiesFields.ROOM_CONFIGURATION,
-                    EntitiesFields.CONFIG_MOVIE_ID: input("ingrese el id de la pelicula"),
-                    EntitiesFields.CONFIG_ROOM_ID: input("ingrese el id de la sala"),
-                    EntitiesFields.CONFIG_DAY: input("Ingrese día de la funcion"),
-                    EntitiesFields.CONFIG_TIME: input("Ingrese horario de la funcion"),
+                    EntitiesFields.CONFIG_MOVIE_ID: input("ingrese el id de la pelicula: "),
+                    EntitiesFields.CONFIG_ROOM_ID: input("ingrese el id de la sala: "),
+                    EntitiesFields.CONFIG_DAY: input("Ingrese fecha de la funcion (DD/MM/AAAA): "),
+                    EntitiesFields.CONFIG_TIME: input("Ingrese horario de la funcion (HH:MM): "),
                     EntitiesFields.DELETED : False,
                     }
         addEntity(newConfig)
