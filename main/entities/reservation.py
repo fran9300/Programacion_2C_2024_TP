@@ -57,13 +57,13 @@ def addReservation(userId):
             if cantidad_entradas > 6:
                 cantidad_entradas = 6
             importe = cantidad_entradas * valorEntrada
-            pago = pagarConSaldo(userId,importe)
+            pago,importeDescuento = pagarConSaldo(userId,importe)
             print(pago)
             if pago == True:    
                 for butaca in butacas:
                     addEntity(butaca)
                 print(f"\nReserva del usuario numero: {userId}")
-                print(f"importe total de :{importe} pesos\n")
+                print(f"importe total de :{importeDescuento} pesos\n")
         else:
             clear()
             print("operación cancelada\n")

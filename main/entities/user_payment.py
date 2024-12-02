@@ -1,6 +1,7 @@
 import json
 from entities.EntitiesFields import USER_PAYMENT_FIELDS, PAYMENT_METHODS
 from entities.utils import clear
+from entities.payment_methods import aplicarDescuento
 
   # Archivo JSON para datos de saldo
 USER_PAYMENT_PATH = "main/repositories/user_payment.json"
@@ -64,14 +65,17 @@ def elegirMetodoPago(user_id, total):
         print(f"{metodo_id}: {metodo_nombre}")
 
     metodo_id = int(input("\nSeleccione el ID del método de pago para usar: "))
+
+    totalConDescuento = aplicarDescuento(total, metodo_id)
+
     for payment in payments:
         if payment["user_id"] == user_id and payment["payment_type"] == metodo_id:
-            if payment["balance"] >= total:
-                payment["balance"] -= total
+            if payment["balance"] >= totalConDescuento:
+                payment["balance"] -= totalConDescuento
                 guardarUserPayments(payments)
                 clear()
                 print(f"Pago realizado exitosamente con {PAYMENT_METHODS[metodo_id]}. Saldo restante: {payment['balance']}")
-                return True
+                return True, totalConDescuento
             else:
                 clear()
                 print("Saldo insuficiente. Intente nuevamente.")
