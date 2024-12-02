@@ -80,8 +80,7 @@ def addReservation(userId):
             if cantidad_entradas > 6:
                 cantidad_entradas = 6
             importe = cantidad_entradas * valorEntrada
-            pago,importeDescuento = pagarConSaldo(userId,importe)
-            print(pago)
+            pago,user,importeDescuento = pagarConSaldo(userId,importe)
             if pago == True:    
                 for butaca in butacas:
                     reservationsId.append(addEntity(butaca))

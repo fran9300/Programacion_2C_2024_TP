@@ -6,11 +6,6 @@ from utils.translator import getTranslation
 from entities.payment_methods import aplicarDescuento
 from repositories.repository import printEntities,updateEntity,getEntityByProperties,printCustomEntities,getEntityById,listByProperties
 
-  # Archivo JSON para datos de saldo
-USER_PAYMENT_PATH = "main/repositories/files/user_payment.json"
-
-
-
 def listarSaldos(user_id):
     """Lista los saldos disponibles para un usuario."""
     saldo = listByProperties(EntitiesFields.USER_PAYMENT,[EntitiesFields.USER_PAYMENT_USER_ID,EntitiesFields.DELETED],user_id,False)
@@ -70,27 +65,54 @@ def elegirMetodoPago(user_id, total):
     payments = getEntityByProperties(EntitiesFields.USER_PAYMENT,[EntitiesFields.USER_PAYMENT_USER_ID,EntitiesFields.DELETED],user_id,False)
     listarSaldos(user_id)
 
-    # Listar métodos de pago con sus IDs
-    print("\nMétodos de pago disponibles:")
-    for metodo_id, metodo_nombre in PAYMENT_METHODS.items():
-        print(f"{metodo_id}: {metodo_nombre}")
+    print("Seleccione un metodo de pago:\n")
 
-    metodoPago = int(input("\nSeleccione el ID del método de pago para usar: "))
+    if not payments:
+        print("No se encontró ningún metodo de pago\n")
+    else:
+        selecting = True
+        while selecting:
+            #print("\nEditando los balances:", paymentBalance)
+            clear()
+            listarSaldos(user_id)            
+            print("Seleccione el campo que desea editar:")
+            for index in range(1, len(USER_PAYMENT_FIELDS_EDIT)):
+                field = USER_PAYMENT_FIELDS_EDIT[index]
+                field = getTranslation(field)
+                print(f"{index}. {field}")
+            print(f"{len(USER_PAYMENT_FIELDS_EDIT)}. Terminar de editar\n")
 
-    totalConDescuento = aplicarDescuento(total, metodo_id)
-
-    for payment in payments:
-        if payment["user_id"] == user_id and payment["payment_type"] == metodo_id:
-            if payment[metodoPago] >= totalConDescuento:
-                payment[metodoPago] -= totalConDescuento
-                guardarUserPayments(payments)
-                clear()
-                print(f"Pago realizado exitosamente con {PAYMENT_METHODS[metodo_id]}. Saldo restante: {payment['balance']}")
-                return True, totalConDescuento
+            choice = int(input("Elige una opción: "))
+            if choice == len(USER_PAYMENT_FIELDS_EDIT):
+                selecting = False
+                print("\nSelección confirmada.")
+            elif 1 <= choice < len(USER_PAYMENT_FIELDS_EDIT):
+                seleccion = USER_PAYMENT_FIELDS_EDIT[choice]
+                fieldTrans = getTranslation(seleccion)
+                print(f"Selección actual: {fieldTrans}")
+                selecting = False
             else:
+                print("Opción no válida.")
                 clear()
-                print("Saldo insuficiente. Intente nuevamente.")
-                return False
+
+    #totalConDescuento = aplicarDescuento(total, seleccion)
+    totalConDescuento = total
+
+    if payments["user_idBalance"] == user_id:
+        if payments[seleccion] >= totalConDescuento:
+            payments[seleccion] -= totalConDescuento
+            field = USER_PAYMENT_FIELDS_EDIT[choice]
+            newValue = payments[seleccion]
+            payments[field] = newValue
+            payments[EntitiesFields.TYPE] = EntitiesFields.USER_PAYMENT
+            updateEntity(payments)
+            clear()
+            #print(f"Pago realizado exitosamente con {PAYMENT_METHODS[seleccion]}. Saldo restante: {payments[seleccion]}")
+            return True,user_id, totalConDescuento
+        else:
+            #clear()
+            print("Saldo insuficiente. Intente nuevamente.")
+            return False,user_id, totalConDescuento
     print("Método de pago no encontrado o sin saldo disponible.")
 
 
