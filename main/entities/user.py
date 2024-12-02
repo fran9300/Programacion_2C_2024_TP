@@ -1,7 +1,7 @@
 from entities.utils import getById, clear
 from repositories.repository import addEntity, updateEntity, getEntityById, loadData, deleteById, printEntities
 from entities import EntitiesFields
-from entities.EntitiesFields import USERS_FIELDS
+from entities.EntitiesFields import USERS_FIELDS,USERS_FIELDS_EDIT
 from utils.translator import getTranslation
 
 
@@ -29,44 +29,6 @@ def addUser():
     print("\nNuevo usuario agregado al sistema.\n")
 
 
-def editUser():
-    userId = int(input("Ingrese el ID del usuario a editar: "))
-    userToEdit = getEntityById("USER", userId)
-
-    if not userToEdit:
-        print("No se encontró ningún usuario con ID:", userId)
-    else:
-        editing = True
-        while editing:
-            print("\nEditando el usuario:", userToEdit)
-            print("Seleccione el campo que desea editar:")
-            for index in range(1, len(USERS_FIELDS)):
-                field = USERS_FIELDS[index]
-                print(f"{index}. {field.capitalize()}")
-            print(f"{len(USERS_FIELDS)}. Terminar de editar\n")
-
-            choice = int(input("Elige una opción: "))
-            if choice == len(USERS_FIELDS):
-                editing = False
-                print("\nEdición finalizada.")
-            elif 1 <= choice < len(USERS_FIELDS):
-                field = USERS_FIELDS[choice]
-                newValue = input(f"Ingrese el nuevo valor para {field}: ")
-                
-                # Conversión de tipo según el campo
-                if field == "role":
-                    newValue = int(newValue)
-                elif field == "credit":
-                    newValue = float(newValue)
-
-                userToEdit[field] = newValue
-            else:
-                print("Opción no válida.")
-
-        # Guardar los cambios en el archivo
-        updateEntity(userToEdit)
-        print("\nUsuario con ID", userId, "ha sido actualizado en el sistema.\n")
-
 def addUser():
     #Permite agregar nuevos usuarios por parte del administrador  TODO verificaciones
     try:
@@ -78,7 +40,6 @@ def addUser():
             USERS_FIELDS[4]: input("Ingrese la contraseña: "),
             USERS_FIELDS[5]: 2,
             USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
-            USERS_FIELDS[7]: input("Ingrese el saldo inicial: "),
             EntitiesFields.DELETED : False
         }
         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
@@ -102,15 +63,16 @@ def editUser():
         else:
             editing = True
             while editing:
-                print("\nEditando el usuario:", userToEdit)
+                print("\nEditando el usuario:", userToEdit)            
                 print("Seleccione el campo que desea editar:")
-                for i,field in enumerate(EntitiesFields.USERS_FIELDS):
-                    fieldTrans = getTranslation(field)
-                    print(str(i)+"-"+field)
-                print("ingrese -1 para dejar de editar")
+                for index in range(1, len(USERS_FIELDS)):
+                    field = USERS_FIELDS[index]
+                    field = getTranslation(field)
+                    print(f"{index}. {field}")
+                print(f"{len(USERS_FIELDS)}. Terminar de editar\n")
 
                 choice = int(input("Elige una opción: "))
-                if choice == -1:
+                if choice == len(USERS_FIELDS):
                     editing = False
                     print("\nEdición finalizada.")
                 elif 1 <= choice < len(USERS_FIELDS):
@@ -133,12 +95,6 @@ def editUser():
 
 
 def deleteUser():
-
-
-    userId = int(input("Ingrese el ID del usuario a eliminar: "))
-    deleteById("USER", userId)
-    print("\nUsuario con ID", userId, "ha sido eliminado del sistema.\n")
-
     #permite borrar usuarios existentes, utilizando la funcion genérica deleteById
     deleteById(EntitiesFields.USER)
 

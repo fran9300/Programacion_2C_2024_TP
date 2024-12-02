@@ -8,12 +8,6 @@ from utils.translator import getTranslation
 
 #Abm reservas
 
-def getMovies():
-    #Borrar esto dsp 
-    return None
-
-
-
 def addMovie():
     #funcion para agregar nuevas películas
     try:
@@ -80,7 +74,6 @@ def editMovie():
 def deleteMovie():
     #funcion para borrar peliculas existentes utilizando la funcion generica printEntities
     deleteById(EntitiesFields.MOVIES)
-
 
 
 def printMovies():
