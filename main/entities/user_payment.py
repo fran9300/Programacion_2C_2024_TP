@@ -22,7 +22,6 @@ def guardarUserPayments(payments):
 def listarSaldos(user_id):
     """Lista los saldos disponibles para un usuario."""
     payments = cargarUserPayments()
-    clear()
     print(f"\nSaldos disponibles para el usuario {user_id}:\n")
     for payment in payments:
         if payment["user_id"] == user_id:

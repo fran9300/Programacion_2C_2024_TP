@@ -69,12 +69,12 @@ def addReservation(userId):
             print("operación cancelada\n")
     except ValueError:
         print("por favor introduza valores enteros\n")
-    #except TypeError:
-        #print("por favor, introduzca los valores que se le presentan en la pantalla\n")
-    #except IndexError:
-        #print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
-    #except Exception as e:
-        #print(f"Se produjo un error desconocido: {e}")
+    except TypeError:
+        print("por favor, introduzca los valores que se le presentan en la pantalla\n")
+    except IndexError:
+        print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
+    except Exception as e:
+        print(f"Se produjo un error desconocido: {e}")
 
 def showRoom(roomConfigId, tempReservations=None):
     #Muestra el estado de la sala seleccionada, incluyendo reservas temporales si las hay.
@@ -107,10 +107,10 @@ def showRoom(roomConfigId, tempReservations=None):
 
     except ValueError:
         print("Por favor introduzca valores enteros\n")
-    #except TypeError:
-        #print("Por favor, introduzca los valores que se le presentan en la pantalla\n")
-   # except Exception as e:
-       # print(f"Se produjo un error desconocido: {e}")
+    except TypeError:
+        print("Por favor, introduzca los valores que se le presentan en la pantalla\n")
+    except Exception as e:
+        print(f"Se produjo un error desconocido: {e}")
 
 
 def checkAvailable(roomId, row, column, tempReservations=None):
