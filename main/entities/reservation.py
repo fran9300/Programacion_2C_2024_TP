@@ -2,6 +2,7 @@ from entities import EntitiesFields
 from repositories.repository import getEntityByProperties,addEntity,listByProperties, printCustomEntities,printEntities
 from entities.movies import printMovies
 from entities.utils import clear
+from entities.user_payment import pagarConSaldo
 
 valorEntrada = 5000
 
@@ -31,7 +32,7 @@ def addReservation(userId):
             fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
             columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
             
-            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva,butacas):
+            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva,butacas) and checkBounds(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva) :
                     newReservation = {
                             "type": EntitiesFields.RESERVATION,
                             EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["id"],
@@ -49,25 +50,31 @@ def addReservation(userId):
                     showRoom(sala_reserva["id"],butacas)
                     i += 1
             else:
-                print("\nasiento ya reservado, por favor seleccione otro.\n")
+                print("\nasiento ya reservado o fuera del rango, por favor seleccione otro.\n")
+            
 
         if cantidad_entradas != 0:
-            for butaca in butacas:
-                addEntity(butaca)
+            if cantidad_entradas > 6:
+                cantidad_entradas = 6
             importe = cantidad_entradas * valorEntrada
-            print(f"\nReserva del usuario numero: {userId}")
-            print(f"importe total de :{importe} pesos\n")
+            pago = pagarConSaldo(userId,importe)
+            print(pago)
+            if pago == True:    
+                for butaca in butacas:
+                    addEntity(butaca)
+                print(f"\nReserva del usuario numero: {userId}")
+                print(f"importe total de :{importe} pesos\n")
         else:
             clear()
             print("operación cancelada\n")
     except ValueError:
         print("por favor introduza valores enteros\n")
-    except TypeError:
-        print("por favor, introduzca los valores que se le presentan en la pantalla\n")
-    except IndexError:
-        print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
-    except Exception as e:
-        print(f"Se produjo un error desconocido: {e}")
+    #except TypeError:
+        #print("por favor, introduzca los valores que se le presentan en la pantalla\n")
+    #except IndexError:
+        #print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
+    #except Exception as e:
+        #print(f"Se produjo un error desconocido: {e}")
 
 def showRoom(roomConfigId, tempReservations=None):
     #Muestra el estado de la sala seleccionada, incluyendo reservas temporales si las hay.
@@ -100,10 +107,10 @@ def showRoom(roomConfigId, tempReservations=None):
 
     except ValueError:
         print("Por favor introduzca valores enteros\n")
-    except TypeError:
-        print("Por favor, introduzca los valores que se le presentan en la pantalla\n")
-    except Exception as e:
-        print(f"Se produjo un error desconocido: {e}")
+    #except TypeError:
+        #print("Por favor, introduzca los valores que se le presentan en la pantalla\n")
+   # except Exception as e:
+       # print(f"Se produjo un error desconocido: {e}")
 
 
 def checkAvailable(roomId, row, column, tempReservations=None):
@@ -139,3 +146,14 @@ def checkReservations(userId):
     #función para consultar las reservas realizadas por el usuario actual
     reservas = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_USER_ID,EntitiesFields.DELETED],userId,False)
     printCustomEntities(reservas,"RESERVATION")
+
+def checkBounds(roomConfigId,row,column):
+    roomConfig = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION, [EntitiesFields.ID], roomConfigId)
+    room = getEntityByProperties(EntitiesFields.ROOM, [EntitiesFields.ID], roomConfig[EntitiesFields.CONFIG_ROOM_ID])
+    roomRow = room[EntitiesFields.ROOM_COLUMNS]
+    roomColumn= room[EntitiesFields.ROOM_ROWS]
+
+    if row > roomRow or column > roomColumn:
+        return False
+    else:
+        return True

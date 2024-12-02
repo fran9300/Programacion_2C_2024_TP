@@ -10,7 +10,7 @@ import re
 from repositories.repository import getEntityByProperties,initDefaultValues,printEntities, deleteById, EntitiesFields
 from utils.translator import getTranslation
 from entities.user_payment import cargarSaldo, listarSaldos, elegirMetodoPago
-from entities.payment_methods import cargarDescuentos, imprimirDescuentos, guardarDescuentos
+from entities.payment_methods import cargarDescuentos, imprimirDescuentos, guardarDescuentos, configurarDescuentos
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
 
@@ -18,33 +18,7 @@ currentMenu = {}
 mainMenu = {}
 currentUserId = ""
 
-roles = [
-    [1,"admin"],
-    [2,"client"]
-]
 
-# [id,userId,metodoDePagoId]
-userPayment = [
-    [1,1,1],
-    [2,1,3],
-    [3,2,2]
-]
-
-descuentos = {
-    "Cash": 0.30,     # 30% descuento
-    "Transfer": 0.20, # 20% descuento
-    "Debt": 0.10,     # 10% descuento
-    "Credit": 0.02,   # 2% descuento
-    # Para "Points" se manejará en una función aparte
-}
-
-METODOS_DE_PAGO = {
-    1: "Cash",
-    2: "Transfer",
-    3: "Debt",
-    4: "Credit",
-    5: "Points"
-}
 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -373,24 +347,7 @@ def Registro():
     clear()
     addUser()
 
-def configurarDescuentos():
-    """Permite al administrador configurar los descuentos."""
-    descuentos = cargarDescuentos()
-    print("\nConfiguración de descuentos:")
-    for metodo, descuento in descuentos.items():
-        print(f"{metodo}: {descuento * 100}% descuento actual")
-        nuevo_descuento = input(f"Ingrese el nuevo porcentaje de descuento para {metodo} (o presione Enter para dejar igual): ")
-        if nuevo_descuento.strip():
-            try:
-                nuevo_descuento = float(nuevo_descuento) / 100
-                if 0 <= nuevo_descuento <= 1:
-                    descuentos[metodo] = nuevo_descuento
-                else:
-                    print("El descuento debe estar entre 0% y 100%.")
-            except ValueError:
-                print("Por favor, ingrese un valor numérico válido.")
-    guardarDescuentos(descuentos)
-    print("\nDescuentos actualizados correctamente.")
+
 
 # Definir funciones descriptivas para el menú
 def cargarSaldoUsuario():
@@ -401,11 +358,6 @@ def listarSaldosUsuario():
     """Función para listar saldos del usuario actual."""
     listarSaldos(currentUserId)
 
-def pagarConSaldo():
-    """Función para pagar una cantidad específica usando saldo."""
-    # Aquí puedes pedir el monto al usuario o dejarlo como ejemplo fijo
-    monto = float(input("Ingrese el monto a pagar: "))
-    elegirMetodoPago(currentUserId, monto)
 
 #Programa principal
 
@@ -465,7 +417,7 @@ mainMenuUser = {
     "5": CheckUsuarioActual,
     "6": cargarSaldoUsuario,  # Cargar saldo
     "7": listarSaldosUsuario,  # Listar saldos
-    "8": pagarConSaldo,  # Pagar con saldo
+    #"8": pagarConSaldo(currentUserId,3000),  # Pagar con saldo
     "9": LoginMenu
     
 }

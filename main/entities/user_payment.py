@@ -1,7 +1,9 @@
 import json
 from entities.EntitiesFields import USER_PAYMENT_FIELDS, PAYMENT_METHODS
+from entities.utils import clear
 
-USER_PAYMENT_PATH = "main/repositories/user_payment.json"  # Archivo JSON para datos de saldo
+  # Archivo JSON para datos de saldo
+USER_PAYMENT_PATH = "main/repositories/user_payment.json"
 
 def cargarUserPayments():
     """Carga los registros de pagos de usuarios desde el archivo JSON."""
@@ -64,10 +66,18 @@ def elegirMetodoPago(user_id, total):
             if payment["balance"] >= total:
                 payment["balance"] -= total
                 guardarUserPayments(payments)
+                clear()
                 print(f"Pago realizado exitosamente con {PAYMENT_METHODS[metodo_id]}. Saldo restante: {payment['balance']}")
-                return
+                return True
             else:
+                clear()
                 print("Saldo insuficiente. Intente nuevamente.")
-                return
+                return False
     print("Método de pago no encontrado o sin saldo disponible.")
 
+def pagarConSaldo(currentUserId,monto):
+    """Función para pagar una cantidad específica usando saldo."""
+    # Aquí puedes pedir el monto al usuario o dejarlo como ejemplo fijo
+    #monto = float(input("Ingrese el monto a pagar: "))
+    valor = elegirMetodoPago(currentUserId, monto)
+    return valor

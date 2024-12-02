@@ -9,7 +9,8 @@ paths = {
     "SECUENCE":"main/repositories/secuences.json",
     EntitiesFields.RESERVATION:"main/repositories/reservation.json",
     EntitiesFields.ROOM : "main/repositories/room.json",
-    EntitiesFields.ROOM_CONFIGURATION :"main/repositories/room_configuration.json"
+    EntitiesFields.ROOM_CONFIGURATION :"main/repositories/room_configuration.json",
+    EntitiesFields.USER_PAYMENT: "main/repositories/user_payment.json"
 }
 
 
