@@ -21,27 +21,30 @@ def guardarUserPayments(payments):
 def listarSaldos(user_id):
     """Lista los saldos disponibles para un usuario."""
     payments = cargarUserPayments()
+    clear()
     print(f"\nSaldos disponibles para el usuario {user_id}:\n")
     for payment in payments:
         if payment["user_id"] == user_id:
             metodo = PAYMENT_METHODS.get(payment["payment_type"], "Desconocido")
             print(f"- {metodo}: {payment['balance']} créditos")
+    print()
 
 def cargarSaldo(user_id):
     """Permite al usuario cargar saldo en un método de pago específico."""
     payments = cargarUserPayments()
     listarSaldos(user_id)
-
-    print("\nOpciones de método de pago:")
+    clear()
+    print("\nOpciones de método de pago:\n")
     for key, value in PAYMENT_METHODS.items():
         print(f"{key}. {value}")
-    metodo_id = int(input("\nSeleccione el ID del método de pago para cargar saldo: "))
+    metodo_id = int(input("\nSeleccione el ID del método de pago para cargar saldo: \n"))
 
     monto = float(input("Ingrese el monto a cargar: "))
     for payment in payments:
         if payment["user_id"] == user_id and payment["payment_type"] == metodo_id:
             payment["balance"] += monto
             guardarUserPayments(payments)
+            clear()
             print(f"Saldo actualizado. Nuevo saldo para {PAYMENT_METHODS[metodo_id]}: {payment['balance']}")
             return
 

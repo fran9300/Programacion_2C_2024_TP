@@ -2,6 +2,7 @@
 
 import json
 from entities.EntitiesFields import PAYMENT_METHODS
+from entities.utils import clear
 
 DESCUENTOS_PATH = "main/repositories/descuentos.json"  # Archivo JSON para descuentos
 
@@ -21,7 +22,8 @@ def guardarDescuentos(descuentos):
 def imprimirDescuentos():
     """Muestra los descuentos actuales para cada método de pago."""
     descuentos = cargarDescuentos()
-    print("\nDescuentos configurados:")
+    clear()
+    print("\nDescuentos configurados: \n")
     for metodo, descuento in descuentos.items():
         print(f"{metodo}: {descuento * 100}% descuento")
     print()
