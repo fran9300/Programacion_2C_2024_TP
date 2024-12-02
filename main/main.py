@@ -122,8 +122,8 @@ def listarSaldosUsuario():
     clear()
     listarSaldos(currentUserId)
 
-def ConfigurarDescuentos(currentUserId):
-    configurarDescuentos(currentUserId)
+def ConfigurarDescuentos():
+    configurarDescuentos()
 
 
 

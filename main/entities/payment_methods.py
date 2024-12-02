@@ -45,6 +45,7 @@ def aplicarDescuento(total, metodo_name):
 
 def configurarDescuentos():
         #permite editar los descuentos
+    clear()
     try:
         printEntities(EntitiesFields.PAYMENT_METHODS)
         discounts = getEntityById(EntitiesFields.PAYMENT_METHODS, 1)
@@ -54,7 +55,7 @@ def configurarDescuentos():
         else:
             editing = True
             while editing:
-                print("\nEditando los descuentos:", discounts)            
+                #print("\nEditando los descuentos:", discounts)            
                 print("Seleccione el campo que desea editar:")
                 for index in range(0, len(PAYMENT_METHODS_FIELDS)):
                     field = PAYMENT_METHODS_FIELDS[index]

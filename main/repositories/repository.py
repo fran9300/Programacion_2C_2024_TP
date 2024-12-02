@@ -268,38 +268,71 @@ def printEntities(entityKey):
 
 
 def printCustomEntities(lista, entityKey):
-    #try:
-        # Asegurarse de trabajar con la lista directamente, no llamar a loadData
-    entities = lista  # Ahora trabajamos directamente con la lista pasada
+    try:
+            # Asegurarse de trabajar con la lista directamente, no llamar a loadData
+        entities = lista  # Ahora trabajamos directamente con la lista pasada
 
-    if not entities:
-        print("La lista está vacía.\n")
-        return
-    
-    fields = EntitiesFields.FIELDS[entityKey]
+        if not entities:
+            print("La lista está vacía.\n")
+            return
+        
+        fields = EntitiesFields.FIELDS[entityKey]
+        
+        # Calcular los anchos máximos para las columnas
+        max_lengths = [max(len(field), *(len(str(entity[field])) for entity in entities if not entity[EntitiesFields.DELETED])) for field in fields]
 
-    # Calcular los anchos máximos para las columnas
-    max_lengths = [max(len(field), *(len(str(entity[field])) for entity in entities if not entity[EntitiesFields.DELETED])) for field in fields]
+        # Crear el formato dinámico para las filas
+        row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
 
-    # Crear el formato dinámico para las filas
-    row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
+        # Imprimir la cabecera
+        print(row_format.format(*fields))
+        print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
 
-    # Imprimir la cabecera
-    print(row_format.format(*fields))
-    print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
+        # Imprimir las entidades
+        for entity in entities:
+            if not entity[EntitiesFields.DELETED]:
+                print(row_format.format(*(str(entity[field]) for field in fields)))
 
-    # Imprimir las entidades
-    for entity in entities:
-        if not entity[EntitiesFields.DELETED]:
-            print(row_format.format(*(str(entity[field]) for field in fields)))
+        print()
+    except TypeError:
+        print("error, trate nuevamente\n")
+    except Exception as e:
+        print(f"error desconocido: {e}")
 
-    print()
-    #except TypeError:
-        #print("error, trate nuevamente\n")
-    #except Exception as e:
-        #print(f"error desconocido: {e}")
+def printCustomEntitiesPayment(lista, entityKey):
+    try:
+            # Asegurarse de trabajar con la lista directamente, no llamar a loadData
+        entities = lista  # Ahora trabajamos directamente con la lista pasada
 
+        if not entities:
+            print("La lista está vacía.\n")
+            return
+        
+        fields = EntitiesFields.FIELDS[entityKey]
+        fieldsTranslated = []
+        for field in fields:
+            fieldsTranslated.append(getTranslation(field))
 
+        # Calcular los anchos máximos para las columnas
+        max_lengths = [max(len(field), *(len(str(entity[getOriginal(field)])) for entity in entities if not entity[EntitiesFields.DELETED])) for field in fieldsTranslated]
+
+        # Crear el formato dinámico para las filas
+        row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
+
+        # Imprimir la cabecera
+        print(row_format.format(*fieldsTranslated))
+        print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
+
+        # Imprimir las entidades
+        for entity in entities:
+            if not entity[EntitiesFields.DELETED]:
+                print(row_format.format(*(str(entity[field]) for field in fields)))
+
+        print()
+    except TypeError:
+        print("error, trate nuevamente\n")
+    except Exception as e:
+        print(f"error desconocido: {e}")
 
     '''
 #funcion para imprimir entidades anterior

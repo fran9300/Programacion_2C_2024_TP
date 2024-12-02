@@ -3,14 +3,14 @@ from entities.EntitiesFields import *
 from entities import EntitiesFields
 from entities.utils import clear
 from utils.translator import getTranslation
-from entities.payment_methods import aplicarDescuento
-from repositories.repository import printEntities,updateEntity,getEntityByProperties,printCustomEntities,getEntityById,listByProperties
+from entities.payment_methods import aplicarDescuento,imprimirDescuentos
+from repositories.repository import printEntities,updateEntity,getEntityByProperties,printCustomEntities,getEntityById,listByProperties,printCustomEntitiesPayment
 
 def listarSaldos(user_id):
     """Lista los saldos disponibles para un usuario."""
     saldo = listByProperties(EntitiesFields.USER_PAYMENT,[EntitiesFields.USER_PAYMENT_USER_ID,EntitiesFields.DELETED],user_id,False)
     print(f"\nSaldos disponibles para el usuario {user_id}:\n")
-    printCustomEntities(saldo,USER_PAYMENT)
+    printCustomEntitiesPayment(saldo,USER_PAYMENT)
     print()
 
 def cargarSaldo(userId):
@@ -64,7 +64,8 @@ def elegirMetodoPago(user_id, total):
     #Permite al usuario elegir un método de pago para realizar una transacción.
     payments = getEntityByProperties(EntitiesFields.USER_PAYMENT,[EntitiesFields.USER_PAYMENT_USER_ID,EntitiesFields.DELETED],user_id,False)
     listarSaldos(user_id)
-
+    print()
+    imprimirDescuentos()
     print("Seleccione un metodo de pago:\n")
 
     if not payments:
@@ -81,7 +82,7 @@ def elegirMetodoPago(user_id, total):
                 field = getTranslation(field)
                 print(f"{index}. {field}")
             print(f"{len(USER_PAYMENT_FIELDS_EDIT)}. Terminar de editar\n")
-
+            seleccion= USER_PAYMENT_FIELDS_EDIT[1]
             choice = int(input("Elige una opción: "))
             if choice == len(USER_PAYMENT_FIELDS_EDIT):
                 selecting = False
