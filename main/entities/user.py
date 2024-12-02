@@ -4,22 +4,16 @@ from entities import EntitiesFields
 from entities.EntitiesFields import USERS_FIELDS,USERS_FIELDS_EDIT
 from utils.translator import getTranslation
 
-
-def getUsers():
-    return None
-
-
-
-def addUser(): 
+def addUserAdmin(): 
     newUser = {
         "type": "USER",
-        USERS_FIELDS[1]:input("Ingrese el "),
+        USERS_FIELDS[1]:input("Ingrese el Username: "),
         USERS_FIELDS[2]: input("Ingrese el nombre del usuario: "),
         USERS_FIELDS[3]: input("Ingrese el apellido del usuario: "),
         USERS_FIELDS[4]: input("Ingrese la contraseña: "),
         USERS_FIELDS[5]: int(input("Ingrese el rol (1=Admin, 2=Usuario): ")),
         USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
-        USERS_FIELDS[7]: float(input("Ingrese el saldo inicial: "))
+        EntitiesFields.DELETED : False
     }
     
     addEntity(newUser)
@@ -41,7 +35,12 @@ def addUser():
         }
         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
         if confirmacion == 1:
-            addEntity(newUser)
+            userId = addEntity(newUser)
+            nuevoSaldo = {"type": EntitiesFields.PAYMENT_METHODS,EntitiesFields.USER_PAYMENT_USER_ID:userId,
+                                    EntitiesFields.USER_PAYMENT_CASH:1,EntitiesFields.USER_PAYMENT_TRANSFER:1,
+                                    EntitiesFields.USER_PAYMENT_DEBIT:1,EntitiesFields.USER_PAYMENT_CREDIT:1,
+                                    EntitiesFields.USER_PAYMENT_POINTS:1,EntitiesFields.DELETED:False}
+            addEntity(nuevoSaldo)
             print("\nNuevo usuario agregado al sistema.\n")
         else:
             print("\noperacion cancelada\n")
@@ -96,15 +95,6 @@ def printUsers():
     #permite imprimir usuarios existentes, utilizando la funcion genérica printEntities
     printEntities(EntitiesFields.USER)
 
-
-def checkIfUserExist(userName):
-    #Función que chequea si el usuario existe. Como parametro le pasamos el nombre de usuario
-    #TODO:REFACTOR que quede como validation
-    filtered = list(filter(lambda value : value[1]==userName,getUsers()))
-    if(filtered):
-        return True
-    else:
-        return False
 
 def checkUserAndPass(user,password):
     #Función para chequear si el usuario o la clave son correctas

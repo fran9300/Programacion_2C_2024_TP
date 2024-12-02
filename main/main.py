@@ -1,6 +1,6 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
-from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
+from entities.user import  addUser, editUser, deleteUser,printUsers, checkUserAndPass,addUserAdmin
 from entities.reservation import addReservation, checkReservations, checkRoom
 from entities.utils import clear
 from entities.room import addRoom, printRooms, deleteRoom,freeRooms
@@ -93,7 +93,7 @@ def CheckearReservasSalas():
 def AgregarNuevoUsuario():
     #Funcion para registrar a un nuevo usuario en el sistema
     clear()
-    addUser()
+    addUserAdmin()
 
 def editUSerInfo():
     #Funcion para editar usuarios

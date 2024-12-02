@@ -199,7 +199,6 @@ def getEntityById(entityType,id):
 
 def loadData(value):
     #función para cargar las entidades guardades de su respectivo archivo json.
-    #TODO AGREGAR TRY
     try:
         global cachedEntities
         key = value.upper()
