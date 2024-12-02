@@ -1,6 +1,6 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
-from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass, editMyUser
+from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
 from entities.reservation import addReservation, checkReservations, checkRoom
 from entities.utils import clear
 from entities.room import addRoom, printRooms, deleteRoom,freeRooms
@@ -99,9 +99,6 @@ def editUSerInfo():
     #Funcion para editar usuarios
     clear()
     editUser()
-
-def editMyUserInfo():
-    editMyUser(currentUserId)
 
 def eliminarUsuario():
     deleteUser()
@@ -252,8 +249,7 @@ gestionUsuarios = {
 configurarUsuario = {
     "1": cargarSaldoUsuario,
     "2": listarSaldosUsuario,
-    "3": editMyUserInfo,
-    "4": volverMenuPrincipal
+    "3": volverMenuPrincipal
 }
 
 mainMenuAdmin = {
