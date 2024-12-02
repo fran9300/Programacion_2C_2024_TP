@@ -291,6 +291,12 @@ def imprimirMenu(menu):
         itemName = getTranslation(menu[key].__name__)
         print(f"{key}-{itemName}")
 
+def ConfigurarUsuario():
+    #para ir al menu de gestion de películas
+    clear()
+    global currentMenu    
+    currentMenu  = configurarUsuario
+
 def GestionPeliculas():
     #para ir al menu de gestion de películas
     clear()
@@ -398,6 +404,12 @@ gestionUsuarios = {
     "5": volverMenuPrincipal
 }
 
+configurarUsuario = {
+    "1": cargarSaldoUsuario,
+    "2": listarSaldosUsuario,
+    "3": volverMenuPrincipal
+}
+
 mainMenuAdmin = {
     "1": GestionPeliculas,
     "2": GestionSalas,
@@ -414,11 +426,8 @@ mainMenuUser = {
     "2": CheckearReservasSalas,
     "3": ReservarEntradas,
     "4": VerMisReservas,
-    "5": CheckUsuarioActual,
-    "6": cargarSaldoUsuario,  # Cargar saldo
-    "7": listarSaldosUsuario,  # Listar saldos
-    #"8": pagarConSaldo(currentUserId,3000),  # Pagar con saldo
-    "9": LoginMenu
+    "5": ConfigurarUsuario,
+    "6": LoginMenu
     
 }
 
