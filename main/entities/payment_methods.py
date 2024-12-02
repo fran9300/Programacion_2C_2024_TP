@@ -26,11 +26,21 @@ def guardarDescuentos(descuentos):
 
 def aplicarDescuento(total, metodo_name):
     """Aplica el descuento correspondiente al método de pago."""
-    print(EntitiesFields.PAYMENT_METHODS(metodo_name))
-    metodo = EntitiesFields.PAYMENT_METHODS[metodo_name]
-    descuentos = cargarDescuentos()
-    descuento = descuentos.get(metodo, 0.0)
-    return total * (1 - descuento)
+    if metodo_name == "CashBalance":
+        metodo_name = "Cash"
+    elif metodo_name == "TransferBalance":
+        metodo_name = "Transfer"
+    elif metodo_name == "DebitBalance":
+        metodo_name = "Debit"
+    elif metodo_name == "CreditBalance":
+        metodo_name = "Credit"
+    elif metodo_name == "PointsBalance":
+        metodo_name = "Points"
+
+    print(getEntityByProperties(EntitiesFields.PAYMENT_METHODS,[ID],1)[metodo_name])
+
+    descuento = getEntityByProperties(EntitiesFields.PAYMENT_METHODS,[ID],1)[metodo_name]
+    return total * (1 - (descuento/100))
 
 
 def configurarDescuentos():

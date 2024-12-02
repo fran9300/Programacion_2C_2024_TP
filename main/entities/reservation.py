@@ -96,8 +96,8 @@ def addReservation(userId):
         print("por favor, introduzca los valores que se le presentan en la pantalla\n")
     except IndexError:
         print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
-    except Exception as e:
-        print(f"Se produjo un error desconocido: {e}")
+    #except Exception as e:
+        #print(f"Se produjo un error desconocido: {e}")
 
 def showRoom(roomConfigId, tempReservations=None):
     #Muestra el estado de la sala seleccionada, incluyendo reservas temporales si las hay.

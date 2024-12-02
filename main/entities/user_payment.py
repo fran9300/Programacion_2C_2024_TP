@@ -95,8 +95,7 @@ def elegirMetodoPago(user_id, total):
                 print("Opción no válida.")
                 clear()
 
-    #totalConDescuento = aplicarDescuento(total, seleccion)
-    totalConDescuento = total
+    totalConDescuento = aplicarDescuento(total, seleccion)
 
     if payments["user_idBalance"] == user_id:
         if payments[seleccion] >= totalConDescuento:
