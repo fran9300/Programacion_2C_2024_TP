@@ -133,9 +133,11 @@ def ConfigurarDescuentos():
 def imprimirMenu(menu):
     #función para imprimir el menu actual
     print("Ingrese el número de alguna de las siguientes opciones o escriba 'exit' para salir: \n")
+    print("=" * 40)
     for key in menu.keys():
         itemName = getTranslation(menu[key].__name__)
         print(f"{key}-{itemName}")
+    print("=" * 40)
 
 def ConfigurarUsuario():
     #para ir al menu de gestion de películas
