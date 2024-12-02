@@ -3,11 +3,14 @@ from repositories.repository import getEntityByProperties,addEntity,listByProper
 from entities.movies import printMovies
 from entities.utils import clear
 from entities.invoice import createInvoice
+from entities.user_payment import pagarConSaldo
+
 valorEntrada = 5000
 
 def addReservation(userId):
     #permite agregar una nueva reservacion de butacas por parte del usuario. 
     try:
+        butacas = []
         printMovies()
         print()
         id_reserva = int(input("seleccion el id de la pelicula a reservar: "))
@@ -30,7 +33,8 @@ def addReservation(userId):
         while i != cantidad_entradas and i != 6 : 
             fila_aciento_reserva = int(input("seleccione fila del asiento deseado: "))
             columna_aciento_reserva = int(input("seleccione columna del asiento deseado: "))
-            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva):
+            
+            if checkAvailable(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva,butacas) and checkBounds(sala_reserva["id"],fila_aciento_reserva,columna_aciento_reserva) :
                     newReservation = {
                             "type": EntitiesFields.RESERVATION,
                             EntitiesFields.RESERVATION_FIELDS[1]: sala_reserva["id"],
@@ -41,19 +45,28 @@ def addReservation(userId):
                             EntitiesFields.RESERVATION_FIELDS[6]: columna_aciento_reserva,
                             EntitiesFields.DELETED : False
                             }
-                    reservationsId.append(addEntity(newReservation))
+                    #addEntity(newReservation)
+                    butacas.append(newReservation)
                     clear()
                     print("\nNueva reserva guardada.\n")
-                    showRoom(sala_reserva["id"])
+                    showRoom(sala_reserva["id"],butacas)
                     i += 1
             else:
-                print("\nasiento ya reservado, por favor seleccione otro.\n")
+                print("\nasiento ya reservado o fuera del rango, por favor seleccione otro.\n")
+            
 
         if cantidad_entradas != 0:
+            if cantidad_entradas > 6:
+                cantidad_entradas = 6
             importe = cantidad_entradas * valorEntrada
-            print(f"\nReserva del usuario numero: {userId}")
-            print(f"importe total de :{importe} pesos\n")
-            createInvoice(userId,reservationsId,importe)
+            pago,importeDescuento = pagarConSaldo(userId,importe)
+            print(pago)
+            if pago == True:    
+                for butaca in butacas:
+                    reservationsId.append(addEntity(butaca))
+                print(f"\nReserva del usuario numero: {userId}")
+                print(f"importe total de :{importeDescuento} pesos\n")
+                createInvoice(userId,reservationsId,importeDescuento)
         else:
             clear()
             print("operación cancelada\n")
@@ -66,34 +79,60 @@ def addReservation(userId):
     except Exception as e:
         print(f"Se produjo un error desconocido: {e}")
 
-def showRoom(roomConfigId):
-    #función para mostrar el estado de la sala seleccionada
+def showRoom(roomConfigId, tempReservations=None):
+    #Muestra el estado de la sala seleccionada, incluyendo reservas temporales si las hay.
+
     try:
-        roomConfig = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION,[EntitiesFields.ID],roomConfigId)
-        room = getEntityByProperties(EntitiesFields.ROOM,[EntitiesFields.ID],roomConfig[EntitiesFields.CONFIG_ROOM_ID])
-        values = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.DELETED],roomConfigId,False)
-        arr =[[0 for _ in range(room[EntitiesFields.ROOM_COLUMNS])] for _ in range(room[EntitiesFields.ROOM_ROWS])] ## esto deberia setearse segun lo onfigurado en la sala
+        roomConfig = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION, [EntitiesFields.ID], roomConfigId)
+        room = getEntityByProperties(EntitiesFields.ROOM, [EntitiesFields.ID], roomConfig[EntitiesFields.CONFIG_ROOM_ID])
+        values = listByProperties(EntitiesFields.RESERVATION, [EntitiesFields.RESERVATION_ROOM_ID, EntitiesFields.DELETED], roomConfigId, False)
+
+        arr = [[0 for _ in range(room[EntitiesFields.ROOM_COLUMNS])] for _ in range(room[EntitiesFields.ROOM_ROWS])]
+
         for value in values:
-            arr[value[EntitiesFields.RESERVATION_ROW]-1][value[EntitiesFields.RESERVATION_COLUMN]-1] = 1
+            arr[value[EntitiesFields.RESERVATION_ROW] - 1][value[EntitiesFields.RESERVATION_COLUMN] - 1] = 1
+
+        if tempReservations:
+            for temp in tempReservations:
+                arr[temp[EntitiesFields.RESERVATION_FIELDS[5]] - 1][temp[EntitiesFields.RESERVATION_FIELDS[6]] - 1] = 2
+
         for column in arr:
             row = ''
             for i in column:
-                row += '⬛' if i == 0 else '🟥'
+                if i == 0:
+                    row += '⬛'  # Disponible
+                elif i == 1:
+                    row += '🟥'  # Reservado permanentemente
+                elif i == 2:
+                    row += '🟩'  # Reservado temporalmente
             print("--------------------------------")
             print(row)
+
     except ValueError:
-        print("por favor introduza valores enteros\n")
+        print("Por favor introduzca valores enteros\n")
     except TypeError:
-        print("por favor, introduzca los valores que se le presentan en la pantalla\n")
+        print("Por favor, introduzca los valores que se le presentan en la pantalla\n")
     except Exception as e:
         print(f"Se produjo un error desconocido: {e}")
 
-def checkAvailable(roomId,row,column):
-    #función para chequear si una butaca se encuentra disponible o no, en una sala especifica
-    found = getEntityByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_ROOM_ID,EntitiesFields.RESERVATION_ROW,EntitiesFields.RESERVATION_COLUMN,EntitiesFields.DELETED],roomId,row,column,False)
-    if found != None:
+
+def checkAvailable(roomId, row, column, tempReservations=None):
+    # Verificar en reservas guardadas
+    found = getEntityByProperties(
+        EntitiesFields.RESERVATION,
+        [EntitiesFields.RESERVATION_ROOM_ID, EntitiesFields.RESERVATION_ROW, EntitiesFields.RESERVATION_COLUMN, EntitiesFields.DELETED],
+        roomId, row, column, False
+    )
+    if found is not None:
         return False
-    return False if found else True
+
+    # Verificar en reservas temporales
+    if tempReservations:
+        for temp in tempReservations:
+            if temp[EntitiesFields.RESERVATION_FIELDS[5]] == row and temp[EntitiesFields.RESERVATION_FIELDS[6]] == column:
+                return False
+
+    return True
 
 def checkRoom():
     #función para consultar el estado de la sala seleccionada
@@ -110,3 +149,14 @@ def checkReservations(userId):
     #función para consultar las reservas realizadas por el usuario actual
     reservas = listByProperties(EntitiesFields.RESERVATION,[EntitiesFields.RESERVATION_USER_ID,EntitiesFields.DELETED],userId,False)
     printCustomEntities(reservas,"RESERVATION")
+
+def checkBounds(roomConfigId,row,column):
+    roomConfig = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION, [EntitiesFields.ID], roomConfigId)
+    room = getEntityByProperties(EntitiesFields.ROOM, [EntitiesFields.ID], roomConfig[EntitiesFields.CONFIG_ROOM_ID])
+    roomRow = room[EntitiesFields.ROOM_COLUMNS]
+    roomColumn= room[EntitiesFields.ROOM_ROWS]
+
+    if row > roomRow or column > roomColumn:
+        return False
+    else:
+        return True

@@ -4,6 +4,7 @@ SECUENCE = "SECUENCE"
 RESERVATION = "RESERVATION"
 ROOM = "ROOM"
 ROOM_CONFIGURATION = "ROOM_CONFIGURATION"
+USER_PAYMENT = "USER_PAYMENT"
 #general properties
 ID = "id"
 DELETED = "deleted"
@@ -69,6 +70,21 @@ INVOICE_RESERVATION_RESERVATION_ID = "reservationId"
 INVOICE_FIELDS = [ID,INVOICE_USER,INVOICE_AMOUNT,INVOICE_DATE]
 INVOICE_RESERVATION_FIELDS = [INVOICE_RESERVATION_INVOICE_ID,INVOICE_RESERVATION_RESERVATION_ID]
 
+USER_PAYMENT_USER_ID="user_id"
+USER_PAYMENT_PAYMENT_TYPE="payment_type"
+USER_PAYMENT_BALANCE="balance"
+
+USER_PAYMENT_FIELDS = [ID,USER_PAYMENT_USER_ID,USER_PAYMENT_PAYMENT_TYPE,USER_PAYMENT_BALANCE]
+
+
+# Opciones de método de pago
+PAYMENT_METHODS = {
+    1: "Cash",
+    2: "Transfer",
+    3: "Debit",
+    4: "Credit",
+    5: "Points"
+}
 
 FIELDS = {
     USER: USERS_FIELDS,
@@ -78,7 +94,8 @@ FIELDS = {
     ROOM: ROOM_FIELDS,
     ROOM_CONFIGURATION: CONFIG_FIELDS,
     INVOICE: INVOICE_FIELDS,
-    INVOICE_RESERVATION:INVOICE_RESERVATION_FIELDS
+    INVOICE_RESERVATION:INVOICE_RESERVATION_FIELDS,
+    USER_PAYMENT: USER_PAYMENT_FIELDS
 }
 
 STRING = "string"
@@ -130,21 +147,8 @@ FIELDS_TYPES = {
 
 
 
-# Payment Config Entity
-USER_PAYMENT_FIELDS = [
-    "id",            # ID único de la entrada (autoincremental)
-    "user_id",       # ID del usuario
-    "payment_type",  # Tipo de método de pago (ID o nombre)
-    "balance"        # Saldo disponible para ese método de pago
-]
 
-# Opciones de método de pago
-PAYMENT_METHODS = {
-    1: "Cash",
-    2: "Transfer",
-    3: "Debit",
-    4: "Credit",
-    5: "Points"
-}
+
+
 
    

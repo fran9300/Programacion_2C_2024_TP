@@ -11,7 +11,8 @@ paths = {
     EntitiesFields.ROOM : "main/repositories/room.json",
     EntitiesFields.ROOM_CONFIGURATION :"main/repositories/room_configuration.json",
     EntitiesFields.INVOICE: "main/repositories/invoice.json",
-    EntitiesFields.INVOICE_RESERVATION: "main/repositories/invoice_reservation.json"
+    EntitiesFields.INVOICE_RESERVATION: "main/repositories/invoice_reservation.json",
+    EntitiesFields.USER_PAYMENT: "main/repositories/user_payment.json"
 }
 
 

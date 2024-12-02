@@ -12,7 +12,8 @@ cachedEntities = {
     EntitiesFields.ROOM_CONFIGURATION: [],
     EntitiesFields.RESERVATION: [],
     EntitiesFields.INVOICE: [],
-    EntitiesFields.INVOICE_RESERVATION: []
+    EntitiesFields.INVOICE_RESERVATION: [],
+    EntitiesFields.USER_PAYMENT: []
 }
 
 def logicDelete():
@@ -122,6 +123,12 @@ defaultValues = {
     EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4,"INVOICE":4,"INVOICE_RESERVATION":4},
     EntitiesFields.INVOICE_RESERVATION: [],
     EntitiesFields.INVOICE: [],
+    
+    EntitiesFields.USER_PAYMENT:[{EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:1,EntitiesFields.USER_PAYMENT_BALANCE:15000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:2,EntitiesFields.USER_PAYMENT_BALANCE:20000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:3,EntitiesFields.USER_PAYMENT_BALANCE:30000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:4,EntitiesFields.USER_PAYMENT_BALANCE:100000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:5,EntitiesFields.USER_PAYMENT_BALANCE:10000}],
 
 
 }
@@ -135,6 +142,7 @@ def initDefaultValues():
     initDefaultFile(EntitiesFields.RESERVATION)
     initDefaultFile(EntitiesFields.INVOICE)
     initDefaultFile(EntitiesFields.INVOICE_RESERVATION)
+    initDefaultFile(EntitiesFields.USER_PAYMENT)
 
 #Try-Catch
 def getDefaultValue(value):
@@ -214,12 +222,10 @@ def addEntity(entity):
         if "type" in entity:
             type = entity["type"].upper()
             del entity["type"]
-        autoInsertId(entity,type)
-        print(entity,"linea216",type)
+        autoInsertId(entity,type)        
         values = loadData(type)
         values.append(entity)
-        saveData(values,type)
-        print(entity)
+        saveData(values,type)        
         return entity[EntitiesFields.ID]
     except  Exception as e:
         print(e)
