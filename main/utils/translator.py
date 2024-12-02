@@ -34,8 +34,6 @@ translations = {
     RESERVATION_COLUMN : "Columnas",
 
     USER_PAYMENT_USER_ID:"ID Usuario",
-    USER_PAYMENT_PAYMENT_TYPE:"Tipo de pago",
-    USER_PAYMENT_BALANCE:"balance",
     
     "GestionPeliculas":"Gestion de peliculas",
     "viewMovies":"Ver peliculas",

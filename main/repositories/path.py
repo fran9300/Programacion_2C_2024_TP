@@ -12,6 +12,7 @@ paths = {
     EntitiesFields.INVOICE_RESERVATION: "main/repositories/files/invoice_reservation.json",
     EntitiesFields.USER_PAYMENT: "main/repositories/files/user_payment.json",
     EntitiesFields.TICKET_VALUE: "main/repositories/files/ticket_value.json",
+    EntitiesFields.PAYMENT_METHODS:"main/repositories/files/descuentos.json"
 }
 
 

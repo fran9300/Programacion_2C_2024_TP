@@ -110,6 +110,11 @@ def maxValue30(value, max_value=30):
             return f"* El valor no puede ser mayor que {max_value}\n"
         return ''
 
+def maxValueFloat100(value, max_value=100):
+        if float(value) > max_value:
+            return f"* El valor no puede ser mayor que {max_value}\n"
+        return ''
+
 
 
 #Como key se agrega el campo a validar y como valor se agrega un array de validators
@@ -126,7 +131,12 @@ allValidations = {
 
     INVOICE_AMOUNT:[required,positiveFloat],
 
-    USER_PAYMENT_BALANCE:[required,positiveFloat],
+    USER_PAYMENT_USER_ID:[required],
+    USER_PAYMENT_CASH:[required,positiveFloat],
+    USER_PAYMENT_TRANSFER:[required,positiveFloat],
+    USER_PAYMENT_DEBIT:[required,positiveFloat],
+    USER_PAYMENT_CREDIT:[required,positiveFloat],
+    USER_PAYMENT_POINTS:[required,positiveFloat],
 
     CONFIG_ROOM_ID:[required],
     CONFIG_DAY:[required,dateFormat],
@@ -138,5 +148,11 @@ allValidations = {
     ROOM_NAME:[required],
     ROOM_ROWS: [required,positiveInteger,maxValue30],
     ROOM_COLUMNS: [required,positiveInteger,maxValue30],
+
+    PAYMENT_METHODS_CASH:[required,positiveFloat,maxValueFloat100],
+    PAYMENT_METHODS_TRANSFER:[required,positiveFloat,maxValueFloat100],
+    PAYMENT_METHODS_DEBIT:[required,positiveFloat,maxValueFloat100],
+    PAYMENT_METHODS_CREDIT:[required,positiveFloat,maxValueFloat100],
+    PAYMENT_METHODS_POINTS:[required,positiveFloat,maxValueFloat100],
 
 }

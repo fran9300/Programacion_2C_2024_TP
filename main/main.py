@@ -122,7 +122,8 @@ def listarSaldosUsuario():
     clear()
     listarSaldos(currentUserId)
 
-
+def ConfigurarDescuentos(currentUserId):
+    configurarDescuentos(currentUserId)
 
 
 
@@ -256,7 +257,7 @@ mainMenuAdmin = {
     "1": GestionPeliculas,
     "2": GestionSalas,
     "3": GestionUsuarios,
-    "4": configurarDescuentos,
+    "4": ConfigurarDescuentos,
     "5": imprimirDescuentos,
     "6": LoginMenu,
     "7": Exit,

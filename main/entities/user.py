@@ -5,9 +5,6 @@ from entities.EntitiesFields import USERS_FIELDS,USERS_FIELDS_EDIT
 from utils.translator import getTranslation
 
 
-
-
-
 def getUsers():
     return None
 
@@ -82,10 +79,6 @@ def editUser():
                     userToEdit[field] = newValue
                 else:
                     print("Opción no válida.")
-
-
-
-
             # Guardar los cambios en el archivo
             userToEdit[EntitiesFields.TYPE] = EntitiesFields.USER
             updateEntity(userToEdit)

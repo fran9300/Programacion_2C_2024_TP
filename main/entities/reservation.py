@@ -3,7 +3,7 @@ from repositories.repository import getEntityByProperties,addEntity,listByProper
 from entities.movies import printMovies
 from entities.utils import clear
 from entities.invoice import createInvoice
-from entities.user_payment import pagarConSaldo
+from entities.user_payment import *
 
 valorEntrada = 5000
 
