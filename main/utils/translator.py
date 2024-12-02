@@ -34,8 +34,6 @@ translations = {
     RESERVATION_COLUMN : "Columnas",
 
     USER_PAYMENT_USER_ID:"ID Usuario",
-    USER_PAYMENT_PAYMENT_TYPE:"Tipo de pago",
-    USER_PAYMENT_BALANCE:"balance",
     
     "GestionPeliculas":"Gestion de peliculas",
     "viewMovies":"Ver peliculas",
@@ -82,6 +80,19 @@ translations = {
     "updateTicketValue":"Actualizar precio de entrada",
 
     "Exit": "salir del programa",
+
+    "user_idBalance":"ID Cuenta Usuario",
+    "CashBalance":"Saldo Cash",
+    "TransferBalance":"Saldo Transferencia",
+    "DebitBalance":"Saldo Débito",
+    "CreditBalance":"Saldo Crédito",
+    "PointsBalance":"Saldo Puntos",
+
+    "Cash":"Cash",
+    "Transfer":"Transferencia",
+    "Debit":"Débito",
+    "Credit":"Crédito",
+    "Points":"Puntos"
 }
 
 

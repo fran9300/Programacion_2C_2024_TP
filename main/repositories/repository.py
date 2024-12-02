@@ -16,6 +16,7 @@ cachedEntities = {
     EntitiesFields.INVOICE_RESERVATION: [],
     EntitiesFields.USER_PAYMENT: [],
     EntitiesFields.TICKET_VALUE: [],
+    EntitiesFields.PAYMENT_METHODS: [],
 }
 
 def logicDelete():
@@ -128,12 +129,13 @@ defaultValues = {
     EntitiesFields.INVOICE_RESERVATION: [],
     EntitiesFields.INVOICE: [],
     
-    EntitiesFields.USER_PAYMENT:[{EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:1,EntitiesFields.USER_PAYMENT_BALANCE:15000},
-                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:2,EntitiesFields.USER_PAYMENT_BALANCE:20000},
-                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:3,EntitiesFields.USER_PAYMENT_BALANCE:30000},
-                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:4,EntitiesFields.USER_PAYMENT_BALANCE:100000},
-                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:5,EntitiesFields.USER_PAYMENT_BALANCE:10000}],
+    EntitiesFields.USER_PAYMENT:[{EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,
+                                  EntitiesFields.USER_PAYMENT_CASH:15000,EntitiesFields.USER_PAYMENT_TRANSFER:15000,
+                                  EntitiesFields.USER_PAYMENT_DEBIT:30000,EntitiesFields.USER_PAYMENT_CREDIT:100000,
+                                  EntitiesFields.USER_PAYMENT_POINTS:15000,EntitiesFields.DELETED:False},],
     
+    EntitiesFields.PAYMENT_METHODS:[{EntitiesFields.ID:1,EntitiesFields.PAYMENT_METHODS_CASH:20,EntitiesFields.PAYMENT_METHODS_TRANSFER:20,EntitiesFields.PAYMENT_METHODS_DEBIT:0,EntitiesFields.PAYMENT_METHODS_CREDIT:5,EntitiesFields.PAYMENT_METHODS_POINTS:0,EntitiesFields.DELETED:False}],
+
     EntitiesFields.TICKET_VALUE:[{EntitiesFields.ID:1,EntitiesFields.TICKET_VALUE_VALUE:5000}]
 
 
@@ -150,6 +152,7 @@ def initDefaultValues():
     initDefaultFile(EntitiesFields.INVOICE_RESERVATION)
     initDefaultFile(EntitiesFields.USER_PAYMENT)
     initDefaultFile(EntitiesFields.TICKET_VALUE)
+    initDefaultFile(EntitiesFields.PAYMENT_METHODS)
 
 #Try-Catch
 def getDefaultValue(value):
@@ -266,7 +269,7 @@ def printEntities(entityKey):
 
 def printCustomEntities(lista, entityKey):
     try:
-        # Asegurarse de trabajar con la lista directamente, no llamar a loadData
+            # Asegurarse de trabajar con la lista directamente, no llamar a loadData
         entities = lista  # Ahora trabajamos directamente con la lista pasada
 
         if not entities:
@@ -274,7 +277,7 @@ def printCustomEntities(lista, entityKey):
             return
         
         fields = EntitiesFields.FIELDS[entityKey]
-
+        
         # Calcular los anchos máximos para las columnas
         max_lengths = [max(len(field), *(len(str(entity[field])) for entity in entities if not entity[EntitiesFields.DELETED])) for field in fields]
 
@@ -296,7 +299,40 @@ def printCustomEntities(lista, entityKey):
     except Exception as e:
         print(f"error desconocido: {e}")
 
+def printCustomEntitiesPayment(lista, entityKey):
+    try:
+            # Asegurarse de trabajar con la lista directamente, no llamar a loadData
+        entities = lista  # Ahora trabajamos directamente con la lista pasada
 
+        if not entities:
+            print("La lista está vacía.\n")
+            return
+        
+        fields = EntitiesFields.FIELDS[entityKey]
+        fieldsTranslated = []
+        for field in fields:
+            fieldsTranslated.append(getTranslation(field))
+
+        # Calcular los anchos máximos para las columnas
+        max_lengths = [max(len(field), *(len(str(entity[getOriginal(field)])) for entity in entities if not entity[EntitiesFields.DELETED])) for field in fieldsTranslated]
+
+        # Crear el formato dinámico para las filas
+        row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
+
+        # Imprimir la cabecera
+        print(row_format.format(*fieldsTranslated))
+        print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
+
+        # Imprimir las entidades
+        for entity in entities:
+            if not entity[EntitiesFields.DELETED]:
+                print(row_format.format(*(str(entity[field]) for field in fields)))
+
+        print()
+    except TypeError:
+        print("error, trate nuevamente\n")
+    except Exception as e:
+        print(f"error desconocido: {e}")
 
     '''
 #funcion para imprimir entidades anterior

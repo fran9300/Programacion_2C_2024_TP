@@ -3,7 +3,7 @@ from repositories.repository import getEntityByProperties,addEntity,listByProper
 from entities.movies import printMovies
 from entities.utils import clear
 from entities.invoice import createInvoice
-from entities.user_payment import pagarConSaldo
+from entities.user_payment import *
 
 valorEntrada = 5000
 
@@ -80,8 +80,7 @@ def addReservation(userId):
             if cantidad_entradas > 6:
                 cantidad_entradas = 6
             importe = cantidad_entradas * valorEntrada
-            pago,importeDescuento = pagarConSaldo(userId,importe)
-            print(pago)
+            pago,user,importeDescuento = pagarConSaldo(userId,importe)
             if pago == True:    
                 for butaca in butacas:
                     reservationsId.append(addEntity(butaca))
@@ -97,8 +96,8 @@ def addReservation(userId):
         print("por favor, introduzca los valores que se le presentan en la pantalla\n")
     except IndexError:
         print("por favor, seleccione las filas y columnas presentadas en pantlla\n")
-    except Exception as e:
-        print(f"Se produjo un error desconocido: {e}")
+    #except Exception as e:
+        #print(f"Se produjo un error desconocido: {e}")
 
 def showRoom(roomConfigId, tempReservations=None):
     #Muestra el estado de la sala seleccionada, incluyendo reservas temporales si las hay.
