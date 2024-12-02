@@ -10,7 +10,8 @@ cachedEntities = {
     EntitiesFields.SECUENCE: [],
     EntitiesFields.ROOM: [],
     EntitiesFields.ROOM_CONFIGURATION: [],
-    EntitiesFields.RESERVATION: []
+    EntitiesFields.RESERVATION: [],
+    EntitiesFields.USER_PAYMENT: []
 }
 
 def logicDelete():
@@ -116,7 +117,13 @@ defaultValues = {
                                        {EntitiesFields.ID:6,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Sabado",EntitiesFields.CONFIG_TIME:"20:00",EntitiesFields.DELETED:False}],
 
     EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_DAY: "Lunes",EntitiesFields.RESERVATION_TIME : "16:00",EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],       
-
+    
+    EntitiesFields.USER_PAYMENT:[{EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:1,EntitiesFields.USER_PAYMENT_BALANCE:15000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:2,EntitiesFields.USER_PAYMENT_BALANCE:20000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:3,EntitiesFields.USER_PAYMENT_BALANCE:30000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:4,EntitiesFields.USER_PAYMENT_BALANCE:100000},
+                                 {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:5,EntitiesFields.USER_PAYMENT_BALANCE:10000}],
+    
     EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4}
 
 
@@ -129,6 +136,7 @@ def initDefaultValues():
     initDefaultFile(EntitiesFields.ROOM)
     initDefaultFile(EntitiesFields.ROOM_CONFIGURATION)
     initDefaultFile(EntitiesFields.RESERVATION)
+    initDefaultFile(EntitiesFields.USER_PAYMENT)
 
 #Try-Catch
 def getDefaultValue(value):
@@ -200,7 +208,6 @@ def saveData(values,type):
 
 
 def addEntity(entity):
-    print(entity)
     #función genérica para agregar una nueva entidad recien creada, tal como una pelicula o un usuario.  
     validateEntity(entity,False)
     entity = convertValues(entity)
