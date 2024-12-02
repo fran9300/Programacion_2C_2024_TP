@@ -15,8 +15,13 @@ def addUserAdmin():
         USERS_FIELDS[6]: input("Ingrese el correo electrónico: "),
         EntitiesFields.DELETED : False
     }
-    
-    addEntity(newUser)
+
+    userId = addEntity(newUser)
+    nuevoSaldo = {"type": EntitiesFields.USER_PAYMENT,EntitiesFields.USER_PAYMENT_USER_ID:userId,
+                            EntitiesFields.USER_PAYMENT_CASH:1,EntitiesFields.USER_PAYMENT_TRANSFER:1,
+                            EntitiesFields.USER_PAYMENT_DEBIT:1,EntitiesFields.USER_PAYMENT_CREDIT:1,
+                            EntitiesFields.USER_PAYMENT_POINTS:1,EntitiesFields.DELETED:False}
+    addEntity(nuevoSaldo)
     print("\nNuevo usuario agregado al sistema.\n")
 
 
