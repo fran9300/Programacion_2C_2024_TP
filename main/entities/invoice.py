@@ -11,8 +11,7 @@ def createInvoice(userId,reservations,amount):
     invoice[INVOICE_USER] = userId
     invoice[INVOICE_AMOUNT] = amount
     invoice[INVOICE_DATE] = str(datetime.now())
-    invoiceId = addEntity(invoice)   
-    print("agrego el invoice id",invoiceId)
+    invoiceId = addEntity(invoice)       
     for reservationId in reservations: 
         invoice_reservation = {}
         invoice_reservation[TYPE] = INVOICE_RESERVATION
