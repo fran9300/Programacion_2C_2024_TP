@@ -252,7 +252,8 @@ gestionUsuarios = {
 configurarUsuario = {
     "1": cargarSaldoUsuario,
     "2": listarSaldosUsuario,
-    "3": volverMenuPrincipal
+    "3": imprimirDescuentos,
+    "4": volverMenuPrincipal
 }
 
 mainMenuAdmin = {
