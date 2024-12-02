@@ -16,13 +16,34 @@ def addReservation(userId):
         id_reserva = int(input("seleccion el id de la pelicula a reservar: "))
         
         listaHorarios =(listByProperties(EntitiesFields.ROOM_CONFIGURATION,[EntitiesFields.CONFIG_MOVIE_ID],id_reserva))
-        printCustomEntities(listaHorarios,"ROOM_CONFIGURATION")
+        while listaHorarios == []:
+            clear()
+            print("seleccione un valor valido\n")
+            printMovies()
+            print()
+            id_reserva = int(input("seleccion el id de la pelicula a reservar: "))
+            listaHorarios =(listByProperties(EntitiesFields.ROOM_CONFIGURATION,[EntitiesFields.CONFIG_MOVIE_ID],id_reserva))
+        printCustomEntities(listaHorarios,EntitiesFields.ROOM_CONFIGURATION)
+
+
         
         id_Fecha_Horario = int(input("seleccion el id de la fecha y horario a reservar: "))
+
+        resultados = [horario for horario in listaHorarios if horario.get("id") == id_Fecha_Horario]
+
+        while not resultados:
+            clear()
+            print("seleccione un valor valido\n")
+            printMovies()
+            print()
+            printCustomEntities(listaHorarios,EntitiesFields.ROOM_CONFIGURATION)
+            id_Fecha_Horario = int(input("seleccion el id de la fecha y horario a reservar: "))
+            resultados = [horario for horario in listaHorarios if horario.get("id") == id_Fecha_Horario]
+
         sala_reserva = getEntityByProperties(EntitiesFields.ROOM_CONFIGURATION,[EntitiesFields.ID],id_Fecha_Horario)
         pelicula = getEntityByProperties(EntitiesFields.MOVIES,[EntitiesFields.ID],sala_reserva["movieId"])
 
-        clear()
+        #clear()
         print(f"\n{pelicula[EntitiesFields.MOVIE_TITLE]} el día {sala_reserva[EntitiesFields.CONFIG_DAY]} a las {sala_reserva[EntitiesFields.CONFIG_TIME]} hs\n")
         showRoom(sala_reserva["id"])
         cantidad_entradas = int(input("indique la cantidad de entradas que desea reservar (maximo de 6) o 0 para cancelar la reserva: "))

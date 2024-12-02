@@ -286,6 +286,11 @@ def printCustomEntities(lista, entityKey):
     try:
         # Asegurarse de trabajar con la lista directamente, no llamar a loadData
         entities = lista  # Ahora trabajamos directamente con la lista pasada
+
+        if not entities:
+            print("La lista está vacía.\n")
+            return
+        
         fields = EntitiesFields.FIELDS[entityKey]
 
         # Calcular los anchos máximos para las columnas
@@ -305,7 +310,7 @@ def printCustomEntities(lista, entityKey):
 
         print()
     except TypeError:
-        print("no existen reservas para el usuario actual\n")
+        print("error, trate nuevamente\n")
     except Exception as e:
         print(f"error desconocido: {e}")
 
