@@ -36,7 +36,7 @@ def addUser():
         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
         if confirmacion == 1:
             userId = addEntity(newUser)
-            nuevoSaldo = {"type": EntitiesFields.PAYMENT_METHODS,EntitiesFields.USER_PAYMENT_USER_ID:userId,
+            nuevoSaldo = {"type": EntitiesFields.USER_PAYMENT,EntitiesFields.USER_PAYMENT_USER_ID:userId,
                                     EntitiesFields.USER_PAYMENT_CASH:1,EntitiesFields.USER_PAYMENT_TRANSFER:1,
                                     EntitiesFields.USER_PAYMENT_DEBIT:1,EntitiesFields.USER_PAYMENT_CREDIT:1,
                                     EntitiesFields.USER_PAYMENT_POINTS:1,EntitiesFields.DELETED:False}
