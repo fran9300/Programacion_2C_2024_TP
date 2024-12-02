@@ -95,6 +95,10 @@ def dateFormat(value):
     if not bool(re.match(regex, value)):
         return "* La fecha ingresada no cumple el formato dd/mm/aaaa\n"
 
+def timeFormat(value):
+    regex="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+    if not bool(re.match(regex, value)):
+        return "* La hora ingresada no cumple el formato HH:MM\n"
 
 def passwordStrong(value):
     regex = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$'
@@ -114,5 +118,12 @@ allValidations = {
     MOVIE_RATING:[required,positiveFloat],
     MOVIE_DURATION:[required,positiveInteger],
     MOVIE_RATING:[required,positiveInteger],
-    INVOICE_AMOUNT:[required,positiveFloat]
+    INVOICE_AMOUNT:[required,positiveFloat],
+    USER_PAYMENT_BALANCE:[required,positiveFloat],
+    CONFIG_ROOM_ID:[required],
+    CONFIG_DAY:[required,dateFormat],
+    CONFIG_MOVIE_ID:[required],
+    CONFIG_TIME:[required,timeFormat],
+    TICKET_VALUE_VALUE:[required,positiveFloat]
+
 }

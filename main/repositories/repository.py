@@ -3,6 +3,7 @@ from repositories.path import getPath
 from entities import EntitiesFields
 from entities.utils import getById
 from utils.validator import validateEntity
+from utils.translator import getTranslation,getOriginal
 import copy
 cachedEntities = {
     EntitiesFields.USER : [],
@@ -13,7 +14,8 @@ cachedEntities = {
     EntitiesFields.RESERVATION: [],
     EntitiesFields.INVOICE: [],
     EntitiesFields.INVOICE_RESERVATION: [],
-    EntitiesFields.USER_PAYMENT: []
+    EntitiesFields.USER_PAYMENT: [],
+    EntitiesFields.TICKET_VALUE: [],
 }
 
 def logicDelete():
@@ -111,14 +113,14 @@ defaultValues = {
                          {EntitiesFields.ID:2,EntitiesFields.ROOM_NAME:"test2",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False},
                          {EntitiesFields.ID:3,EntitiesFields.ROOM_NAME:"test3",EntitiesFields.ROOM_COLUMNS:20,EntitiesFields.ROOM_ROWS:10,EntitiesFields.DELETED:False}],
 
-    EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"Lunes",EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.DELETED:False},
-                                       {EntitiesFields.ID:2,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"Martes",EntitiesFields.CONFIG_TIME:"17:00",EntitiesFields.DELETED:False},
-                                       {EntitiesFields.ID:3,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Miercoles",EntitiesFields.CONFIG_TIME:"18:00",EntitiesFields.DELETED:False},
-                                       {EntitiesFields.ID:4,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"Jueves",EntitiesFields.CONFIG_TIME:"19:00",EntitiesFields.DELETED:False},
-                                       {EntitiesFields.ID:5,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"Viernes",EntitiesFields.CONFIG_TIME:"21:00",EntitiesFields.DELETED:False},
-                                       {EntitiesFields.ID:6,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"Sabado",EntitiesFields.CONFIG_TIME:"20:00",EntitiesFields.DELETED:False}],
+    EntitiesFields.ROOM_CONFIGURATION:[{EntitiesFields.ID:1,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"25/11/2024",EntitiesFields.CONFIG_TIME:"16:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:2,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"25/11/2024",EntitiesFields.CONFIG_TIME:"17:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:3,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"26/11/2024",EntitiesFields.CONFIG_TIME:"18:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:4,EntitiesFields.CONFIG_MOVIE_ID: 1,EntitiesFields.CONFIG_ROOM_ID:1,EntitiesFields.CONFIG_DAY:"27/11/2024",EntitiesFields.CONFIG_TIME:"19:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:5,EntitiesFields.CONFIG_MOVIE_ID: 2,EntitiesFields.CONFIG_ROOM_ID:2,EntitiesFields.CONFIG_DAY:"28/11/2024",EntitiesFields.CONFIG_TIME:"21:00",EntitiesFields.DELETED:False},
+                                       {EntitiesFields.ID:6,EntitiesFields.CONFIG_MOVIE_ID: 3,EntitiesFields.CONFIG_ROOM_ID:3,EntitiesFields.CONFIG_DAY:"28/11/2024",EntitiesFields.CONFIG_TIME:"20:00",EntitiesFields.DELETED:False}],
 
-    EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_DAY: "Lunes",EntitiesFields.RESERVATION_TIME : "16:00",EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],       
+    EntitiesFields.RESERVATION:[{EntitiesFields.ID:1,EntitiesFields.RESERVATION_ROOM_ID:1,EntitiesFields.RESERVATION_USER_ID:1,EntitiesFields.RESERVATION_DAY: "25/11/2024",EntitiesFields.RESERVATION_TIME : "16:00",EntitiesFields.RESERVATION_ROW:5,EntitiesFields.RESERVATION_COLUMN:8,EntitiesFields.DELETED:False,EntitiesFields.DELETED:False}],       
 
     EntitiesFields.SECUENCE:{"USER" : 4,"MOVIES" : 4,"ROOM" : 4,"ROOM_CONFIGURATION":7,"RESERVATION":4,"INVOICE":4,"INVOICE_RESERVATION":4},
     EntitiesFields.INVOICE_RESERVATION: [],
@@ -129,6 +131,7 @@ defaultValues = {
                                  {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:3,EntitiesFields.USER_PAYMENT_BALANCE:30000},
                                  {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:4,EntitiesFields.USER_PAYMENT_BALANCE:100000},
                                  {EntitiesFields.ID:1,EntitiesFields.USER_PAYMENT_USER_ID:3,EntitiesFields.USER_PAYMENT_PAYMENT_TYPE:5,EntitiesFields.USER_PAYMENT_BALANCE:10000}],
+    EntitiesFields.TICKET_VALUE:[{EntitiesFields.ID:1,EntitiesFields.TICKET_VALUE_VALUE:5000}]
 
 
 }
@@ -143,6 +146,7 @@ def initDefaultValues():
     initDefaultFile(EntitiesFields.INVOICE)
     initDefaultFile(EntitiesFields.INVOICE_RESERVATION)
     initDefaultFile(EntitiesFields.USER_PAYMENT)
+    initDefaultFile(EntitiesFields.TICKET_VALUE)
 
 #Try-Catch
 def getDefaultValue(value):
@@ -234,15 +238,19 @@ def printEntities(entityKey):
     # Cargar datos y campos
     entities = loadData(entityKey)
     fields = EntitiesFields.FIELDS[entityKey]
+    fieldsTranslated = []
+    for field in fields:
+        fieldsTranslated.append(getTranslation(field))
 
     # Calcular los anchos máximos para las columnas
-    max_lengths = [max(len(str(field)), *(len(str(entity[field])) for entity in entities)) for field in fields]
+    max_lengths = [max(len(str(field)), *(len(str(entity[getOriginal(field)])) for entity in entities)) for field in fieldsTranslated]
 
     # Crear el formato dinámico para las filas
     row_format = " | ".join(f"{{:<{length}}}" for length in max_lengths)
 
+
     # Imprimir la cabecera
-    print(row_format.format(*fields))
+    print(row_format.format(*fieldsTranslated))
     print("-" * (sum(max_lengths) + 3 * (len(fields) - 1)))
 
     # Imprimir las entidades

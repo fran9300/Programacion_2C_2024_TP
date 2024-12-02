@@ -1,5 +1,5 @@
 import json
-from entities.EntitiesFields import USER_PAYMENT_FIELDS, PAYMENT_METHODS
+from entities.EntitiesFields import *
 from entities.utils import clear
 from entities.payment_methods import aplicarDescuento
 
@@ -69,8 +69,8 @@ def elegirMetodoPago(user_id, total):
 
     for payment in payments:
         if payment["user_id"] == user_id and payment["payment_type"] == metodo_id:
-            if payment["balance"] >= totalConDescuento:
-                payment["balance"] -= totalConDescuento
+            if payment[USER_PAYMENT_BALANCE] >= totalConDescuento:
+                payment[USER_PAYMENT_BALANCE] -= totalConDescuento
                 guardarUserPayments(payments)
                 clear()
                 print(f"Pago realizado exitosamente con {PAYMENT_METHODS[metodo_id]}. Saldo restante: {payment['balance']}")

@@ -8,8 +8,8 @@ def addRoom():
         newRoom = {
                     "type": "ROOM",
                     EntitiesFields.ROOM_FIELDS[1]: input("ingrese nombre de sala: "),
-                    EntitiesFields.ROOM_FIELDS[2]: int(input("ingrese cantidad de filas: ")),#agregar validator para no tener fils mas de 30
-                    EntitiesFields.ROOM_FIELDS[3]: int(input("ingrese cantidad de columnas: ")),#idem
+                    EntitiesFields.ROOM_FIELDS[2]: input("ingrese cantidad de filas: "),#agregar validator para no tener fils mas de 30
+                    EntitiesFields.ROOM_FIELDS[3]: input("ingrese cantidad de columnas: "),#idem
                     EntitiesFields.DELETED : False
         }
         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
@@ -78,21 +78,22 @@ def printRooms():
     #permite imprimir una sala existente, utilizando la funcion genérica printEntities
     printEntities(EntitiesFields.ROOM)
 
-
+def printRoomConfig():
+    printEntities(EntitiesFields.ROOM_CONFIGURATION)
 
 
 def freeRooms():
     #Funcion para liberar sala
-    print("Salas disponibles:")
-    printRooms()  
+    print("Funciones disponibles:")
+    printRoomConfig()  
     try:
         room_id = int(input("Ingrese el ID de la sala que desea liberar: "))
     except ValueError:
         print("ID de sala inválido. Por favor, ingrese un número.")
         return
 
-    sala = getEntityById(EntitiesFields.ROOM, room_id)
-    if not sala:
+    roomConfig = getEntityById(EntitiesFields.ROOM_CONFIGURATION, room_id)
+    if not roomConfig:
         print("No se encontró ninguna sala con el ID especificado.")
         return
     

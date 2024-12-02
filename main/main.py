@@ -1,7 +1,7 @@
 
 from entities.movies import addMovie,printMovies,deleteMovie,editMovie
 from entities.user import getUsers, addUser, editUser, deleteUser,printUsers, checkUserAndPass
-from entities.reservation import addReservation, checkReservations, valorEntrada, checkRoom
+from entities.reservation import addReservation, checkReservations, checkRoom
 from entities.utils import clear
 from entities.room import addRoom, printRooms, deleteRoom,freeRooms
 from entities.room_configuration import addRoomConfiguration,printConfigRoom,deleteConfigRoom
@@ -11,6 +11,7 @@ from repositories.repository import getEntityByProperties,initDefaultValues,prin
 from utils.translator import getTranslation
 from entities.user_payment import cargarSaldo, listarSaldos, elegirMetodoPago
 from entities.payment_methods import cargarDescuentos, imprimirDescuentos, guardarDescuentos, configurarDescuentos
+from entities.ticket_value import * 
 
 #Arrays y variables con datos hardcodeados ----------------------------------------------------------------------------------------
 
@@ -22,29 +23,29 @@ currentUserId = ""
 
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
-def VerificarPrecioEntrada():
-    #muestra el precio de la entrada estandar de cine
-    global valorEntrada
-    clear()
-    print(f"\nvalor actual de la entrada de cine: {valorEntrada}\n")
+# def VerificarPrecioEntrada():
+#     #muestra el precio de la entrada estandar de cine
+    
+#     clear()
+#     print(f"\nvalor actual de la entrada de cine: {valorEntrada}\n")
 
-def ModificarValorEntrada():
-    #TODO cambiar a entidad para poder guardarla en un archivo json
-    #modificar el valor de la entrada estandar, es solo momentaneo y mas tarde va a ser modificado
-    global valorEntrada
-    VerificarPrecioEntrada()
-    try:
-        valorEntrada = float(input("ingrese el valor de la entrada estandar de cine: "))
-        confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
-    except ValueError:
-        clear()
-        print("valor incorrecto, ingrese un numero con . para el precio de la entrada\n")
-    else:
-        clear()
-        if confirmacion == 1:
-            print("\rprecio de la entrada actualizado correctamente\n")
-        else:
-            print("\noperacion cancelada\n")
+# def ModificarValorEntrada():
+#     #TODO cambiar a entidad para poder guardarla en un archivo json
+#     #modificar el valor de la entrada estandar, es solo momentaneo y mas tarde va a ser modificado
+#     global valorEntrada
+#     VerificarPrecioEntrada()
+#     try:
+#         valorEntrada = float(input("ingrese el valor de la entrada estandar de cine: "))
+#         confirmacion = int(input("\npresione 1 para confirmar, 0 para cancelar: "))
+#     except ValueError:
+#         clear()
+#         print("valor incorrecto, ingrese un numero con . para el precio de la entrada\n")
+#     else:
+#         clear()
+#         if confirmacion == 1:
+#             print("\rprecio de la entrada actualizado correctamente\n")
+#         else:
+#             print("\noperacion cancelada\n")
 
 #Funciones para el manejo de las películas------------------------------------------------------------------------------------------------
 
@@ -169,9 +170,7 @@ def viewUsers():
     clear()
     printUsers()
 
-def CheckUsuarioActual():
-    clear()
-    print(f"User ID: {currentUserId}\n")
+
 
 """
 #Funciones descuentos--------------------------------------------------------------------------------------------------
@@ -390,8 +389,8 @@ gestionSalas = {
     "5":MostrarFuncionesProgramadas,
     "6":EliminarFuncionProgramada,
     "7":liberarSala,
-    "8":VerificarPrecioEntrada,
-    "9":ModificarValorEntrada,
+    "8":checkTicketValue,
+    "9":updateTicketValue,
     "10":CheckearReservasSalas,
     "11":volverMenuPrincipal
 }
@@ -416,8 +415,7 @@ mainMenuAdmin = {
     "3": GestionUsuarios,
     "4": configurarDescuentos,  # Configurar descuentos
     "5": imprimirDescuentos,
-    "6": CheckUsuarioActual,
-    "7": LoginMenu
+    "6": LoginMenu
     
 }
 

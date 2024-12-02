@@ -4,7 +4,6 @@ from entities import EntitiesFields
 paths = {
     EntitiesFields.USER:"main/repositories/user.json",
     EntitiesFields.MOVIES: "main/repositories/movies.json",
-    "ROOM":"main/repositories/nombre a remplazar",
     "PAYMENT_METHODS":"main/repositories/nombre a remplazar",
     "SECUENCE":"main/repositories/secuences.json",
     EntitiesFields.RESERVATION:"main/repositories/reservation.json",
@@ -12,7 +11,8 @@ paths = {
     EntitiesFields.ROOM_CONFIGURATION :"main/repositories/room_configuration.json",
     EntitiesFields.INVOICE: "main/repositories/invoice.json",
     EntitiesFields.INVOICE_RESERVATION: "main/repositories/invoice_reservation.json",
-    EntitiesFields.USER_PAYMENT: "main/repositories/user_payment.json"
+    EntitiesFields.USER_PAYMENT: "main/repositories/user_payment.json",
+    EntitiesFields.TICKET_VALUE: "main/repositories/ticket_value.json"
 }
 
 

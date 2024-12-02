@@ -10,6 +10,7 @@ translations = {
     MOVIE_CATEGORY:"Categoria",
     MOVIE_RATING:"Edad recomendada",
     MOVIE_RELEASEDATE:"Fecha de lanzamiento",
+    TICKET_VALUE_VALUE:"Valor de la entrada",
     
     "GestionPeliculas":"Gestion de peliculas",
     "viewMovies":"Ver peliculas",
@@ -51,6 +52,8 @@ translations = {
     "volverMenuPrincipal":"Volver al menu principal",
     "Registro":"Registro",
     "IniciarSesion":"Iniciar Sesion",
+    "checkTicketValue":"Chequear precio de entrada",
+    "updateTicketValue":"Actualizar precio de entrada",
 }
 
 
@@ -60,3 +63,14 @@ def getTranslation(value):
         return response
     except KeyError:
         return value
+
+
+def getOriginal(valueT):
+    try:        
+        for key,value in translations.items():
+            if(value == valueT):
+                return key        
+        return valueT
+    except:
+        return value
+    
